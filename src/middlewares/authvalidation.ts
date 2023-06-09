@@ -1,9 +1,15 @@
 import { Request, Response, NextFunction} from "express";
+import { header,body } from "express-validator";
+import { usersRepository } from "../repositories/users-repository";
 
-export const bAuthMiddleware = (req: Request,res: Response,next: NextFunction) => {
- const encodedData = Buffer.from("admin:qwerty").toString('base64')
- const correct = 'Basic ${encodedData}'
+export const bAuthMiddleware = header('authorization').
+ custom(value => {
+  if (!usersRepository.find(u => u.loginPass === value)) {
+  throw new Error('401');
+ }
+ return true
+ })
 
- if(req.headers.authorization !== correct) res.send(401)
-    next();
-}
+
+   
+

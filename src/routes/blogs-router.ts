@@ -38,21 +38,24 @@ export const db: DB = {
   ]
 }
 blogsRouter.delete(':id', (req, res) => {
-  res.status(204).send(blogRepository.testingDeleteAllBlogs)
+  const deleteallBlogs = blogRepository.testingDeleteAllBlogs()
+  res.sendStatus(204).send
   })
 
 blogsRouter.get('/', (req, res) => {
-    res.status(200).send(blogRepository.findAllBlogs())
+    const allblogs = blogRepository.findAllBlogs()
+    res.sendStatus(200).send(allblogs)
   })
   
 blogsRouter.get('/:id', (req: Request, res: Response) => {
     const blog = blogRepository.getBlogById(req.params.id);
-    if (blog) { 
-       res.status(200).send(blog) 
-    } else {
+    if (!blog) { 
       res.sendStatus(404)
-    }
+       
     return
+      
+    }
+    res.status(200).send(blog) 
   })
 
   blogsRouter.post('/', 

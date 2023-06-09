@@ -33,17 +33,19 @@ const db: DB = {
 
   ]
 }
-
+export type blogsArrayType = Array<blogsType>
+let blogsArray: blogsArrayType = []
 
 export const blogRepository = {
   testingDeleteAllBlogs(){
     return db.blogs = []
   },
-    findAllBlogs() {
-        return db.blogs
+    findAllBlogs(): blogsArrayType {
+        return blogsArray
     },
-    getBlogById(id:string) {
-        return db.blogs.find(b => b.id === id)
+    getBlogById(id:string) : blogsType | undefined {
+        let foundBlogById = blogsArray.find(blog => blog.id === id)
+        return foundBlogById
     },
     createBlogs(name:string,description: string, websiteUrl:string) {
         const newBlog: blogsType = {
