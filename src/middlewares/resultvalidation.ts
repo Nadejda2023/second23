@@ -1,6 +1,7 @@
 import { Response, Request, NextFunction  } from "express";
-import { validationResult } from "express-validator";
+import { ValidationChain, validationResult } from "express-validator";
 import { formatWithOptions } from "util";
+import { ValidationError, param} from "express-validator";
 
 
 export const errorValidationMiddleware = (
@@ -8,17 +9,19 @@ export const errorValidationMiddleware = (
     res: Response,
     next: NextFunction
 ) => {
-const errors = validationResult(req);
+    const errorFormat = ({msg, param} : ValidationError) => {
+        return {message:msg, field: msg}
+    }
+const errors = validationResult(req).formatWith(errorFormat)
     if(!errors.isEmpty()) {
-        const error = errors.array( { onlyFirstError: true}).map(elem => {
-            return {
-                message: elem.msg,
-                field: elem.msg
+        if (errors.array().find(e => e.message === '401')) {
+                return res.sendStatus(401)
             }
-        })
-       return  res.status(400).json( {"errorsMessage" : error});
+            res.sendStatus(400)
+            .json({errorsmessage: errors.array()})
+       return  
     } else {
-        return next();
+        next()
     }
 
     
