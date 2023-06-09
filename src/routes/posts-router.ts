@@ -1,7 +1,7 @@
 import { Request, Router ,Response } from "express";
 export const postsRouter = Router ({})
 import { postRepository } from "../repositories/posts-repository";
-//import { bAuthMiddleware } from "../middlewares/authvalidation";
+import { bAuthMiddleware } from "../middlewares/authvalidation";
 import { postInputValidationMiddleware } from "../middlewares/postinputmiddleware";
 import { errorValidationMiddleware } from "../middlewares/resultvalidation";
 import { postIdFoundMiddleware } from "../middlewares/postinputmiddleware";
@@ -98,7 +98,7 @@ export const db: DB = {
     
        
     postsRouter.put("/:id",
-    //bAuthMiddleware,
+    bAuthMiddleware,
     postInputValidationMiddleware,
     postIdFoundMiddleware,
     errorValidationMiddleware,

@@ -4,7 +4,7 @@ import cors from 'cors'
 import { blogsRouter } from './routes/blogs-router';
 import { postsRouter } from './routes/posts-router';
 import { testingRouter } from './routes/testing-routes';
-//import { bAuthMiddleware } from './middlewares/authvalidation';
+import { bAuthMiddleware } from './middlewares/authvalidation';
 const app = express()
 
 const corsMiddleware = cors();
@@ -13,7 +13,7 @@ const jsonBodyMiddleware = bodyParser.json()
 app.use(jsonBodyMiddleware)
 const parserMiddleware = bodyParser({})
 app.use(parserMiddleware)
-//app.use(bAuthMiddleware)
+app.use(bAuthMiddleware)
 
 
 const port = process.env.PORT || 3038

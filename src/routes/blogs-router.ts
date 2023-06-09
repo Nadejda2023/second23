@@ -1,6 +1,6 @@
 import { Request, Router ,Response } from "express";
 import { blogRepository } from "../repositories/blogs-repository";
-//import { bAuthMiddleware } from "../middlewares/authvalidation";
+import { bAuthMiddleware } from "../middlewares/authvalidation";
 import { blogInputValidationMiddleware } from "../middlewares/blogsinputvalidation";
 import { blogIdFoundMiddleware } from "../middlewares/blogidvalidation";
 import { errorValidationMiddleware } from "../middlewares/resultvalidation";
@@ -56,7 +56,7 @@ blogsRouter.get('/:id', (req: Request, res: Response) => {
   })
 
   blogsRouter.post('/', 
- // bAuthMiddleware,
+ bAuthMiddleware,
   blogInputValidationMiddleware,
   errorValidationMiddleware,
   (req: Request, res: Response) => {
@@ -68,8 +68,8 @@ blogsRouter.get('/:id', (req: Request, res: Response) => {
 )
 
     blogsRouter.put("/:id",
-   // bAuthMiddleware,
-    //blogIdFoundMiddleware,
+    bAuthMiddleware,
+    blogIdFoundMiddleware,
     blogInputValidationMiddleware,
     errorValidationMiddleware,
     (req: Request, res: Response) => {
@@ -85,7 +85,7 @@ blogsRouter.get('/:id', (req: Request, res: Response) => {
       })
 
       blogsRouter.delete("/posts/:id",
-      //bAuthMiddleware,
+      bAuthMiddleware,
     (req: Request, res: Response) => {
       let findPostID = db.blogs.find(p => +p.id === +req.params.id)
 
