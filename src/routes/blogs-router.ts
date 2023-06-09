@@ -67,7 +67,7 @@ blogsRouter.get('/:id', (req: Request, res: Response) => {
 
     blogsRouter.put("/:id",
     bAuthMiddleware,
-    blogIdFoundMiddleware,
+    //blogIdFoundMiddleware,
     blogInputValidationMiddleware,
     errorValidationMiddleware,
     (req: Request, res: Response) => {
@@ -82,14 +82,18 @@ blogsRouter.get('/:id', (req: Request, res: Response) => {
         }
       })
 
-      blogsRouter.delete("/:id",
+      blogsRouter.delete("/posts/:id",
       bAuthMiddleware,
-    blogIdFoundMiddleware,
-    blogInputValidationMiddleware,
-    errorValidationMiddleware,
     (req: Request, res: Response) => {
-      const deleteBlog = blogRepository.deleteBlogs(req.body.id);
-      res.status(204).json(deleteBlog);
-      return;
-    }
-      )
+      let findPostID = db.blogs.find(p => +p.id === +req.params.id)
+
+      if(findPostID) {
+        for (let i = 0; i < db.blogs.length; i++) {
+          if(+db.blogs[i].id === +req.params.id) {
+            db.blogs.splice(i,1);
+            res.send(204)
+            return;
+          }
+        }
+      }
+    })

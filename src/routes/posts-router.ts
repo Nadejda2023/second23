@@ -50,22 +50,22 @@ export const db: DB = {
   }
 
 
-    postsRouter.get('/', (req, res) => {
-        res.status(200).send(db.posts)
-      })
+  postsRouter.get('/', (req, res) => {
+    res.status(200).send(db.posts)
+    })
       
-      postsRouter.get('/ :id', (req: Request, res: Response) => {
-          const blog = postRepository.getPostById;
-          if (blog) { 
-             res.status(200).send(blog) 
-          } else {
+  postsRouter.get('/ :id', (req: Request, res: Response) => {
+    const blog = postRepository.getPostById;
+    if (blog) { 
+       res.status(200).send(blog) 
+      } else {
             res.sendStatus(404)
           }
           return
-        })
+  })
       
       postsRouter.post("/:id",
-      //bAuthMiddleware,
+      bAuthMiddleware,
       postInputValidationMiddleware,
       postIdFoundMiddleware,
       postBlogNameValidationMiddleware,
@@ -96,7 +96,7 @@ export const db: DB = {
     
        
     postsRouter.put("/:id",
-    //bAuthMiddleware,
+    bAuthMiddleware,
     postInputValidationMiddleware,
     postIdFoundMiddleware,
     errorValidationMiddleware,
@@ -111,18 +111,21 @@ export const db: DB = {
         
         }
       })
-      postsRouter.delete("/:id",
-      //bAuthMiddleware,
-      postInputValidationMiddleware,
-      postIdFoundMiddleware,
-    errorValidationMiddleware,
+      postsRouter.delete("/posts/:id",
+      bAuthMiddleware,
     (req: Request, res: Response) => {
-      const deletePost = postRepository.deletePosts(req.body.id);
-      res.status(204).json(deletePost);
-      return;
-    }
-      
-      )
+      let findPostID = db.posts.find(p => +p.id === +req.params.id)
+
+      if(findPostID) {
+        for (let i = 0; i < postsRouter.length; i++) {
+          if(+db.posts[i].id === +req.params.id) {
+            db.posts.splice(i,1);
+            res.send(204)
+            return;
+          }
+        }
+      }
+    })
 
       
     
