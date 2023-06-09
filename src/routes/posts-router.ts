@@ -1,7 +1,7 @@
 import { Request, Router ,Response } from "express";
 export const postsRouter = Router ({})
 import { postRepository } from "../repositories/posts-repository";
-import { bAuthMiddleware } from "../middlewares/authvalidation";
+//import { bAuthMiddleware } from "../middlewares/authvalidation";
 import { postInputValidationMiddleware } from "../middlewares/postinputmiddleware";
 import { errorValidationMiddleware } from "../middlewares/resultvalidation";
 import { postIdFoundMiddleware } from "../middlewares/postinputmiddleware";
@@ -67,7 +67,7 @@ export const db: DB = {
   })
       
       postsRouter.post("/:id",
-      bAuthMiddleware,
+      //bAuthMiddleware,
       postInputValidationMiddleware,
       postIdFoundMiddleware,
       postBlogNameValidationMiddleware,
@@ -98,7 +98,7 @@ export const db: DB = {
     
        
     postsRouter.put("/:id",
-    bAuthMiddleware,
+    //bAuthMiddleware,
     postInputValidationMiddleware,
     postIdFoundMiddleware,
     errorValidationMiddleware,
@@ -114,7 +114,7 @@ export const db: DB = {
         }
       })
       postsRouter.delete("/posts/:id",
-      bAuthMiddleware,
+      //bAuthMiddleware,
     (req: Request, res: Response) => {
       let findPostID = db.posts.find(p => +p.id === +req.params.id)
 
