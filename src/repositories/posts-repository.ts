@@ -4,6 +4,10 @@ import { DB, postsType, db, postsRouter} from "../routes/posts-router";
 
 
 export const postRepository = {
+
+  testingDeleteAllPosts(){
+    return db.posts = []
+  },
     findAllBlogs() {
         return db.posts
     },

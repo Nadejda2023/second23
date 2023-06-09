@@ -36,6 +36,9 @@ const db: DB = {
 
 
 export const blogRepository = {
+  testingDeleteAllBlogs(){
+    return db.blogs = []
+  },
     findAllBlogs() {
         return db.blogs
     },

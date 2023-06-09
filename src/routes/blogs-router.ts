@@ -37,7 +37,9 @@ export const db: DB = {
 
   ]
 }
-
+blogsRouter.delete(':id', (req, res) => {
+  res.status(204).send(blogRepository.testingDeleteAllBlogs)
+  })
 
 blogsRouter.get('/', (req, res) => {
     res.status(200).send(blogRepository.findAllBlogs())

@@ -49,9 +49,11 @@ export const db: DB = {
       
   }
 
-
+ postsRouter.delete(':id', (req, res) => {
+  res.status(204).send(postRepository.testingDeleteAllPosts)
+  })
   postsRouter.get('/', (req, res) => {
-    res.status(200).send(db.posts)
+    res.status(204).send(db.posts)
     })
       
   postsRouter.get('/ :id', (req: Request, res: Response) => {
