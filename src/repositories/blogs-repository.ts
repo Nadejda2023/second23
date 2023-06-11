@@ -4,78 +4,57 @@ import { Request, Router ,Response } from "express";
 
 
 export type blogsType = {
-  
   id: string,
   name: string,
   description: string,
-  websiteUrl: string
-   
+  websiteUrl: string, 
 }
 
-export type DB = {
-  blogs : blogsType[]
-}
-
-const db: DB = {
-  blogs: [
-    {
-      "id": "0",
-      "name": "string",
-      "description": "string",
-      "websiteUrl": "string"
-    },
-    {
-      "id": "1",
-      "name": "string",
-      "description": "string",
-      "websiteUrl": "string"
-    }
-
-  ]
-}
 export type blogsArrayType = Array<blogsType>
-let blogsArray: blogsArrayType = []
+let blogsArray: blogsArrayType =[]
 
-export const blogRepository = {
-  testingDeleteAllBlogs(){
-    return db.blogs = []
+export const blogsRepository = {
+  findAllBlogs(): blogsArrayType { 
+      return blogsArray; 
   },
-    findAllBlogs(): blogsArrayType {
-        return blogsArray
-    },
-    getBlogById(id:string) : blogsType | undefined {
-        let foundBlogById = blogsArray.find(blog => blog.id === id)
-        return foundBlogById
-    },
-    createBlogs(name:string,description: string, websiteUrl:string) {
-        const newBlog: blogsType = {
-            id: (+(new Date())).toString(),
-            name: name,
-            description: description,
-            websiteUrl: websiteUrl
-          }
-          db.blogs.push(newBlog)
-          return newBlog
-    },
-    
-    updateBlogs(name:string,description:string,websiteUrl:string) {
-      const isUpBlog: blogsType = {
-        id: (+(new Date())).toString(),
-            name: name,
-            description: description,
-            websiteUrl: websiteUrl
-      }
-      db.blogs.push(isUpBlog)
-          return isUpBlog
-    },
 
-    deleteBlogs(id:string) {
-      for (let i = 0 ; i < db.blogs.length; i++) {
-        if (db.blogs[i].id === id) {
-          db.blogs.splice(i,1)
+  findBlogById(id: string): blogsType | undefined {
+      const foundBlogById = blogsArray.find(b => b.id === id) 
+      return foundBlogById!
+  },
+  
+  createBlog(name: string, description: string, website: string) {
+      const newBlog: blogsType = {
+          id: (blogsArray.length + 1).toString(),
+          name: name,
+          description: description,
+          websiteUrl: website
+      }
+      blogsArray.push(newBlog)
+      return newBlog
+  },
+
+  updateBlog(id: string, name: string, description: string, website: string) {
+      const foundBlogById = blogsArray.find(b => b.id === id)
+      if (foundBlogById) {
+          foundBlogById.name = name
+          foundBlogById.description = description
+          foundBlogById.websiteUrl = website
           return true
-        }
       }
       return false
-    }
+  },
+
+  deleteBlog(id: string) {
+      const foundBlogById = blogsArray.find(b => b.id === id)
+      if (foundBlogById) {
+          blogsArray = blogsArray.filter(b => b !== foundBlogById);
+   return true
+      } 
+      return false
+  },
+
+  deleteAllBlogs() {
+      blogsArray.splice(0, blogsArray.length)
+  }
 }

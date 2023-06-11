@@ -1,55 +1,59 @@
-import { Request, Router ,Response } from "express";
-import { DB, postsType, db, postsRouter} from "../routes/posts-router";
+import { blogsRepository } from "./blogs-repository"
+ 
+type postsType = {
+    id: string,
+      title: string,
+      shortDescription: string,
+      content: string,
+      blogId: string,
+      blogName: string
+}
 
+ type postsArrayType = Array<postsType>
+ let postsArray: postsArrayType = []
 
-
-export const postRepository = {
-
-  testingDeleteAllPosts(){
-    return db.posts = []
-  },
-    findAllBlogs() {
-        return db.posts
+ export const postsRepository = {
+    findPostById(id: string) {
+        return postsArray.find(post => post.id === id)
     },
-    getPostById(id:string) {
-        return db.posts.find(b => b.id === id)
-        
+ 
+    findAllPosts(): postsArrayType {
+        return postsArray
     },
-    //postPost() {
-
-    //},
-    createPost(title: string, shortDescription: string, content:string, blogId:string, blogName:string) {
-        const newPost: postsType = {
-            id: (+(new Date())).toString(),
+        createPost(title: string, shortDescription: string, content: string, blogId: string) {
+            const postById = blogsRepository.findBlogById(blogId)
+            const newPost: postsType = {
+                id: (postsArray.length +1).toString(),
                 title: title,
                 shortDescription: shortDescription,
                 content: content,
-                blogId: blogId,
-                blogName: blogName
-          }
-          db.posts.push(newPost)
-              return newPost
-        },
-        updatePosts(title: string, shortDescription: string, content:string, blogId:string, blogName: string) {
-            const isUpPost: postsType = {
-              id: (+(new Date())).toString(),
-                  title: title,
-                  shortDescription: shortDescription,
-                  content: content,
-                  blogId: blogId,
-                  blogName: blogName
+                blogId: postById!.id,
+                blogName: postById!.name
             }
-            db.posts.push(isUpPost)
-                return isUpPost
-          },
-          deletePosts(id:string) {
-            for (let i = 0 ; i < db.posts.length; i++) {
-              if (db.posts[i].id === id) {
-                db.posts.splice(i,1)
-                return true
-              }
+            postsArray.push(newPost)
+            return newPost
+    },
+    updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string) {
+        const foundPostById = postsArray.find(post => post.id === id);
+        if (foundPostById) {
+            foundPostById.title = title
+            foundPostById.shortDescription = shortDescription
+            foundPostById.content = content
+            foundPostById.blogId = blogId
+            return true
             }
             return false
-          }
+    },
+    deletePost(id: string) {
+        const foundPostById = postsArray.find(p => p.id === id)
+        if (foundPostById) {
+            postsArray = postsArray.filter(p => p !== foundPostById);
+            return true;
+        }
+        return false;
+    },
+    deleteAllPosts() {
+        postsArray.splice(0, postsArray.length)
     }
+ }
 

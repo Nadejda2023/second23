@@ -1,133 +1,90 @@
-import { Request, Router ,Response } from "express";
-export const postsRouter = Router ({})
-import { postRepository } from "../repositories/posts-repository";
-import { bAuthMiddleware } from "../middlewares/authvalidation";
-import { postInputValidationMiddleware } from "../middlewares/postinputmiddleware";
-import { errorValidationMiddleware } from "../middlewares/resultvalidation";
-import { postIdFoundMiddleware } from "../middlewares/postinputmiddleware";
-import { postBlogNameValidationMiddleware } from "../middlewares/postinputmiddleware";
+import {Request, Response, Router } from "express";
+import { DB } from "..";
+import {postsRepository} from "../repositories/posts-repository";
+import { authorizationValidation, inputPostsValidation, inputValidationErrors } from "../middlewares/inputvalidationmiddleware";
+export const postsRouter = Router({})
 
 
-export type postsType = {
-    
-      id: string,
-      title: string,
-      shortDescription: string,
-      content: string,
-      blogId: string,
-      blogName: string
-    
-  
+const db: DB = {
+    posts: [
+        {
+            "id": "Leva",
+            "title": "First steps",
+            "shortDescription": "string",
+            "content": "string",
+            "blogId": "string",
+            "blogName": "string"
+        },
 
+        {
+            "id": "Platon",
+            "title": "First words",
+            "shortDescription": "string",
+            "content": "string",
+            "blogId": "string",
+            "blogName": "string"
+        }
+    ],
+    blogs: []
 }
-
-
-export type DB = {
-  posts : postsType[]
-}
-
-export const db: DB = {
-  posts : [
-    {
-      "id": "01",
-      "title": "string",
-      "shortDescription": "string",
-      "content": "string",
-      "blogId": "1",
-      "blogName": "string"
-    },
-      {
-        "id": "02",
-        "title": "string",
-        "shortDescription": "string",
-        "content": "string",
-        "blogId": "2",
-        "blogName": "string"
-      }
-    ]
+postsRouter.get('/', (_req: Request, res: Response) => {
+    res.status(200).send(db.posts)
+  })
   
-      
+postsRouter.post('/', 
+authorizationValidation,
+inputPostsValidation.title,
+inputPostsValidation.shortDescription,
+inputPostsValidation.content,
+inputPostsValidation.blogId,
+inputValidationErrors,
+(req: Request, res: Response) => {
+  const title = req.body.title;
+  const shortDescription = req.body.shortDescription;
+  const content = req.body.content
+  const blogId = req.body.blogId
+  const newPost = postsRepository.createPost(title, shortDescription, content, blogId)
+    res.status(201).send(newPost)
+
+
+})
+  
+postsRouter.get('/:id', (req: Request, res: Response) => {
+    const foundPost = postsRepository.findPostById(req.params.id)
+    if (foundPost) {
+      res.status(200).send('Ok')
+    } else {
+      res.status(404).send('Not Found')
   }
-
- postsRouter.delete(':id', (req, res) => {
-  res.status(204).send(postRepository.testingDeleteAllPosts)
   })
-  postsRouter.get('/', (req, res) => {
-    res.status(204).send(db.posts)
-    })
-      
-  postsRouter.get('/ :id', (req: Request, res: Response) => {
-    const blog = postRepository.getPostById;
-    if (blog) { 
-       res.status(200).send(blog) 
-      } else {
-            res.sendStatus(404)
-          }
-          return
-  })
-      
-      postsRouter.post("/:id",
-      //bAuthMiddleware,
-      postInputValidationMiddleware,
-      postIdFoundMiddleware,
-      postBlogNameValidationMiddleware,
-      errorValidationMiddleware,
-      // здесь перечислить все мидлв через запятную
-      (req: Request, res: Response) => {
-        try {
-        const title = req.body.title
-          const shortDescription =req.body.shortDescription
-          const content = req.body.content
-          const blogId = req.body.blogId
-          const blogName = req.body.blogName
-          const newPost = postRepository.createPost(
-            title,
-            shortDescription,
-            content,
-            blogId,
-            blogName
-          )
-          res.sendStatus(201).send(newPost)
-        } catch (e) {
-          console.log(e);
-          return res.sendStatus(400)
-        }
-      })
-          
-
-    
-       
-    postsRouter.put("/:id",
-    bAuthMiddleware,
-    postInputValidationMiddleware,
-    postIdFoundMiddleware,
-    errorValidationMiddleware,
-    (req: Request, res: Response) => {
-      const isUpBlog = postRepository.updatePosts;
-        if (!isUpBlog) {
-          const updatedBlog = postRepository.getPostById(req.body.id);
-          res.status(204).json(updatedBlog);
-        } else {
-
-          res.sendStatus(404); 
-        
-        }
-      })
-      postsRouter.delete("/posts/:id",
-      //bAuthMiddleware,
-    (req: Request, res: Response) => {
-      let findPostID = db.posts.find(p => +p.id === +req.params.id)
-
-      if(findPostID) {
-        for (let i = 0; i < postsRouter.length; i++) {
-          if(+db.posts[i].id === +req.params.id) {
-            db.posts.splice(i,1);
-            res.send(204)
-            return;
-          }
-        }
-      }
-    })
-
-      
-    
+  
+postsRouter.put('/:id', 
+authorizationValidation,
+inputPostsValidation.title,
+inputPostsValidation.shortDescription,
+inputPostsValidation.content,
+inputPostsValidation.blogId,
+inputValidationErrors,
+(req: Request, res: Response) => {
+  const id = req.body.id;
+  const title = req.body.title;
+  const shortDescription = req.body.shortDescription;
+  const content = req.body.content
+  const blogId = req.body.blogId
+  const updatePost = postsRepository.updatePost(id, title, shortDescription, content, blogId)
+    if (!updatePost) {
+      return res.status(404).send('Not found')
+    }
+    res.status(204).send('No content')
+})
+  
+postsRouter.delete('/:id', 
+authorizationValidation,
+inputValidationErrors,
+(req: Request, res: Response) => {
+const foundPost = postsRepository.deletePost(req.params.id)
+if (!foundPost) {
+  return res.status(404).send('Not Found');
+  }
+res.status(204).send('No content')
+})
