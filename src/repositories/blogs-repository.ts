@@ -9,6 +9,28 @@ export type blogsType = {
   description: string,
   websiteUrl: string, 
 }
+const db: DB = {
+  posts: [
+      {
+          "id": "Leva",
+          "title": "First steps",
+          "shortDescription": "string",
+          "content": "string",
+          "blogId": "string",
+          "blogName": "string"
+      },
+
+      {
+          "id": "Platon",
+          "title": "First words",
+          "shortDescription": "string",
+          "content": "string",
+          "blogId": "string",
+          "blogName": "string"
+      }
+  ],
+  blogs: []
+}
 
 export type blogsArrayType = Array<blogsType>
 let blogsArray: blogsArrayType =[]
@@ -55,6 +77,6 @@ export const blogsRepository = {
   },
 
   deleteAllBlogs() {
-      blogsArray.splice(0, blogsArray.length)
+      db.blogs = []
   }
 }
