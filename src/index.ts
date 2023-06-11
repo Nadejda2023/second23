@@ -40,14 +40,11 @@ app.use('/posts', postsRouter)
 
 app.use('/testing', testingRouter)
 
-/*app.delete('/testing/all-data', (_req: Request, res: Response) => {
-  res.send('all data is deleted').status(204)
-})
-*/
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 
-//export { postsRouter };
+
  
