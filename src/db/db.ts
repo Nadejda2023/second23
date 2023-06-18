@@ -35,3 +35,15 @@ export const db: DB = {
     blogName: "string"
   }]
 };
+export type errorsType = { 
+      message: string,
+      field: string
+  
+}
+export const errorsMessage = [
+    {
+      message: "string",
+      field: "string"
+    }
+  
+]
