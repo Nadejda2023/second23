@@ -18,7 +18,7 @@ export const db: DB = {
   ],
   posts: [    
   {
-    id: "first",
+    id: "First",
     title: "steps",
     shortDescription: "string",
     content: "string",
