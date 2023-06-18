@@ -4,13 +4,13 @@ import { DB } from "..";
 export const db: DB = {
   blogs: [
   {
-    id: "ts",
+    id: "1",
     name: "string",
     description: "string",
     websiteUrl: "string"
   },
   {
-    id: "js",
+    id: "2",
     name: "string",
     description: "string",
     websiteUrl: "string"
@@ -18,7 +18,7 @@ export const db: DB = {
   ],
   posts: [    
   {
-    id: "First",
+    id: "2",
     title: "step",
     shortDescription: "string",
     content: "string",
@@ -27,7 +27,7 @@ export const db: DB = {
 },
 
   {
-    id: "second",
+    id: "1",
     title: "words",
     shortDescription: "string",
     content: "string",
