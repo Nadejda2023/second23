@@ -43,15 +43,17 @@ blogsRouter.put('/:id',
   inputBlogsValidation.websiteURL,
   inputValidationErrors,
 (req: Request, res: Response) => {
-  const id = req.params.id
+  const id = (+req.params.id).toString()
   const name = req.body.name  //body
   const description = req.body.description
   const websiteUrl = req.body.websiteUrl
   const updateBlog = blogsRepository.updateBlog(id, name, description, websiteUrl)
     if (!updateBlog) {
       return res.sendStatus(sendStatus.NOT_FOUND_404)
+    } else {
+      res.sendStatus(sendStatus.NO_CONTENT_204)
     }
-    res.sendStatus(sendStatus.NO_CONTENT_204)
+    
 })
   
 blogsRouter.delete('/:id', 
