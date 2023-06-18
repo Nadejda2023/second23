@@ -1,17 +1,16 @@
-import  express, {Request, Response} from 'express'
+import  express from 'express'
 import cors from 'cors'
-import bodyParser from 'body-parser';
 import { blogsRouter } from './routes/blogs-router';
+
 import { postsRouter } from './routes/posts-router';
 import { testingRouter } from './routes/testing-routes';
-import { body } from 'express-validator';
 
 export const app = express()
 const corsMiddleware = cors();
 app.use(corsMiddleware)
-const jsonBodyMiddleware = bodyParser.json()
+const jsonBodyMiddleware = express.json()
 app.use(jsonBodyMiddleware)
-const port = process.env.PORT || 3005
+const port = process.env.PORT || 3002
 
 
 export type blogsType = {
@@ -22,7 +21,7 @@ export type blogsType = {
 }
 
 export type postsType = {
-  id: string,
+    id: string,
     title: string,
     shortDescription: string,
     content: string,
@@ -34,16 +33,14 @@ export type DB = {
   blogs: blogsType[]
   posts: postsType[]
 }
-app.use('/blogs', blogsRouter)   
+app.use('/blogs', blogsRouter)
 
 app.use('/posts', postsRouter)
 
-//app.use('/testing', testingRouter)
-
-
+app.use('/testing', testingRouter)
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Listen ${port}`)
 })
 
 
