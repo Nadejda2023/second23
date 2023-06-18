@@ -20,7 +20,7 @@ export const blogsRepository = {
     
     createBlog(name: string, description: string, website: string): blogsType {
         const newBlog: blogsType = {
-            id: (db.blogs.length + 1 ).toString(),   //db.blogs.length + 1         + new Date 
+            id: (+ new Date()).toString() ,   //db.blogs.length + 1         + new Date 
             name: name,
             description: description,
             websiteUrl: website
