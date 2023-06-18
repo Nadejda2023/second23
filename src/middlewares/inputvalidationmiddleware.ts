@@ -16,8 +16,8 @@ export const authorizationValidation = ((req: Request, res: Response, next:NextF
     if (req.headers.authorization === 'Basic YWRtaW46cXdlcnR5' && login && password && login === auth.login && password === auth.password) {
             return next()
         }
-        res.set('','')
-        res.status(401).send('')
+        res.set('WWW-Authenticate','Basic realm="401"')
+        res.status(401).send('Authentication required')
     
 })
 
