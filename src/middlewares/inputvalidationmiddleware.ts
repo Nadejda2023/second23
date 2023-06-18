@@ -4,6 +4,8 @@ import { blogsRepository} from '../repositories/blogs-repository';
 import { usersRepository } from "../repositories/users-repository";
 import {sendStatus} from "../routes/sendStatus";
 import { error } from "console";
+import { errorsMessage, errorsType } from "../db/db";
+
 
 
 
@@ -76,7 +78,7 @@ blogId: body('blogID')
 
     
     const errorFormatter = ({msg, param}: any) => {
-        return {message: msg, field: param};
+        return {message: msg, field: msg};
     };
     const errors = validationResult(req).formatWith(errorFormatter)
     if (!errors.isEmpty()) {
