@@ -10,6 +10,15 @@ blogsRouter.get('/', (req: Request, res: Response) => {
     
     res.status(sendStatus.OK_200).send(db.blogs)
   })
+
+blogsRouter.get('/:id', (req: Request, res: Response) => {
+    const foundBlogById = blogsRepository.findBlogById(req.params.id)
+    if (foundBlogById) {
+      res.status(sendStatus.OK_200).send(foundBlogById)
+    } else {
+      res.sendStatus(sendStatus.NOT_FOUND_404)
+    }
+  })
   
 blogsRouter.post('/',
   authorizationValidation,
@@ -27,14 +36,7 @@ blogsRouter.post('/',
   res.status(sendStatus.CREATED_201).send(newBlog)
 })
   
-blogsRouter.get('/:id', (req: Request, res: Response) => {
-    const foundBlog = blogsRepository.findBlogById(req.params.id)
-    if (foundBlog) {
-      res.status(sendStatus.OK_200).send(foundBlog)
-    } else {
-      res.sendStatus(sendStatus.NOT_FOUND_404)
-    }
-  })
+
   
 blogsRouter.put('/:id',
   authorizationValidation,
@@ -43,7 +45,7 @@ blogsRouter.put('/:id',
   inputBlogsValidation.websiteURL,
   inputValidationErrors,
 (req: Request, res: Response) => {
-  const id = (+req.body.id).toString() //params
+  const id = (+ new Date()).toString() //params
   const name = req.body.name  
   const description = req.body.description
   const websiteUrl = req.body.websiteUrl
