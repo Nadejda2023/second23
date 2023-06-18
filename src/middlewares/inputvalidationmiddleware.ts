@@ -77,7 +77,7 @@ blogId: body('blogID')
     
 
     
-    const errorFormatter = ({msg, param}: any) => {
+    const errorFormatter = ({msg}: any) => {
         return {message: msg, field: msg};
     };
     const errors = validationResult(req).formatWith(errorFormatter)
