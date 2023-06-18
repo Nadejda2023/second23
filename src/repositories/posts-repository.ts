@@ -1,3 +1,4 @@
+import { db } from "../db/db"
 import { blogsRepository } from "./blogs-repository"
  
 type postsType = {
@@ -9,32 +10,32 @@ type postsType = {
       blogName: string
 }
 
- type postsArrayType = Array<postsType>
- let postsArray: postsArrayType = []
+ export type postsArrayType = Array<postsType>
+ //let postsArray: postsArrayType = []
 
  export const postsRepository = {
     findPostById(id: string) {
-        return postsArray.find(post => post.id === id)
+        return db.posts.find(post => post.id === id)
     },
  
     findAllPosts(): postsArrayType {
-        return postsArray
+        return db.posts
     },
         createPost(title: string, shortDescription: string, content: string, blogId: string) {
             const postById = blogsRepository.findBlogById(blogId)
             const newPost: postsType = {
-                id: (postsArray.length +1).toString(),
+                id: (db.posts.length +1).toString(),
                 title: title,
                 shortDescription: shortDescription,
                 content: content,
                 blogId: postById!.id,
                 blogName: postById!.name
             }
-            postsArray.push(newPost)
+            db.posts.push(newPost)
             return newPost
     },
     updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string) {
-        const foundPostById = postsArray.find(post => post.id === id);
+        const foundPostById = db.posts.find(post => post.id === id);
         if (foundPostById) {
             foundPostById.title = title
             foundPostById.shortDescription = shortDescription
@@ -45,15 +46,14 @@ type postsType = {
             return false
     },
     deletePost(id: string) {
-        const foundPostById = postsArray.find(p => p.id === id)
+        const foundPostById = db.posts.find(p => p.id === id)
         if (foundPostById) {
-            postsArray = postsArray.filter(p => p !== foundPostById);
+            db.posts = db.posts.filter(p => p !== foundPostById);
             return true;
         }
         return false;
     },
     deleteAllPosts() {
-        postsArray.splice(0, postsArray.length)
+        db.posts.splice(0, db.posts.length)
     }
  }
-

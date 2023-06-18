@@ -34,11 +34,11 @@ export type DB = {
   blogs: blogsType[]
   posts: postsType[]
 }
-app.use('/blogs', blogsRouter)
+app.use('/blogs', blogsRouter)   
 
 app.use('/posts', postsRouter)
 
-app.use('/testing', testingRouter)
+//app.use('/testing', testingRouter)
 
 
 

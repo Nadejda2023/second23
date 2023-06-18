@@ -1,82 +1,55 @@
-import { Request, Router ,Response } from "express";
-
-
-
+import { db } from "../db/db";
 
 export type blogsType = {
-  id: string,
-  name: string,
-  description: string,
-  websiteUrl: string, 
-}
-const db: DB = {
-  posts: [
-      {
-          "id": "Leva",
-          "title": "First steps",
-          "shortDescription": "string",
-          "content": "string",
-          "blogId": "string",
-          "blogName": "string"
-      },
+    id: string,
+    name: string,
+    description: string,
+    websiteUrl: string, 
+  }
 
-      {
-          "id": "Platon",
-          "title": "First words",
-          "shortDescription": "string",
-          "content": "string",
-          "blogId": "string",
-          "blogName": "string"
-      }
-  ],
-  blogs: []
-}
-
-export type blogsArrayType = Array<blogsType>
-let blogsArray: blogsArrayType =[]
 
 export const blogsRepository = {
-  findAllBlogs(): blogsArrayType { 
-      return blogsArray; 
-  },
+    findAllBlogs(): blogsType[] { 
+        return db.blogs 
+    },
 
-  findBlogById(id: string): blogsType | undefined {
-      const foundBlogById = blogsArray.find(b => b.id === id) 
-      return foundBlogById!
-  },
-  
-  createBlog(name: string, description: string, website: string) {
-      const newBlog: blogsType = {
-          id: (blogsArray.length + 1).toString(),
-          name: name,
-          description: description,
-          websiteUrl: website
-      }
-      blogsArray.push(newBlog)
-      return newBlog
-  },
+    findBlogById(id: string): blogsType | undefined {
+        const foundBlogById = db.blogs.find(b => b.id === id) 
+        return foundBlogById
+    },
+    
+    createBlog(name: string, description: string, website: string): blogsType {
+        const newBlog: blogsType = {
+            id: (db.blogs.length + 1 ).toString(),   //db.blogs.length + 1         + new Date 
+            name: name,
+            description: description,
+            websiteUrl: website
+        }
+        db.blogs.push(newBlog)
+        return newBlog
+    },
 
-  updateBlog(id: string, name: string, description: string, website: string) {
-      const foundBlogById = blogsArray.find(b => b.id === id)
-      if (foundBlogById) {
-          foundBlogById.name = name
-          foundBlogById.description = description
-          foundBlogById.websiteUrl = website
-          return true
-      }
-      return false
-  },
+    updateBlog(id: string, name: string, description: string, website: string): boolean {
+        const foundBlogById = db.blogs.find(b => b.id === id);
+        if (foundBlogById) {
+            foundBlogById.name = name
+            foundBlogById.description = description
+            foundBlogById.websiteUrl = website
+            return true
+        }
+        return false
+    },
 
-  deleteBlog(id: string) {
-      const foundBlogById = blogsArray.find(b => b.id === id)
-      if (foundBlogById) {
-          blogsArray = blogsArray.filter(b => b !== foundBlogById);
-   return true
-      } 
-      return false
-  },
+    deleteBlog(id: string): boolean {
+        const foundBlogById = db.blogs.find(b => b.id === id)
+        if (foundBlogById) {
+            db.blogs = db.blogs.filter(b => b !== foundBlogById);
+            return true
+        } 
+        return false
+    },
 
-  deleteAllBlogs() {
-      db.blogs = []
-  }
+    deleteAllBlogs() {
+        db.blogs.splice(0, db.blogs.length)
+    }
 }
