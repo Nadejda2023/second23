@@ -20,22 +20,18 @@ export const inputBlogsValidation = {
         .trim()
         .isString()
         .withMessage('Must be string')
-        .bail()
         .isLength({min: 1, max: 15})
-        .withMessage('Length must be from 1 to 15 simbols')
-        .bail(),
+        .withMessage('Length must be from 1 to 15 simbols'),
     description: body('description')
         .trim()
         .isString()
         .withMessage('Must be string')
-        .bail()
         .isLength({min: 1, max: 500})
-        .withMessage('Length must be from 1 to 500 simbols')
-        .bail(),
+        .withMessage('Length must be from 1 to 500 simbols'),
     websiteURL: body('websiteUrl')
         .isURL({})
         .withMessage('Must be a Url')
-        .bail()
+        
 
 }
 export const inputPostsValidation = {
@@ -43,34 +39,26 @@ export const inputPostsValidation = {
     .trim()
     .isString()
     .withMessage('Must be string')
-    .bail()
     .isLength({min: 1, max: 30})
-    .withMessage('Length must be from 1 to 30 simbols')
-    .bail(),
+    .withMessage('Length must be from 1 to 30 simbols'),
 shortDescription: body('shortDescription')
     .trim()
     .isString()
     .withMessage('Must be string')
-    .bail()
     .isLength({min: 1, max: 100})
-    .withMessage('Length must be from 1 to 100 simbols')
-    .bail(),
+    .withMessage('Length description incorrect'),
 content: body('content')
     .trim()
     .isString()
     .withMessage('Must be string')
-    .bail()
     .isLength({min: 1, max: 1000})
-    .withMessage('Length must be from 1 to 1000 simbols')
-    .bail(),
+    .withMessage('Length must be from 1 to 1000 simbols'),
 blogId: body('blogID')
     .trim()
     .isString()
     .withMessage('Must be string')
-    .bail()
     .isLength({min: 1, max: 100})
-    .withMessage('Length must be from 1 to 100 simbols')
-    .bail()
+    .withMessage('Length Id incorrect')
     .custom((value: any) => {
         if (!blogsRepository.findBlogById(value)) {
             throw new Error('Blog is not found');
@@ -87,12 +75,12 @@ export const inputValidationErrors = (req: Request, res: Response, next: NextFun
     const errors = validationResult(req).formatWith(errorFormat)
     if (!errors.isEmpty()) {
         if (errors.array().find((err: { message: string }) => err.message === 'UNAUTHORIZED_401')) {
-            return res.sendStatus(sendStatus.UNAUTHORIZED_401);
+            return res.sendStatus(401);
         }
-        const errorsMessages = errors.array()       //{onlyFirstError: true}
+        const errorsMessages = errors.array({onlyFirstError: true})       //{onlyFirstError: true}
         console.log(errorsMessages);
         
-        res.status(sendStatus.BAD_REQUEST_400).json({ errorsMessages })
+        res.status(400).json({ errorsMessages: errors.array })
         return 
     } else {
         next()
