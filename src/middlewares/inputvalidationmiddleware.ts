@@ -9,10 +9,14 @@ import { errorsMessage, errorsType } from "../db/db";
 
 
 
-export const authorizationValidation = ((req: Request, res: Response, next:NextFunction) => {
-    
-    
-})
+export const authorizationValidation = (req: Request, res: Response, next:NextFunction) => {
+    if (req.headers.authorization !== "Basic YWRtaW46cXdlcnR5") {
+        res.sendStatus(401);
+    } else {
+        next();
+    }
+  
+};
 
 export const inputBlogsValidation = {
     name: body('name')
