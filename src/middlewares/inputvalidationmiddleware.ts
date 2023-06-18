@@ -1,7 +1,7 @@
 import {NextFunction, Response, Request } from "express";
 import { header, body, validationResult, ValidationError} from 'express-validator';
 import { blogsRepository} from '../repositories/blogs-repository';
-import { usersRepository } from "../repositories/users-repository";
+
 import {sendStatus} from "../routes/sendStatus";
 import { error } from "console";
 import { errorsMessage, errorsType } from "../db/db";

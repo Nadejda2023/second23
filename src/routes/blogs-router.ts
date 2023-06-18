@@ -43,8 +43,8 @@ blogsRouter.put('/:id',
   inputBlogsValidation.websiteURL,
   inputValidationErrors,
 (req: Request, res: Response) => {
-  const id = (+req.params.id).toString()
-  const name = req.body.name  //body
+  const id = (+req.body.id).toString() //params
+  const name = req.body.name  
   const description = req.body.description
   const websiteUrl = req.body.websiteUrl
   const updateBlog = blogsRepository.updateBlog(id, name, description, websiteUrl)
