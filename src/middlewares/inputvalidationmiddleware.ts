@@ -1,8 +1,9 @@
 import {NextFunction, Response, Request } from "express";
-import { header, body, validationResult, ValidationError} from 'express-validator';
+import { header, body, validationResult} from 'express-validator';
 import { blogsRepository} from '../repositories/blogs-repository';
 import { usersRepository } from "../repositories/users-repository";
 import {sendStatus} from "../routes/sendStatus";
+import { error } from "console";
 
 
 
@@ -67,25 +68,26 @@ blogId: body('blogID')
         })
     }
 
+    const myValidationResult = validationResult.withDefaults( {
+        formatter: error => {
+            return {
+                message: error.msg,
+                field: error.msg
+            };
+        },
+    });
+
 export const inputValidationErrors = (req: Request, res: Response, next: NextFunction) => {
     
-    const errorFormat = ({msg} : ValidationError ) => {       //{msg, param}
-        return {message: msg, field: body() }    //message: error.msg, field: param
-    }
-    const errors = validationResult(req).formatWith(errorFormat)
+    const errors = myValidationResult(req);
     if (!errors.isEmpty()) {
-        if (errors.array().find((err: { message: string }) => err.message === 'UNAUTHORIZED_401')) {
-            return res.sendStatus(401);
-        }
-        const errorsMessages = errors.array({onlyFirstError: true})       //{onlyFirstError: true}
-        console.log(errorsMessages);
-        
-        res.status(400).json({ errorsMessages: errors.array })
-        return 
-    } else {
-        next()
+       res.status(400).json({ errorsMessages: errors.array({onlyFirstError:true})});
     }
+    return next()
 }
+        
+    
+
 
    
 
