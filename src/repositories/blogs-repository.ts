@@ -14,13 +14,13 @@ export const blogsRepository = {
     },
 
     findBlogById(id: string): blogsType | undefined {
-        const foundBlogById = db.blogs.find(b => b.id === id) 
+        const foundBlogById = db.blogs.find((b: { id: string; })=> b.id === id) 
         return foundBlogById
     },
     
     createBlog(name: string, description: string, website: string): blogsType {
         const newBlog: blogsType = {
-            id: (+ new Date()).toString() ,   //db.blogs.length + 1         + new Date 
+            id: (db.blogs.length + 1 ).toString(),   //db.blogs.length + 1         + new Date 
             name: name,
             description: description,
             websiteUrl: website
@@ -30,7 +30,7 @@ export const blogsRepository = {
     },
 
     updateBlog(id: string, name: string, description: string, website: string): boolean {
-        const foundBlogById = db.blogs.find(b => b.id === id);
+        const foundBlogById = db.blogs.find((b: { id: string; }) => b.id === id);
         if (foundBlogById) {
             foundBlogById.name = name
             foundBlogById.description = description
@@ -41,9 +41,9 @@ export const blogsRepository = {
     },
 
     deleteBlog(id: string): boolean {
-        const foundBlogById = db.blogs.find(b => b.id === id)
+        const foundBlogById = db.blogs.find((b: { id: string; }) => b.id === id)
         if (foundBlogById) {
-            db.blogs = db.blogs.filter(b => b !== foundBlogById);
+            db.blogs = db.blogs.filter((b: any) => b !== foundBlogById);
             return true
         } 
         return false

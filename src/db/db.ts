@@ -1,16 +1,19 @@
-import { DB } from "..";
 
 
+export type DB = {
+  blogs: any,
+  posts: any
+}
 export const db: DB = {
   blogs: [
   {
-    id: "1",
-    name: "string",
+    id: "01",
+    name: "yurii",
     description: "string",
     websiteUrl: "string"
   },
   {
-    id: "2",
+    id: "02",
     name: "string",
     description: "string",
     websiteUrl: "string"
@@ -18,8 +21,8 @@ export const db: DB = {
   ],
   posts: [    
   {
-    id: "2",
-    title: "step",
+    id: "01",
+    title: "First",
     shortDescription: "string",
     content: "string",
     blogId: "0",
@@ -27,23 +30,12 @@ export const db: DB = {
 },
 
   {
-    id: "1",
-    title: "words",
+    id: "02",
+    title: "First",
     shortDescription: "string",
     content: "string",
     blogId: "1",
     blogName: "string"
   }]
 };
-export type errorsType = { 
-      message: string,
-      field: string
-  
-}
-export const errorsMessage = [
-    {
-      message: "string",
-      field: "string"
-    }
-  
-]
+

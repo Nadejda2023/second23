@@ -1,8 +1,9 @@
 import {Request, Response, Router } from "express";
 import { blogsRepository, } from '../repositories/blogs-repository';
 import { sendStatus } from "./sendStatus";
-import { authorizationValidation, inputBlogsValidation,inputValidationErrors } from "../middlewares/inputvalidationmiddleware";
+import { authorizationValidation, inputValidationErrors } from "../middlewares/inputvalidationmiddleware";
 import { db } from "../db/db";
+import { CreateBlogValidation , UpdateBlogValidation } from "../middlewares/blogsvalidation";
 export const blogsRouter = Router({})
 
 blogsRouter.get('/', (req: Request, res: Response) => {
@@ -10,22 +11,10 @@ blogsRouter.get('/', (req: Request, res: Response) => {
     
     res.status(sendStatus.OK_200).send(db.blogs)
   })
-
-blogsRouter.get('/:id', (req: Request, res: Response) => {
-    const foundBlogById = blogsRepository.findBlogById(req.params.id)
-    if (foundBlogById) {
-      res.status(sendStatus.OK_200).send(foundBlogById)
-    } else {
-      res.sendStatus(sendStatus.NOT_FOUND_404)
-    }
-  })
   
 blogsRouter.post('/',
   authorizationValidation,
-  inputBlogsValidation.name,
-  inputBlogsValidation.description,
-  inputBlogsValidation.websiteURL,
-  inputValidationErrors, 
+  ...CreateBlogValidation,
 (req: Request, res: Response) => {
   const name = req.body.name
   const description = req.body.description
@@ -36,26 +25,28 @@ blogsRouter.post('/',
   res.status(sendStatus.CREATED_201).send(newBlog)
 })
   
-
+blogsRouter.get('/:id', (req: Request, res: Response) => {
+    const foundBlog = blogsRepository.findBlogById(req.params.id)
+    if (foundBlog) {
+      res.status(sendStatus.OK_200).send(foundBlog)
+    } else {
+      res.sendStatus(sendStatus.NOT_FOUND_404)
+    }
+  })
   
 blogsRouter.put('/:id',
   authorizationValidation,
-  inputBlogsValidation.name,
-  inputBlogsValidation.description,
-  inputBlogsValidation.websiteURL,
-  inputValidationErrors,
+  ...UpdateBlogValidation,
 (req: Request, res: Response) => {
-  const id = (+ new Date()).toString() //params
-  const name = req.body.name  
+  const id = req.params.id
+  const name = req.body.name  //body
   const description = req.body.description
   const websiteUrl = req.body.websiteUrl
   const updateBlog = blogsRepository.updateBlog(id, name, description, websiteUrl)
     if (!updateBlog) {
       return res.sendStatus(sendStatus.NOT_FOUND_404)
-    } else {
-      res.sendStatus(sendStatus.NO_CONTENT_204)
     }
-    
+    res.sendStatus(sendStatus.NO_CONTENT_204)
 })
   
 blogsRouter.delete('/:id', 
