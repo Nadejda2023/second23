@@ -1,10 +1,11 @@
+//import { postsArrayType } from "../repositories/posts-repository";
+//import { blogsType } from "../repositories/blogs-repository";
 
+import { DB } from "..";
 
-export type DB = {
-  blogs: any,
-  posts: any
-}
-export const db: DB = {
+//export type DB = any;
+
+export const db : DB = {
   blogs: [
   {
     id: "01",

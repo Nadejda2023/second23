@@ -24,7 +24,7 @@ postsRouter.post('/',
   authorizationValidation,
   createPostValidation,
 (req: Request, res: Response) => {
-  const findBlogById = db.blogs.find(blog => blog.id === req.body.blogId)
+  const findBlogById = db.blogs.find((blog: { id: any; }) => blog.id === req.body.blogId)
   if (findBlogById) {
   const newPost = postsRepository.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
   

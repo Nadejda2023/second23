@@ -1,6 +1,6 @@
 import {Response, Request, NextFunction } from "express";
 import { validationResult } from 'express-validator';
-import { sendStatus } from "../routes/sendStatus";
+import { sendStatus } from "../routers/sendStatus";
 
 
 
