@@ -8,7 +8,7 @@ export const db: DB = {
   blogs: [
   {
     id: "01",
-    name: "yurii",
+    name: "Nadejda",
     description: "string",
     websiteUrl: "string"
   },
