@@ -1,7 +1,7 @@
-import { DB } from "..";
+import { DB } from "./db/db";
 
 
-export const db: DB = {
+export const db : DB = {
   blogs: [
   {
     id: "ts",
