@@ -1,6 +1,6 @@
 import { body } from "express-validator"
 import { inputValidationErrors } from "./inputvalidationmiddleware"
-import { blogsRepository } from "../repositories/blogs-repository"
+//import { blogsRepository } from "../repositories/blogs-in-memory1-repository"
 
 
 
@@ -34,10 +34,10 @@ const blogIdValidation =  body('blogId')
                                         .trim()
                                         //.isEmpty()
                                         .custom((value: string) => {
-                                            if (!blogsRepository.findBlogById(value)) {
+                                            /*if (!blogsRepository.findBlogById(value)) {
                                                 throw new Error('Blog is not found');
                                             }
-                                            return true;
+                                            return true;*/
                                             })
 
 export const createPostValidation = 

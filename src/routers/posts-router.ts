@@ -20,7 +20,7 @@ postsRouter.get('/:id', (req: Request, res: Response) => {
   }
   })
   
-postsRouter.post('/', 
+/*postsRouter.post('/', 
   authorizationValidation,
   createPostValidation,
 (req: Request, res: Response) => {
@@ -33,13 +33,13 @@ postsRouter.post('/',
     shortDescription: req.body.shortDescription,
     content: req.body.content
     blogId: req.body.blogId
-  */
+  
     return res.status(sendStatus.CREATED_201).send(newPost)
   } else {
     return res.sendStatus(sendStatus.BAD_REQUEST_400 )
   }
 
-})
+}) */
   
 
 postsRouter.put('/:id', 

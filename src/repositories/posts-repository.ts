@@ -1,5 +1,5 @@
 import { db } from "../db/db"
-import { blogsRepository } from "./blogs-repository"
+//import { blogsRepository } from "./blogs-in-memory-repository"
  
 type postsType = {
     id: string,
@@ -21,7 +21,7 @@ type postsType = {
     findAllPosts(): postsArrayType {
         return db.posts
     },
-    createPost(title: string, shortDescription: string, content: string, blogId: string) {
+    /*createPost(title: string, shortDescription: string, content: string, blogId: string) {
         const postById = blogsRepository.findBlogById(blogId)
         const newPost: postsType = {
             id: (db.posts.length +1).toString(),           
@@ -33,7 +33,7 @@ type postsType = {
         }
         db.posts.push(newPost)
             return newPost
-    },
+    },*/
     updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string) {
         const foundPostById = db.posts.find((post: { id: string }) => post.id === id);
         if (foundPostById) {
