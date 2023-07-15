@@ -1,15 +1,21 @@
 
 import {MongoClient} from 'mongodb';
 import { DB, postsType } from "..";
-import dotenv from 'dotenv'
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 import { BlogsViewModel } from '../models/blogsModel';
+
 dotenv.config()
 
 
 
 const mongoURI = process.env.mongoURI || "mongodb+srv://fsklever:popova12345@cluster0.su82uvr.mongodb.net/?retryWrites=true&w=majority";
-
+const url = 'mongodb+srv://fsklever:popova12345@cluster0.su82uvr.mongodb.net/?retryWrites=true&w=majority';
+console.log('url:', url)
+if(!url) {
+  throw new Error('! Url doesn\'t found')
+}
 
 
 export type blogsType = {

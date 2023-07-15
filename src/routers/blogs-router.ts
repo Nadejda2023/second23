@@ -2,7 +2,7 @@
 import { blogsRepository, } from '../repositories/blogs-db--repository';
 import { sendStatus } from "./sendStatus";
 import { authorizationValidation, inputValidationErrors } from "../middlewares/inputvalidationmiddleware";
-import { db } from "../db/db";
+import { blogsCollection, db } from "../db/db";
 import { CreateBlogValidation , UpdateBlogValidation } from "../middlewares/blogsvalidation";
 import { BlogsInputViewModel, BlogsViewModel } from "../models/blogsModel";
 
