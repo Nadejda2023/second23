@@ -1,5 +1,5 @@
 import {Request, Response, Router } from "express";
-import {postsRepository} from "../repositories/posts-repository";
+import {postsRepository} from "../repositories/posts-in-memory--repository";
 import { sendStatus } from "./sendStatus";
 import { authorizationValidation, inputValidationErrors } from "../middlewares/inputvalidationmiddleware";
 import { db } from "../db/db";

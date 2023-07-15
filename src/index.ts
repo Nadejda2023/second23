@@ -19,12 +19,12 @@ app.use(jsonBodyMiddleware)
 const port = process.env.PORT || 3338
 
 
-export type blogsType = {
+/*export type blogsType = {
   id: string, 
   name: string,
   description: string,
   websiteUrl: string, 
-}
+}*/
 
 export type postsType = {
     id: string,

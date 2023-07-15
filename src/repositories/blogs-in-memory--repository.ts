@@ -1,4 +1,3 @@
-
 import { db } from "../db/db";
 import { BlogsViewModel } from "../models/blogsModel";
 
@@ -6,38 +5,37 @@ export type blogsType = {
     id:  string,
     name: string,
     description: string,
-    websiteUrl: string,
+    websiteUrl: string, 
     createdAt: string,
-isMembership: boolean 
-   
+    isMembership: boolean 
   }
 
 
-/*export const blogsRepository = {
+export const blogsRepository = {
    async findAllBlogs(): Promise<blogsType[]> { 
         return db.blogs 
     },
 
-    async findBlogById(id: string): Promise<blogsType[] | boolean> {
-        const foundBlogById= db.blogs.find(b => b.id === id) 
-        return (BlogsCreateModel())
+   async findBlogById(id: string): Promise<BlogsViewModel | null | undefined> {
+        const foundBlogById: BlogsViewModel | null | undefined  = db.blogs.find(b => b.id === id) 
+        return foundBlogById
     },
     
-   /* async createBlog(name: string, description: string, website: string): Promise<blogsType[]> {
-        const newBlog: blogsType[] = {
-            id: (db.blogs.length + 1).toString(),
+    async createBlog(name: string, description: string, website: string): Promise<BlogsViewModel | null > {
+        const newBlog: BlogsViewModel | null = {
+            id: (db.blogs.length + 1 ).toString(),   
             name: name,
             description: description,
             websiteUrl: website,
-            createdAt: "",
-            isMembership: false
+            createdAt: (new Date()).toISOString(),
+            isMembership: false,
+            
         }
         db.blogs.push(newBlog)
         return newBlog
-    },*/
+    }, 
 
-
-   /* async updateBlog(id: string, name: string, description: string, website: string): Promise<boolean> {
+    async updateBlog(id: string, name: string, description: string, website: string): Promise<BlogsViewModel | boolean> {
         const foundBlogById = db.blogs.find(b => b.id === id);
         if (foundBlogById) {
             foundBlogById.name = name
@@ -60,9 +58,6 @@ isMembership: boolean
 
     async deleteAllBlogs() {
         db.blogs.splice(0, db.blogs.length)
-    }
-}
+    } 
+} 
 
-function BlogsCreateModel(): boolean | blogsType[] | PromiseLike<boolean | blogsType[]> {
-    throw new Error("Function not implemented.");
-}*/

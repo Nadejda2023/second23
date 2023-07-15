@@ -2,16 +2,31 @@
 import {MongoClient} from 'mongodb';
 import { DB, postsType } from "..";
 import dotenv from 'dotenv'
-import { blogsType } from '../repositories/blogs-db1-repository';
+
+import { BlogsViewModel } from '../models/blogsModel';
 dotenv.config()
+
+
 
 const mongoURI = process.env.mongoURI || "mongodb+srv://fsklever:popova12345@cluster0.su82uvr.mongodb.net/?retryWrites=true&w=majority";
 
+
+
+export type blogsType = {
+  id:  string,
+  name: string,
+  description: string,
+  websiteUrl: string, 
+  createdAt: string,
+  isMembership: boolean 
+}
 
 export const client = new MongoClient(mongoURI);
 //const dbN = client.db
 //export const blogsCollection = dbN.collection<blogsType>;
 //export const postsCollection = dbN.collection<postsType>;
+
+export const blogsCollection = client.db("project").collection<BlogsViewModel>("blogs")
 
 export async function runDB() {
   try{
