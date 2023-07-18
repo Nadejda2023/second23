@@ -31,7 +31,6 @@ export const client = new MongoClient(url);
 //const dbN = client.db
 //export const blogsCollection = dbN.collection<blogsType>;
 //export const postsCollection = dbN.collection<postsType>;
-
 export const blogsCollection = client.db("project").collection<BlogsViewModel>("blogs")
 
 export async function runDB() {
