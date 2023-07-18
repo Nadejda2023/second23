@@ -18,7 +18,6 @@ const jsonBodyMiddleware = express.json()
 app.use(jsonBodyMiddleware)
 const port = process.env.PORT || 3338
 
-
 /*export type blogsType = {
   id: string, 
   name: string,
