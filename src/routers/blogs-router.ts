@@ -8,10 +8,10 @@ import { BlogsInputViewModel, BlogsViewModel } from "../models/blogsModel";
 
 export const blogsRouter = Router({})
 
-blogsRouter.get('/', async (req: Request, res: Response<BlogsViewModel>) => {
-    console.log(db.blogs);
+blogsRouter.get('/', async (req: Request, res: Response<BlogsViewModel[]>) => {
+    const foundBlogs = await blogsRepository.findAllBlogs(req.query.title?.toString())
     
-    res.status(sendStatus.OK_200).send()
+    res.status(sendStatus.OK_200).send(foundBlogs)
   })
   
 blogsRouter.get('/:id', async (req: Request, res: Response<BlogsViewModel | null>) => {

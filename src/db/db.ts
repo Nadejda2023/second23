@@ -6,12 +6,12 @@ dotenv.config()
 
 import { BlogsViewModel } from '../models/blogsModel';
 
+
 dotenv.config()
 
 
 
-const mongoURI = process.env.mongoURI || "mongodb+srv://fsklever:popova12345@cluster0.su82uvr.mongodb.net/?retryWrites=true&w=majority";
-const url = 'mongodb+srv://fsklever:popova12345@cluster0.su82uvr.mongodb.net/?retryWrites=true&w=majority';
+const url = process.env.MONGO_URL 
 console.log('url:', url)
 if(!url) {
   throw new Error('! Url doesn\'t found')
@@ -27,7 +27,7 @@ export type blogsType = {
   isMembership: boolean 
 }
 
-export const client = new MongoClient(mongoURI);
+export const client = new MongoClient(url);
 //const dbN = client.db
 //export const blogsCollection = dbN.collection<blogsType>;
 //export const postsCollection = dbN.collection<postsType>;

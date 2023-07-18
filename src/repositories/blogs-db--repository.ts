@@ -7,8 +7,14 @@ import { BlogsViewModel } from "../models/blogsModel";
  
 
 export const blogsRepository = {
-   async findAllBlogs(): Promise<BlogsViewModel[]> { 
-    return blogsCollection.find({}).toArray()
+   async findAllBlogs(title: string | null | undefined): Promise<BlogsViewModel[]> { 
+
+    const filter: any = {}
+
+    if (title) {
+        filter.title = {$regex: title}
+    }
+    return blogsCollection.find((filter), {projection:{_id:0}}).toArray()
      
     },
 
