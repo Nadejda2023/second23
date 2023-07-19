@@ -48,7 +48,8 @@ export const blogsRepository = {
         
     },
 
-    async deleteAllBlogs() {
-        db.blogs.splice(0, db.blogs.length)
+    async deleteAllBlogs(): Promise<boolean> {
+        const result = await blogsCollection.deleteMany({})
+        return result.acknowledged
     } 
 } 

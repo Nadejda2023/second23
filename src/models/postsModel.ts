@@ -8,6 +8,7 @@ export type PostViewInputModel = {
   }
 
 export type PostViewModel = {
+    [x: string]: string
     id: string,
     title: string,
     shortDescription: string,

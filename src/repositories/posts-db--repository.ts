@@ -1,60 +1,63 @@
-import { db } from "../db/db"
+import { blogsCollection, db, postsCollection } from "../db/db"
+import { BlogsViewModel } from "../models/blogsModel"
+import { PostViewModel } from "../models/postsModel"
+import { blogsRepository } from "./blogs-db--repository"
 //import { blogsRepository } from "./blogs-in-memory-repository"
  
-type postsType = {
+/*type postsType = {
     id: string,
       title: string,
       shortDescription: string,
       content: string,
       blogId: string,
       blogName: string
-}
+}*/
 
- export type postsArrayType = Array<postsType>
+ //export type postsArrayType = Array<postsType>
  //let postsArray: postsArrayType = []
 
  export const postsRepository = {
-    findPostById(id: string) {
-        return db.posts.find((post: { id: string }) => post.id === id)
-    },
+    async findAllPosts(title: string | null | undefined): Promise<PostViewModel[] | undefined | null> { 
+
+        const filter: any = {}
+    
+        if (title) {
+            filter.title = {$regex: title}
+        }
+        return postsCollection.find((filter), {projection:{_id:0}}).toArray()
+         
+        },
+        async findPostById(id: string): Promise<PostViewModel | undefined | null> {
+            const foundPostById: PostViewModel | undefined | null  = await postsCollection.findOne({id: id})
+            return foundPostById
+        },
  
-    findAllPosts(): postsArrayType {
-        return db.posts
-    },
-    /*createPost(title: string, shortDescription: string, content: string, blogId: string) {
-        const postById = blogsRepository.findBlogById(blogId)
-        const newPost: postsType = {
-            id: (db.posts.length +1).toString(),           
+    async createPost(title: string, shortDescription: string, content: string, blogId: string): Promise<PostViewModel | null> {
+        const findBlogById: any = await blogsCollection.findOne({id: blogId})
+        const newPost: PostViewModel   = {
+            id: (db.posts.length + 1).toString(),
             title: title,
             shortDescription: shortDescription,
             content: content,
-            blogId: postById!.id,
-            blogName: postById!.name
+            blogId: blogId,
+            blogName: findBlogById.name,
+            createdAt: (new Date()).toISOString()
         }
-        db.posts.push(newPost)
-            return newPost
-    },*/
-    updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string) {
-        const foundPostById = db.posts.find((post: { id: string }) => post.id === id);
-        if (foundPostById) {
-            foundPostById.title = title
-            foundPostById.shortDescription = shortDescription
-            foundPostById.content = content
-            foundPostById.blogId = blogId
-            return true
-            }
-            return false
+        const result = await postsCollection.insertOne(newPost)
+        return await postsCollection.findOne({id: newPost.id},{projection:{_id:0}})
+        
     },
-    deletePost(id: string) {
-        const foundPostById = db.posts.find((p: { id: string }) => p.id === id)
-        if (foundPostById) {
-            db.posts = db.posts.filter((p: any) => p !== foundPostById);
-            return true;
-        }
-        return false;
+    async updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string) : Promise<PostViewModel | boolean> {
+        const result = await postsCollection.updateOne({ id: id }, { $set: {title: title, shortDescription: shortDescription, content: content, blogId: blogId} })
+            return result.matchedCount === 1
     },
-    deleteAllPosts() {
-        db.posts.splice(0, db.posts.length)
+    async deletePost(id: string): Promise<boolean> {
+        const result = await postsCollection.deleteOne({id: id})
+        return result.deletedCount === 1
+    },
+    async deleteAllPosts(): Promise<boolean> {
+        const result = await postsCollection.deleteMany({})
+        return result.acknowledged 
     }
  }
 

@@ -1,10 +1,11 @@
 
 import {MongoClient} from 'mongodb';
-import { DB, postsType } from "..";
+import { DB } from "..";
 import * as dotenv from 'dotenv'
 dotenv.config()
 
 import { BlogsViewModel } from '../models/blogsModel';
+import { PostViewModel } from '../models/postsModel';
 
 
 dotenv.config()
@@ -27,12 +28,21 @@ export type blogsType = {
   isMembership: boolean 
 }
 
-export const client = new MongoClient(url);
-//const dbN = client.db
-//export const blogsCollection = dbN.collection<blogsType>;
-//export const postsCollection = dbN.collection<postsType>;
-export const blogsCollection = client.db("project").collection<BlogsViewModel>("blogs")
+export type postsType =
+{
+  id: string,
+  title: string,
+  shortDescription: string,
+  content: string,
+  blogId: string,
+  blogName: string,
+  createdAt: string
+}
 
+export const client = new MongoClient(url);
+
+export const blogsCollection = client.db("project").collection<BlogsViewModel>("blogs")
+export const postsCollection = client.db("project").collection<PostViewModel>("posts")
 export async function runDB() {
   try{
     await client.connect();
@@ -72,7 +82,8 @@ export const db : DB = { //нужно ли это вообще если есть
     shortDescription: "string",
     content: "string",
     blogId: "0",
-    blogName: "string"
+    blogName: "string",
+    createdAt: "2023-07-13T14:09:36.550Z"
 },
 
   {
@@ -81,7 +92,8 @@ export const db : DB = { //нужно ли это вообще если есть
     shortDescription: "string",
     content: "string",
     blogId: "1",
-    blogName: "string"
+    blogName: "string",
+    createdAt: "2023-07-13T14:09:36.550Z"
   }]
 };
 

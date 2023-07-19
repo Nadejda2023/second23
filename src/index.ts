@@ -8,6 +8,7 @@ import { blogsRouter } from './routers/blogs-router';
 import { postsRouter } from './routers/posts-router';
 import {testingRouter } from './routers/testing-router';
 import { BlogsViewModel } from "./models/blogsModel";
+import { PostViewModel } from "./models/postsModel";
 
 
 export const app =  express()
@@ -25,18 +26,20 @@ const port = process.env.PORT || 3338
   websiteUrl: string, 
 }*/
 
-export type postsType = {
+/*export type postsType = {
     id: string,
     title: string,
     shortDescription: string,
     content: string,
     blogId: string,
-    blogName: string
-}
+    blogName: string,
+    createdAt: string
+} 
+*/
 
 export type DB = {
   blogs: BlogsViewModel[]
-  posts: postsType[]
+  posts: PostViewModel[]
 }
 app.use('/blogs', blogsRouter)
 
