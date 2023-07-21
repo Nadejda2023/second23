@@ -4,7 +4,7 @@ import { sendStatus } from "./sendStatus";
 import { authorizationValidation, inputValidationErrors } from "../middlewares/inputvalidationmiddleware";
 
 import { CreateBlogValidation , UpdateBlogValidation } from "../middlewares/blogsvalidation";
-import { BlogsInputViewModel, BlogsViewModel } from "../models/blogsModel";
+import { BlogsInputViewModel, BlogsViewDBModel, BlogsViewModel } from "../models/blogsModel";
 
 export const blogsRouter = Router({})
 
@@ -14,8 +14,8 @@ blogsRouter.get('/', async (req: Request, res: Response<BlogsViewModel[]>) => {
     res.status(sendStatus.OK_200).send(foundBlogs)
   })
   
-blogsRouter.get('/:id', async (req: Request, res: Response<BlogsViewModel | null>) => {
-    const foundBlog: BlogsViewModel | null = await blogsRepository.findBlogById(req.params.id)
+blogsRouter.get('/:id', async (req: Request, res: Response<BlogsViewDBModel | null>) => {
+    const foundBlog: BlogsViewDBModel | null = await blogsRepository.findBlogById(req.params.id)
     if (foundBlog) {
       return res.status(sendStatus.OK_200).send(foundBlog)
     } else {
@@ -26,9 +26,9 @@ blogsRouter.get('/:id', async (req: Request, res: Response<BlogsViewModel | null
 blogsRouter.post('/',
   authorizationValidation,
   ...CreateBlogValidation,
-  async (req: Request <BlogsInputViewModel>, res: Response<BlogsViewModel | null >) => {
+  async (req: Request <BlogsInputViewModel>, res: Response<BlogsViewDBModel | null >) => {
     const { name, description, websiteUrl} = req.body
-  const newBlog : BlogsViewModel | null  = await blogsRepository.createBlog(name, description, websiteUrl)
+  const newBlog : BlogsViewDBModel| null  = await blogsRepository.createBlog(name, description, websiteUrl)
   console.log(newBlog);
   
   res.status(sendStatus.CREATED_201).send(newBlog)

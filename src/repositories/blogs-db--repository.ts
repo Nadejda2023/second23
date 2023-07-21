@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { blogsCollection, db } from "../db/db";
-import { BlogsViewModel } from "../models/blogsModel";
+import { BlogsViewDBModel, BlogsViewModel } from "../models/blogsModel";
 
 
 
@@ -19,12 +19,13 @@ export const blogsRepository = {
      
     },
 
-   async findBlogById(id: string): Promise<BlogsViewModel | null> {
-        const foundBlogById: BlogsViewModel| null  = await blogsCollection.findOne({newObjectId: id})
+   async findBlogById(id: string): Promise<BlogsViewDBModel | null> {
+        const foundBlogById: BlogsViewDBModel| null  = await blogsCollection.findOne({id: id}) ////что делать с айдишкой
+
         return foundBlogById
     },
     
-    async createBlog(name: string, description: string, website: string): Promise<BlogsViewModel | null > {
+    async createBlog(name: string, description: string, website: string): Promise<BlogsViewDBModel| null > {
         const newBlog: BlogsViewModel = {
             id: (db.blogs.length + 1 ).toString(),   
             name: name,
@@ -35,15 +36,15 @@ export const blogsRepository = {
             
         }
         const res = await blogsCollection.insertOne({...newBlog})
-        const result: BlogsViewModel= {
-            id: (res.insertedId).toString(),
+        const result: BlogsViewDBModel= {
+            _id: new ObjectId,
             name: name,
             description: description,
             websiteUrl: website,
             createdAt: (new Date()).toISOString(),
             isMembership: false
         }
-        return newBlog
+        return result
     }, 
 
     async updateBlog(id: string, name: string, description: string, website: string): Promise<BlogsViewModel | boolean> {
