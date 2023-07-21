@@ -43,7 +43,7 @@ export const blogsRepository = {
             createdAt: (new Date()).toISOString(),
             isMembership: false
         }
-        return result
+        return newBlog
     }, 
 
     async updateBlog(id: string, name: string, description: string, website: string): Promise<BlogsViewModel | boolean> {
