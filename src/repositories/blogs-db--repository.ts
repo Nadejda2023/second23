@@ -1,12 +1,12 @@
-import { ObjectId } from "mongodb";
+
 import { blogsCollection, db } from "../db/db";
-import { BlogsViewDBModel, BlogsViewModel, } from "../models/blogsModel";
+import {  BlogsViewModel, } from "../models/blogsModel";
 import { randomUUID } from "crypto";
 
 
 
 //const dbBlogs =  client.db("project")
- //const newObjectId = ObjectId()
+
 
 export const blogsRepository = {
    async findAllBlogs(title: string | null | undefined): Promise<BlogsViewModel[]> { 
