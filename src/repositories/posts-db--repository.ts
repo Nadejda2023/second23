@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto"
 import { blogsCollection, db, postsCollection } from "../db/db"
 import { BlogsViewModel } from "../models/blogsModel"
 import { PostViewModel } from "../models/postsModel"
@@ -28,33 +29,36 @@ import { blogsRepository } from "./blogs-db--repository"
          
         },
         async findPostById(id: string): Promise<PostViewModel | undefined | null> {
-            const foundPostById: PostViewModel | undefined | null  = await postsCollection.findOne({newObjectId: id})
+            const foundPostById: PostViewModel | undefined | null  = await postsCollection.findOne({id})
             return foundPostById
         },
  
     async createPost(title: string, shortDescription: string, content: string, blogId: string): Promise<PostViewModel | null> {
-        const findBlogById: any = await blogsCollection.findOne({newObjectId: blogId})
+        const blog = await blogsCollection.findOne({id: blogId})
+        if(!blog) return null 
         const newPost: PostViewModel   = {
-            id: (db.posts.length + 1).toString(),
+            id: randomUUID(),
             title: title,
             shortDescription: shortDescription,
             content: content,
             blogId: blogId,
-            blogName: findBlogById.name,
-            createdAt: (new Date()).toISOString()
+            blogName: blog.name,
+            createdAt: new Date().toISOString()
         }
         const res = await postsCollection.insertOne(newPost)
         //return await postsCollection.findOne({newObjectId: newPost.id},{projection:{_id:0}})
-        const result: PostViewModel ={
-            id: (res.insertedId).toString(),
+        const post: PostViewModel ={
+            id: randomUUID(),
             title: title,
             shortDescription: shortDescription,
             content: content,
             blogId: blogId,
-            blogName: findBlogById.name,
+            blogName: blog.name,
             createdAt: (new Date()).toISOString()
         }
-        return result
+       
+        await postsCollection.insertOne({...post})
+        return post
     },
     async updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string) : Promise<PostViewModel | boolean> {
         const result = await postsCollection.updateOne({ newObjectId: id }, { $set: {title: title, shortDescription: shortDescription, content: content, blogId: blogId} })
@@ -65,8 +69,8 @@ import { blogsRepository } from "./blogs-db--repository"
     }
     },
     async deletePost(id: string): Promise<boolean> {
-        const result = await postsCollection.deleteOne({newObjectId: id})
-        try {await postsCollection.deleteOne({newObjectId: id})
+        const result = await postsCollection.deleteOne({id})
+        try {await postsCollection.deleteOne({ id})
         return result.deletedCount === 1
     }catch(e){
         return false

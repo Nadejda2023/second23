@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import { blogsCollection, db } from "../db/db";
 import { BlogsViewDBModel, BlogsViewModel, } from "../models/blogsModel";
+import { randomUUID } from "crypto";
 
 
 
@@ -27,7 +28,7 @@ export const blogsRepository = {
     
     async createBlog(name: string, description: string, website: string): Promise<BlogsViewModel| null > {
         const newBlog: BlogsViewModel = {
-            id: (db.blogs.length + 1 ).toString(),   
+            id: randomUUID(),   
             name: name,
             description: description,
             websiteUrl: website,
@@ -35,34 +36,18 @@ export const blogsRepository = {
             isMembership: false,
             
         }
-        const res = await blogsCollection.insertOne(newBlog)
-        const result: BlogsViewModel= {
-            id: res.insertedId.toString(),
-            name: name,
-            description: description,
-            websiteUrl: website,
-            createdAt: (new Date()).toISOString(),
-            isMembership: false
-        }
-        return result
+        await blogsCollection.insertOne({...newBlog})
+        return newBlog
     }, 
 
     async updateBlog(id: string, name: string, description: string, website: string): Promise<BlogsViewModel | boolean> {
-        const result = await blogsCollection.updateOne({newObjectId: id},{ $set:{name:name, description:description, websiteUrl: website }})
+        const result = await blogsCollection.updateOne({id},{ $set:{name:name, description:description, websiteUrl: website }})
         return result.matchedCount === 1
     },
 
-    async deleteBlog(id: string): Promise<boolean> {
+    async deleteBlog(id: string) {
         //const filter = {_id:id}
-        const result = await blogsCollection.deleteOne({newObjectId:id})
-        if (result) {
-            try {await blogsCollection.deleteOne({newObjectId:id})
-            return result.deletedCount === 1;
-        }catch(e){
-                return false
-            }
-        
-        }else return false
+        return blogsCollection.deleteOne({id})
         
         
     },

@@ -1,5 +1,6 @@
 import { body } from "express-validator"
 import { inputValidationErrors } from "./inputvalidationmiddleware"
+import { blogsCollection } from "../db/db"
 //import { blogsRepository } from "../repositories/blogs-in-memory1-repository"
 
 
@@ -33,12 +34,11 @@ const blogIdValidation =  body('blogId')
                                         .withMessage('Must be string')
                                         .trim()
                                         //.isEmpty()
-                                        .custom((value: string) => {
-                                            /*if (!blogsRepository.findBlogById(value)) {
-                                                throw new Error('Blog is not found');
-                                            }
-                                            return true;*/
-                                            })
+                                        .custom(async (value: string) => {
+                                        const blog = await blogsCollection.findOne({id: value})
+                                        if(!blog) throw new Error('blogId wrong')
+                                        return true              
+                                    })
 
 export const createPostValidation = 
     [titleValidation, shortDescriptionValidation, contentValidation, blogIdValidation, inputValidationErrors]
