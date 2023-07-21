@@ -7,8 +7,9 @@ import cors from 'cors'
 import { blogsRouter } from './routers/blogs-router';
 import { postsRouter } from './routers/posts-router';
 import {testingRouter } from './routers/testing-router';
-import { BlogsViewModel } from "./models/blogsModel";
+
 import { PostViewModel } from "./models/postsModel";
+import { BlogsViewModel } from "./models/blogsModel";
 
 
 export const app =  express()

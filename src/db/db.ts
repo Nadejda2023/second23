@@ -4,8 +4,9 @@ import { DB } from "..";
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-import { BlogsViewModel } from '../models/blogsModel';
+
 import { PostViewModel } from '../models/postsModel';
+import { BlogsViewModel } from '../models/blogsModel';
 
 
 dotenv.config()

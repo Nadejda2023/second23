@@ -1,11 +1,11 @@
 import { ObjectId } from "mongodb";
 import { blogsCollection, db } from "../db/db";
-import { BlogsViewDBModel, BlogsViewModel } from "../models/blogsModel";
+import { BlogsViewDBModel, BlogsViewModel, } from "../models/blogsModel";
 
 
 
 //const dbBlogs =  client.db("project")
- const newObjectId = ObjectId
+ //const newObjectId = ObjectId()
 
 export const blogsRepository = {
    async findAllBlogs(title: string | null | undefined): Promise<BlogsViewModel[]> { 
@@ -19,13 +19,13 @@ export const blogsRepository = {
      
     },
 
-   async findBlogById(id: string): Promise<BlogsViewDBModel | null> {
-        const foundBlogById: BlogsViewDBModel| null  = await blogsCollection.findOne({id: id}) ////что делать с айдишкой
+   async findBlogById(id: string): Promise<BlogsViewModel | null> {
+        const foundBlogById: BlogsViewModel | null  = await blogsCollection.findOne({id: id}) ////что делать с айдишкой
 
         return foundBlogById
     },
     
-    async createBlog(name: string, description: string, website: string): Promise<BlogsViewDBModel| null > {
+    async createBlog(name: string, description: string, website: string): Promise<BlogsViewModel| null > {
         const newBlog: BlogsViewModel = {
             id: (db.blogs.length + 1 ).toString(),   
             name: name,
@@ -35,9 +35,9 @@ export const blogsRepository = {
             isMembership: false,
             
         }
-        const res = await blogsCollection.insertOne({...newBlog})
-        const result: BlogsViewDBModel= {
-            _id: new ObjectId,
+        const res = await blogsCollection.insertOne(newBlog)
+        const result: BlogsViewModel= {
+            id: res.insertedId.toString(),
             name: name,
             description: description,
             websiteUrl: website,
