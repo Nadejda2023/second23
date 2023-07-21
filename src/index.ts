@@ -19,23 +19,7 @@ const jsonBodyMiddleware = express.json()
 app.use(jsonBodyMiddleware)
 const port = process.env.PORT || 3338
 
-/*export type blogsType = {
-  id: string, 
-  name: string,
-  description: string,
-  websiteUrl: string, 
-}*/
 
-/*export type postsType = {
-    id: string,
-    title: string,
-    shortDescription: string,
-    content: string,
-    blogId: string,
-    blogName: string,
-    createdAt: string
-} 
-*/
 
 export type DB = {
   blogs: BlogsViewModel[]

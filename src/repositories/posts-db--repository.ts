@@ -28,12 +28,12 @@ import { blogsRepository } from "./blogs-db--repository"
          
         },
         async findPostById(id: string): Promise<PostViewModel | undefined | null> {
-            const foundPostById: PostViewModel | undefined | null  = await postsCollection.findOne({id: id})
+            const foundPostById: PostViewModel | undefined | null  = await postsCollection.findOne({newObjectId: id})
             return foundPostById
         },
  
     async createPost(title: string, shortDescription: string, content: string, blogId: string): Promise<PostViewModel | null> {
-        const findBlogById: any = await blogsCollection.findOne({id: blogId})
+        const findBlogById: any = await blogsCollection.findOne({newObjectId: blogId})
         const newPost: PostViewModel   = {
             id: (db.posts.length + 1).toString(),
             title: title,
@@ -43,21 +43,43 @@ import { blogsRepository } from "./blogs-db--repository"
             blogName: findBlogById.name,
             createdAt: (new Date()).toISOString()
         }
-        const result = await postsCollection.insertOne(newPost)
-        return await postsCollection.findOne({id: newPost.id},{projection:{_id:0}})
-        
+        const res = await postsCollection.insertOne(newPost)
+        //return await postsCollection.findOne({newObjectId: newPost.id},{projection:{_id:0}})
+        const result: PostViewModel ={
+            id: (res.insertedId).toString(),
+            title: title,
+            shortDescription: shortDescription,
+            content: content,
+            blogId: blogId,
+            blogName: findBlogById.name,
+            createdAt: (new Date()).toISOString()
+        }
+        return result
     },
     async updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string) : Promise<PostViewModel | boolean> {
-        const result = await postsCollection.updateOne({ id: id }, { $set: {title: title, shortDescription: shortDescription, content: content, blogId: blogId} })
+        const result = await postsCollection.updateOne({ newObjectId: id }, { $set: {title: title, shortDescription: shortDescription, content: content, blogId: blogId} })
+        try{postsCollection.updateOne({ newObjectId: id }, { $set: {title: title, shortDescription: shortDescription, content: content, blogId: blogId} })
             return result.matchedCount === 1
+    }catch(e){
+        return false
+    }
     },
     async deletePost(id: string): Promise<boolean> {
-        const result = await postsCollection.deleteOne({id: id})
+        const result = await postsCollection.deleteOne({newObjectId: id})
+        try {await postsCollection.deleteOne({newObjectId: id})
         return result.deletedCount === 1
+    }catch(e){
+        return false
+    }
     },
     async deleteAllPosts(): Promise<boolean> {
         const result = await postsCollection.deleteMany({})
+        try {await postsCollection.deleteMany({})
         return result.acknowledged 
+    }catch(e){
+        return false
+    }
+        
     }
  }
 
