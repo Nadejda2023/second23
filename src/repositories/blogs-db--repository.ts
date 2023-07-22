@@ -47,14 +47,15 @@ if (blog){
     }, 
 
     async updateBlog(id: string, name: string, description: string, website: string): Promise<BlogsViewModel | boolean> {
-        const result = await blogsCollection.updateOne({id},{ $set:{name:name, description:description, websiteUrl: website }})
+        const result = await blogsCollection.updateOne({id: id},{ $set:{name:name, description:description, websiteUrl: website }})
         return result.matchedCount === 1
     },
 
     async deleteBlog(id: string) {
         //const filter = {_id:id}
-        return blogsCollection.deleteOne({id})
-        
+         const result = blogsCollection.deleteOne({id:id})
+
+         return (await result).deletedCount === 1
         
     },
 
