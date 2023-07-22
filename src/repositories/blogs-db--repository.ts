@@ -22,12 +22,7 @@ export const blogsRepository = {
     },
 
    async findBlogById(id: string): Promise<BlogsViewModel| null> {
-        const blog : BlogsViewModel | null  = await blogsCollection.findOne({id:id}, {projection:{_id:0}}) ////что делать с айдишкой
-if (blog){
-    return blog
-    } else {
-        return null
-    }
+        return blogsCollection.findOne({id:id}, {projection:{_id:0}}) ////что делать с айдишкой
 
     },
     
@@ -41,7 +36,7 @@ if (blog){
             isMembership: false,
             
         }
-        const result = await blogsCollection.insertOne({...newBlog})
+        await blogsCollection.insertOne({...newBlog})
         const newBlogId = await blogsCollection.findOne({id:newBlog.id}, {projection:{_id:0}} )
         return newBlogId
     }, 

@@ -36,9 +36,9 @@ const blogIdValidation =  body('blogId')
                                         .trim()
                                         //.isEmpty()
                                         .custom(async (id: string) => {
-                                        const blog = await blogsCollection.findOne({id: id})
-                                        if(!blog) throw new Error('blogId wrong')
-                                        return true              
+                                            const blog = await blogsCollection.findOne({id: id})
+                                            if(!blog) throw new Error('blogId wrong')
+                                            return true              
                                     })
 
 export const createPostValidation = 
