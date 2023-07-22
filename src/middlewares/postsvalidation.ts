@@ -34,8 +34,8 @@ const blogIdValidation =  body('blogId')
                                         .withMessage('Must be string')
                                         .trim()
                                         //.isEmpty()
-                                        .custom(async (value: string) => {
-                                        const blog = await blogsCollection.findOne({id: value})
+                                        .custom(async (id: string) => {
+                                        const blog = await blogsCollection.findOne({id: id})
                                         if(!blog) throw new Error('blogId wrong')
                                         return true              
                                     })
