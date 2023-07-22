@@ -42,7 +42,7 @@ import { blogsRepository } from "./blogs-db--repository"
         const blog = await blogsCollection.findOne({id: blogId}, {projection: {_id:0}})
         if(!blog) return null 
         const newPost: PostViewModel   = {
-            id: randomUUID(),
+            id: randomUUID().toString(),
             title: title,
             shortDescription: shortDescription,
             content: content,
