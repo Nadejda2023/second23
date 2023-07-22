@@ -44,10 +44,12 @@ blogsRouter.put('/:id',
   async (req: Request , res: Response <boolean | undefined>) => {
   const { id, name, description, websiteUrl} = req.body
   const updateBlog = await blogsRepository.updateBlog(id, name, description, websiteUrl)
-    if (!updateBlog) {
-      return res.sendStatus(sendStatus.NOT_FOUND_404)
+    if (updateBlog) {
+      return res.sendStatus(sendStatus.NO_CONTENT_204)
+      
+    } else {
+    res.sendStatus(sendStatus.NOT_FOUND_404)
     }
-    res.sendStatus(sendStatus.NO_CONTENT_204)
 })
   
 blogsRouter.delete('/:id', 

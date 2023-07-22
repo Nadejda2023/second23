@@ -1,6 +1,7 @@
 import { body } from "express-validator"
 import { inputValidationErrors } from "./inputvalidationmiddleware"
 import { blogsCollection } from "../db/db"
+import { ObjectId } from "mongodb"
 //import { blogsRepository } from "../repositories/blogs-in-memory1-repository"
 
 
