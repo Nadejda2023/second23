@@ -33,7 +33,7 @@ if (blog){
     
     async createBlog(name: string, description: string, website: string): Promise<BlogsViewDBModel| null > {
         const newBlog: BlogsViewModel = {
-            id: randomUUID().toString(),   
+            id: randomUUID(),   
             name: name,
             description: description,
             websiteUrl: website,
