@@ -18,23 +18,17 @@ import { blogsRepository } from "./blogs-db--repository"
  //let postsArray: postsArrayType = []
 
  export const postsRepository = {
-    async findAllPosts(title: string | null | undefined): Promise<PostViewDBModel[] | undefined | null> { 
+    async findAllPosts(): Promise<PostViewDBModel[]> { 
 
         const filter: any = {}
     
-        if (title) {
-            filter.title = {$regex: title}
-        }
         return postsCollection.find((filter), {projection:{_id:0}}).toArray()
          
         },
-        async findPostById(id: string): Promise<PostViewDBModel | undefined | null> {
-            const post: PostViewDBModel | undefined | null  = await postsCollection.findOne({id:id}, {projection: {_id:0}})
-            if (post) {
-                return post
-            }else {
-                return null
-            }
+        async findPostById(id: string): Promise<PostViewDBModel | null> {
+            return postsCollection.findOne({id:id}, {projection: {_id:0}})
+            
+        
             
         },
  
