@@ -22,7 +22,7 @@ export const blogsRepository = {
     },
 
    async findBlogById(id: string): Promise<BlogsViewDBModel| null> {
-        const foundBlogById: BlogsViewDBModel | null  = await blogsCollection.findOne({_id: new ObjectId}) ////что делать с айдишкой
+        const foundBlogById: BlogsViewDBModel | null  = await blogsCollection.findOne({_id: new ObjectId(id)}) ////что делать с айдишкой
 
         return foundBlogById
     },
