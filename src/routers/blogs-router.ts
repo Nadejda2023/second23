@@ -41,7 +41,7 @@ blogsRouter.post('/',
 blogsRouter.put('/:id',
   authorizationValidation,
   ...UpdateBlogValidation,
-  async (req: Request , res: Response <BlogsViewModel | boolean>) => {
+  async (req: Request , res: Response <boolean>) => {
   const { id, name, description, websiteUrl} = req.body
   const updateBlog = await blogsRepository.updateBlog(id, name, description, websiteUrl)
     if (!updateBlog) {

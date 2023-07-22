@@ -45,23 +45,16 @@ import { blogsRepository } from "./blogs-db--repository"
             blogName: blog.name,
             createdAt: new Date().toISOString()
         }
-        const res = await postsCollection.insertOne(newPost)
+        
         //return await postsCollection.findOne({newObjectId: newPost.id},{projection:{_id:0}})
-        const post: PostViewModel ={
-            id: randomUUID(),
-            title: title,
-            shortDescription: shortDescription,
-            content: content,
-            blogId: blogId,
-            blogName: blog.name,
-            createdAt: (new Date()).toISOString()
-        }
+        
        
-        await postsCollection.insertOne({...post})
-        return post
+        const result = await postsCollection.insertOne({...newPost})
+        const newPostWithId =  await postsCollection.findOne({id:newPost.id}, {projection:{_id:0}} )
+        return newPostWithId 
     },
     async updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string) : Promise<PostViewModel | boolean> {
-        const result = await postsCollection.updateOne({ id }, { $set: {title: title, shortDescription: shortDescription, content: content, blogId: blogId} })
+        const result = await postsCollection.updateOne({ id : id }, { $set: {title: title, shortDescription: shortDescription, content: content, blogId: blogId} })
         try{postsCollection.updateOne({ id }, { $set: {title: title, shortDescription: shortDescription, content: content, blogId: blogId} })
             return result.matchedCount === 1
     }catch(e){
@@ -69,8 +62,8 @@ import { blogsRepository } from "./blogs-db--repository"
     }
     },
     async deletePost(id: string): Promise<boolean> {
-        const result = await postsCollection.deleteOne({id})
-        try {await postsCollection.deleteOne({id})
+        const result = await postsCollection.deleteOne({id: id})
+        try {await postsCollection.deleteOne({id:id})
         return result.deletedCount === 1
     }catch(e){
         return false

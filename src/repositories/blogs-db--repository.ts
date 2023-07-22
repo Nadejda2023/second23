@@ -46,7 +46,7 @@ if (blog){
         return newBlogId
     }, 
 
-    async updateBlog(id: string, name: string, description: string, website: string): Promise<BlogsViewDBModel | boolean> {
+    async updateBlog(id: string, name: string, description: string, website: string): Promise< boolean> {
         const result = await blogsCollection.updateOne({id: id},{ $set:{name:name, description:description, websiteUrl: website }})
         return result.matchedCount === 1
     },
