@@ -17,10 +17,11 @@ blogsRouter.get('/', async (req: Request, res: Response<BlogsViewModel[]>) => {
   
 blogsRouter.get('/:id', async (req: Request, res: Response<BlogsViewDBModel| null>) => {
     const foundBlog: BlogsViewDBModel | null = await blogsRepository.findBlogById(req.params.id)
-    if (foundBlog) {
-      return res.status(sendStatus.OK_200).send(foundBlog)
-    } else {
+    if (!foundBlog) {
       return res.sendStatus(sendStatus.NOT_FOUND_404)
+      
+    } else {
+      return res.status(sendStatus.OK_200).send(foundBlog)
     }
 })
 
