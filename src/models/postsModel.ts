@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb"
 
 export type PostViewInputModel = {
     id: string,
@@ -8,8 +9,17 @@ export type PostViewInputModel = {
   }
 
 export type PostViewModel = {
-    [x: string]: string
     id: string,
+    title: string,
+    shortDescription: string,
+    content: string,
+    blogId: string,
+    blogName: string,
+    createdAt: string,
+  }
+
+  export type PostViewDBModel = {
+    _id: ObjectId,
     title: string,
     shortDescription: string,
     content: string,

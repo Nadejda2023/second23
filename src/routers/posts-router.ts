@@ -5,15 +5,15 @@ import { authorizationValidation, inputValidationErrors } from "../middlewares/i
 import { db } from "../db/db";
 import { createPostValidation} from "../middlewares/postsvalidation";
 import { updatePostValidation } from "../middlewares/postsvalidation";
-import { PostViewInputModel, PostViewModel } from "../models/postsModel";
+import { PostViewDBModel, PostViewInputModel, PostViewModel } from "../models/postsModel";
 export const postsRouter = Router({})
 
-postsRouter.get('/', async (req: Request, res: Response<PostViewModel[] | undefined | null>) => {
+postsRouter.get('/', async (req: Request, res: Response<PostViewDBModel[] | undefined | null>) => {
   const foundPost = await postsRepository.findAllPosts(req.query.title?.toString())
   res.status(sendStatus.OK_200).send(foundPost)
   })
 
-postsRouter.get('/:id', async (req: Request, res: Response<PostViewModel| undefined | null>) => {
+postsRouter.get('/:id', async (req: Request, res: Response<PostViewDBModel| undefined | null>) => {
   const foundPost=   await postsRepository.findPostById(req.params.id)    //req.params.id
     if (!foundPost) {
       res.sendStatus(sendStatus.NOT_FOUND_404)
@@ -25,12 +25,12 @@ postsRouter.get('/:id', async (req: Request, res: Response<PostViewModel| undefi
 postsRouter.post('/', 
   authorizationValidation,
   createPostValidation,
-async (req: Request<PostViewInputModel>, res: Response<PostViewModel | undefined | null>) => {
+async (req: Request, res: Response<PostViewDBModel| undefined | null>) => {
   const findBlogById = db.blogs.find((blog: { id: any; }) => blog.id === req.body.blogId)
   
   if (findBlogById) {
     const { title ,shortDescription, content, blogId} = req.body
-  const newPost : PostViewModel | null= await postsRepository.createPost(title,shortDescription, content, blogId)
+  const newPost : PostViewDBModel | null= await postsRepository.createPost(title,shortDescription, content, blogId)
   console.log(newPost);
   
     return res.status(sendStatus.CREATED_201).send(newPost)
@@ -45,7 +45,7 @@ postsRouter.put('/:id',
 authorizationValidation,
 updatePostValidation,
 
-  async (req: Request <PostViewInputModel>, res: Response<PostViewModel | boolean>) => {
+  async (req: Request , res: Response<boolean>) => {
     const { id, title, shortDescription, content, blogId} = req.body
     const updatePost = await postsRepository.updatePost(id, title, shortDescription, content, blogId)
 

@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto"
 import { blogsCollection, db, postsCollection } from "../db/db"
 import { BlogsViewModel } from "../models/blogsModel"
-import { PostViewModel } from "../models/postsModel"
+import { PostViewDBModel, PostViewModel } from "../models/postsModel"
 import { blogsRepository } from "./blogs-db--repository"
 //import { blogsRepository } from "./blogs-in-memory-repository"
  
@@ -18,7 +18,7 @@ import { blogsRepository } from "./blogs-db--repository"
  //let postsArray: postsArrayType = []
 
  export const postsRepository = {
-    async findAllPosts(title: string | null | undefined): Promise<PostViewModel[] | undefined | null> { 
+    async findAllPosts(title: string | null | undefined): Promise<PostViewDBModel[] | undefined | null> { 
 
         const filter: any = {}
     
@@ -28,12 +28,12 @@ import { blogsRepository } from "./blogs-db--repository"
         return postsCollection.find((filter), {projection:{_id:0}}).toArray()
          
         },
-        async findPostById(id: string): Promise<PostViewModel | undefined | null> {
-            const foundPostById: PostViewModel | undefined | null  = await postsCollection.findOne({id})
+        async findPostById(id: string): Promise<PostViewDBModel | undefined | null> {
+            const foundPostById: PostViewDBModel | undefined | null  = await postsCollection.findOne({id})
             return foundPostById
         },
  
-    async createPost(title: string, shortDescription: string, content: string, blogId: string): Promise<PostViewModel | null> {
+    async createPost(title: string, shortDescription: string, content: string, blogId: string): Promise<PostViewDBModel | null> {
         const blog = await blogsCollection.findOne({id: blogId})
         if(!blog) return null 
         const newPost: PostViewModel   = {
@@ -53,7 +53,7 @@ import { blogsRepository } from "./blogs-db--repository"
         const newPostWithId =  await postsCollection.findOne({id:newPost.id}, {projection:{_id:0}} )
         return newPostWithId 
     },
-    async updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string) : Promise<PostViewModel | boolean> {
+    async updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string) : Promise<boolean> {
         const result = await postsCollection.updateOne({ id : id }, { $set: {title: title, shortDescription: shortDescription, content: content, blogId: blogId} })
         try{postsCollection.updateOne({ id }, { $set: {title: title, shortDescription: shortDescription, content: content, blogId: blogId} })
             return result.matchedCount === 1
