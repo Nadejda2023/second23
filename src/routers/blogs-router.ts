@@ -9,8 +9,8 @@ import { BlogsViewDBModel, BlogsViewModel } from "../models/blogsModel";
 
 export const blogsRouter = Router({})
 
-blogsRouter.get('/', async (req: Request, res: Response<BlogsViewModel[]>) => {
-    const foundBlogs: BlogsViewModel[] = await blogsRepository.findAllBlogs(req.query.title?.toString())
+blogsRouter.get('/', async (req: Request, res: Response<BlogsViewDBModel[]>) => {
+    const foundBlogs:BlogsViewDBModel[] = await blogsRepository.findAllBlogs(req.query.title?.toString())
     
     res.status(sendStatus.OK_200).send(foundBlogs)
   })
@@ -28,9 +28,9 @@ blogsRouter.get('/:id', async (req: Request, res: Response<BlogsViewDBModel| nul
 blogsRouter.post('/',
   authorizationValidation,
   ...CreateBlogValidation,
-  async (req: Request , res: Response<BlogsViewModel | null >) => {
+  async (req: Request , res: Response<BlogsViewDBModel | null >) => {
     const { name, description, websiteUrl} = req.body
-  const newBlog : BlogsViewModel| null  = await blogsRepository.createBlog(name, description, websiteUrl)
+  const newBlog : BlogsViewDBModel| null  = await blogsRepository.createBlog(name, description, websiteUrl)
   console.log(newBlog);
   
   res.status(sendStatus.CREATED_201).send(newBlog)

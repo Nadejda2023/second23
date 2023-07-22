@@ -10,7 +10,7 @@ import { randomUUID } from "crypto";
 
 
 export const blogsRepository = {
-   async findAllBlogs(title: string | null | undefined): Promise<BlogsViewModel[]> { 
+   async findAllBlogs(title: string | null | undefined): Promise<BlogsViewDBModel[]> { 
 
     const filter: any = {}
 
@@ -22,14 +22,18 @@ export const blogsRepository = {
     },
 
    async findBlogById(id: string): Promise<BlogsViewDBModel| null> {
-        const foundBlogById: BlogsViewDBModel | null  = await blogsCollection.findOne({_id: new ObjectId(id)}) ////что делать с айдишкой
+        const blog : BlogsViewDBModel | null  = await blogsCollection.findOne({id:id}, {projection:{_id:0}}) ////что делать с айдишкой
+if (blog){
+    return blog
+    } else {
+        return null
+    }
 
-        return foundBlogById
     },
     
-    async createBlog(name: string, description: string, website: string): Promise<BlogsViewModel| null > {
+    async createBlog(name: string, description: string, website: string): Promise<BlogsViewDBModel| null > {
         const newBlog: BlogsViewModel = {
-            id: randomUUID(),   
+            id: randomUUID().toString(),   
             name: name,
             description: description,
             websiteUrl: website,
@@ -37,8 +41,9 @@ export const blogsRepository = {
             isMembership: false,
             
         }
-        await blogsCollection.insertOne({...newBlog})
-        return newBlog
+        const result = await blogsCollection.insertOne({...newBlog})
+        const newBlogId = await blogsCollection.findOne({id:newBlog.id}, {projection:{_id:0}} )
+        return newBlogId
     }, 
 
     async updateBlog(id: string, name: string, description: string, website: string): Promise<BlogsViewModel | boolean> {
