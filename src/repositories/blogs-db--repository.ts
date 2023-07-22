@@ -47,11 +47,14 @@ if (blog){
     }, 
 
     async updateBlog(id: string, name: string, description: string, website: string): Promise< boolean | undefined> {
-        let foundBlog = await blogsCollection.findOne({id: id})
+        let foundBlog = await blogsCollection.findOne({id: id })
+        let foundBlogName = await blogsCollection.findOne({id: id}, {projection: {_id:0}})
         if(foundBlog){
-        const result = await blogsCollection.updateOne({id: id},{ $set:{name: name, description: description, websiteUrl: website }})
+            if(foundBlogName) {
+        const result = await blogsCollection.updateOne({id: id},{ $set:{name: name, description: description, websiteUrl: website}})
         return result.matchedCount === 1
         }
+    }
     },
 
     async deleteBlog(id: string) {
