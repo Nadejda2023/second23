@@ -46,9 +46,12 @@ if (blog){
         return newBlogId
     }, 
 
-    async updateBlog(id: string, name: string, description: string, website: string): Promise< boolean> {
+    async updateBlog(id: string, name: string, description: string, website: string): Promise< boolean | undefined> {
+        let foundBlog = await blogsCollection.findOne({id:id})
+        if(foundBlog){
         const result = await blogsCollection.updateOne({id: id},{ $set:{name:name, description:description, websiteUrl: website }})
         return result.matchedCount === 1
+        }
     },
 
     async deleteBlog(id: string) {
