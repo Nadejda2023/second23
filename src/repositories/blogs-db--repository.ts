@@ -21,8 +21,8 @@ export const blogsRepository = {
      
     },
 
-   async findBlogById(id: string): Promise<BlogsViewDBModel| null> {
-        const blog : BlogsViewDBModel | null  = await blogsCollection.findOne({id:id}, {projection:{_id:0}}) ////что делать с айдишкой
+   async findBlogById(id: string): Promise<BlogsViewModel| null> {
+        const blog : BlogsViewModel | null  = await blogsCollection.findOne({id:id}, {projection:{_id:0}}) ////что делать с айдишкой
 if (blog){
     return blog
     } else {
