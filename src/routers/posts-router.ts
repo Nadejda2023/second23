@@ -45,7 +45,7 @@ postsRouter.put('/:id',
 authorizationValidation,
 updatePostValidation,
 
-  async (req: Request , res: Response<boolean>) => {
+  async (req: Request , res: Response<boolean | undefined>) => {
     const { id, title, shortDescription, content, blogId} = req.body
     const updatePost = await postsRepository.updatePost(id, title, shortDescription, content, blogId)
 
