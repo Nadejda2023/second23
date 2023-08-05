@@ -1,21 +1,22 @@
 import {Request, Response, Router } from "express";
-import { postsRepository } from "../repositories/posts-db--repository";
+import { postsService } from "../domain/posts_service";
 import { sendStatus } from "./sendStatus";
 import { authorizationValidation, inputValidationErrors } from "../middlewares/inputvalidationmiddleware";
 import { db } from "../db/db";
 import { createPostValidation} from "../middlewares/postsvalidation";
 import { updatePostValidation } from "../middlewares/postsvalidation";
 import { PostViewDBModel, PostViewInputModel, PostViewModel } from "../models/postsModel";
-import { blogsRepository } from "../repositories/blogs-db--repository";
+import { blogsRepository } from "../repositories/blogs_db__repository";
 export const postsRouter = Router({})
 
+//1
 postsRouter.get('/', async (req: Request, res: Response<PostViewDBModel[] | undefined | null>) => {
-  const foundPost = await postsRepository.findAllPosts()
+  const foundPost = await postsService.findAllPosts()
   res.status(sendStatus.OK_200).send(foundPost)
   })
 
 postsRouter.get('/:id', async (req: Request, res: Response<PostViewDBModel| undefined | null>) => {
-  const foundPost=   await postsRepository.findPostById(req.params.id)    //req.params.id
+  const foundPost=   await postsService.findPostById(req.params.id)    //req.params.id
     if (!foundPost) {
       return res.sendStatus(sendStatus.NOT_FOUND_404)
     } else {
@@ -31,7 +32,7 @@ async (req: Request, res: Response<PostViewDBModel| undefined | null>) => {
   
   if (findBlogById) {
     const { title ,shortDescription, content, blogId} = req.body
-  const newPost : PostViewDBModel | null= await postsRepository.createPost(title,shortDescription, content, blogId)
+  const newPost : PostViewDBModel | null= await postsService.createPost(title,shortDescription, content, blogId)
 
   
     return res.status(sendStatus.CREATED_201).send(newPost)
@@ -48,8 +49,8 @@ updatePostValidation,
 
   async (req: Request , res: Response<boolean | undefined>) => {
     const id = req.params.id
-    const { title, shortDescription, content, blogId} = req.body
-    const updatePost = await postsRepository.updatePost(id, title, shortDescription, content, blogId)
+    const { title, shortDescription, content, blogId} = req.body // НАДЯ!!!
+    const updatePost = await postsService.updatePost(id, title, shortDescription, content, blogId)
 
   
     if (!updatePost) {
@@ -62,7 +63,7 @@ updatePostValidation,
 postsRouter.delete('/:id', 
 authorizationValidation,
 async (req: Request, res: Response) => {
-const foundPost = await postsRepository.deletePost(req.params.id)
+const foundPost = await postsService.deletePost(req.params.id)
 if (!foundPost) {
   return res.sendStatus(sendStatus.NOT_FOUND_404);
   }

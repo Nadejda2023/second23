@@ -24,3 +24,11 @@ export type BlogsViewDBModel ={
     createdAt: string,
     isMembership: boolean,
     }
+
+export type PaginatedBlog<T> = {
+    pagesCount: number,
+        page: number,
+        pageSize: number,
+        totalCount: number,
+        items: T[],
+}

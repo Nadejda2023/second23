@@ -1,12 +1,12 @@
 
 import {MongoClient} from 'mongodb';
-import { DB } from "..";
+import { DB } from '../setting';
 import * as dotenv from 'dotenv'
 dotenv.config()
 
 
 import { PostViewModel } from '../models/postsModel';
-import { BlogsViewModel } from '../models/blogsModel';
+import { BlogsViewDBModel, BlogsViewModel } from '../models/blogsModel';
 
 
 dotenv.config()

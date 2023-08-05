@@ -2,20 +2,14 @@ import { randomUUID } from "crypto"
 import { blogsCollection, db, postsCollection } from "../db/db"
 import { BlogsViewModel } from "../models/blogsModel"
 import { PostViewDBModel, PostViewModel } from "../models/postsModel"
-import { blogsRepository } from "./blogs-db--repository"
+import { blogsRepository } from "./blogs_db__repository"
 //import { blogsRepository } from "./blogs-in-memory-repository"
  
-/*type postsType = {
-    id: string,
-      title: string,
-      shortDescription: string,
-      content: string,
-      blogId: string,
-      blogName: string
-}*/
+
 
  //export type postsArrayType = Array<postsType>
  //let postsArray: postsArrayType = []
+
 
  export const postsRepository = {
     async findAllPosts(): Promise<PostViewDBModel[]> { 
@@ -32,22 +26,8 @@ import { blogsRepository } from "./blogs-db--repository"
             
         },
  
-    async createPost(title: string, shortDescription: string, content: string, blogId: string): Promise<PostViewDBModel | null> {
-        const blog = await blogsCollection.findOne({id: blogId}, {projection: {_id:0}})
-        if(!blog) return null 
-        const newPost: PostViewModel   = {
-            id: randomUUID(),
-            title: title,
-            shortDescription: shortDescription,
-            content: content,
-            blogId: blogId,
-            blogName: blog.name,
-            createdAt: new Date().toISOString()
-        }
-        
+    async createPost(newPost:PostViewModel): Promise<PostViewDBModel | null> {
         //return await postsCollection.findOne({newObjectId: newPost.id},{projection:{_id:0}})
-        
-       
         const result = await postsCollection.insertOne({...newPost})
         const newPostWithId =  await postsCollection.findOne({id:newPost.id}, {projection:{_id:0}} )
         return newPostWithId 
