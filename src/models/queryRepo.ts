@@ -118,9 +118,44 @@ const createPostForBlog: PostViewModel= {
     }
 
 
-}
+},
 
 
+
+    //1
+    async findAllPosts(pageNumber: string, pageSize: string, sortDirection: string,  sortBy: string):
+     Promise<PaginatedPost<PostViewModel>> {
+        const result : WithId<WithId<PostViewModel>>[] = await postsCollection.find({})
+    .sort({[sortBy]: sortDirection === "desc" ? 1: -1})
+    .skip(skip2 (+pageNumber, +pageSize))
+    .limit(+pageSize)
+    .toArray()
+
+
+    const itemsPost: PostViewModel[] = result.map((el: any)=> ({
+        id: el._id.toString(),
+    title: el.title,
+    shortDescription: el.shortDescription,
+    content: el.content,
+    blogId: el.blogId,
+    blogName: el.blogName,
+    createdAt: el.createdAt.toISOString(),
+       
+    }))
+
+        const totalCount: number = await postsCollection.countDocuments()
+        const pageCount: number = Math.ceil(totalCount / +pageSize)
+
+
+    const res: PaginatedPost<PostViewModel> = {
+        pagesCount: pageCount,
+        page: +pageNumber,
+        pageSize: +pageSize,
+        totalCount: totalCount,
+        items: itemsPost
+        }
+        return res
+    }
     
 
 

@@ -50,7 +50,7 @@ if(!blogPost) {
 
 //3
 blogsRouter.post('/:id/posts',authorizationValidation, createPostValidation, async (req: Request, res: Response): Promise<void> => { /// jn async and for end function create new middleware
-  const blogWithId: BlogsViewModel | null = await blogsRepository.findBlogById(req.params.id)
+  const blogWithId: BlogsViewModel| null = await blogsRepository.findBlogById(req.params.id)
   if(!blogWithId) {
     res.status(404)
     return

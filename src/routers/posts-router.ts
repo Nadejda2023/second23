@@ -5,13 +5,14 @@ import { authorizationValidation, inputValidationErrors } from "../middlewares/i
 import { db } from "../db/db";
 import { createPostValidation} from "../middlewares/postsvalidation";
 import { updatePostValidation } from "../middlewares/postsvalidation";
-import { PostViewDBModel, PostViewInputModel, PostViewModel } from "../models/postsModel";
+import { PaginatedPost, PostViewDBModel, PostViewInputModel, PostViewModel } from "../models/postsModel";
 import { blogsRepository } from "../repositories/blogs_db__repository";
+import { blogsQueryRepository } from "../models/queryRepo";
 export const postsRouter = Router({})
 
 //1
-postsRouter.get('/', async (req: Request, res: Response<PostViewDBModel[] | undefined | null>) => {
-  const foundPost = await postsService.findAllPosts()
+postsRouter.get('/posts', async (req: Request, res: Response<PaginatedPost<PostViewModel>>) => {
+  const foundPost: PaginatedPost<PostViewModel> = await blogsQueryRepository.findAllPosts(req.query.pageSize + '' || "10", req.query.pageNumber + '' || "1", req.query.sortDirection + '' || 'desc', req.query.sortBy + '' || 'createdAt')
   res.status(sendStatus.OK_200).send(foundPost)
   })
 
