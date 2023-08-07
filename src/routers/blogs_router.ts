@@ -10,7 +10,7 @@ import { authorizationValidation, inputValidationErrors } from "../middlewares/i
 import { blogsQueryRepository } from "../models/queryRepo";
 import { blogsRepository } from "../repositories/blogs_db__repository";
 import { PaginatedPost, PostViewModel } from "../models/postsModel";
-import { createPostValidation } from "../middlewares/postsvalidation";
+import { createPostValidation, createPostValidationForBlogRouter } from "../middlewares/postsvalidation";
 
 
 export const blogsRouter = Router({})
@@ -34,7 +34,7 @@ blogsRouter.post('/',
 })
   
 //2
-blogsRouter.get('/:id/posts', async (req: Request, res: Response): Promise<void> => { /// jn async and for end function create new middleware
+blogsRouter.get('/:blogId/posts', createPostValidationForBlogRouter ,async (req: Request, res: Response): Promise<void> => { /// jn async and for end function create new middleware
 const blogPost:BlogsViewModel | null = await blogsRepository.findBlogById(req.params.id)
 if(!blogPost) {
   res.status(404)

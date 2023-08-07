@@ -26,7 +26,7 @@ export const blogsQueryRepository = {
         name: el.name,
         description: el.description,
         websiteUrl: el.websiteUrl,
-        createdAt: el.createdAt.toISOString(),
+        createdAt: el.createdAt,
         isMembership: el.isMembership
     }))
 
