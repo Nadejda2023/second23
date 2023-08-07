@@ -14,21 +14,21 @@ export const blogsQueryRepository = {
     //1
     async findBlogs(pageNumber: string, pageSize: string, sortDirection: string,  sortBy: string):
      Promise<PaginatedBlog<BlogsViewModel>> {
-        const result : WithId<WithId<BlogsViewModel>>[] = await blogsCollection.find({})
+        const result : WithId<WithId<BlogsViewModel>>[] = await blogsCollection.find({}, {projection: {_id: 0}})
     .sort({[sortBy]: sortDirection === "desc" ? 1: -1})
     .skip(skip2 (+pageNumber, +pageSize))
     .limit(+pageSize)
     .toArray()
 
 
-    const itemsBlog: BlogsViewModel[] = result.map((el: any)=> ({
-        id: el._id.toString(),
-        name: el.name,
-        description: el.description,
-        websiteUrl: el.websiteUrl,
-        createdAt: el.createdAt,
-        isMembership: el.isMembership
-    }))
+    // const itemsBlog: BlogsViewModel[] = result.map((el: any)=> ({
+    //     id: el.id,
+    //     name: el.name,
+    //     description: el.description,
+    //     websiteUrl: el.websiteUrl,
+    //     createdAt: el.createdAt,
+    //     isMembership: el.isMembership
+    // }))
 
         const totalCount: number = await postsCollection.countDocuments()
         const pageCount: number = Math.ceil(totalCount / +pageSize)
@@ -39,7 +39,7 @@ export const blogsQueryRepository = {
         page: +pageNumber,
         pageSize: +pageSize,
         totalCount: totalCount,
-        items: itemsBlog
+        items: result
         }
         return res
     },
@@ -48,22 +48,22 @@ export const blogsQueryRepository = {
 
     async findPostForBlog(pageNumber: string, pageSize: string, sortDirection: string,  sortBy: string):
      Promise<PaginatedPost<PostViewModel>> {
-        const result: WithId<WithId<PostViewModel>>[] = await postsCollection.find({})
+        const result: WithId<WithId<PostViewModel>>[] = await postsCollection.find({}, {projection: {_id: 0}})
     .sort({[sortBy]: sortDirection === 'desc' ? 1: -1})
     .skip(skip2 (+pageNumber, +pageSize))
     .limit(+pageSize)
     .toArray() 
 
 
-    const itemsPost: PostViewModel[] = result.map((el: any) => ({
-        id: el._id.toString,
-        title: el.title,
-        shortDescription: el.shortDescription,
-        content: el.content,
-        blogId: el.blogId,
-        blogName: el.blogName,
-        createdAt: el.createdAt
-        }))
+    // const itemsPost: PostViewModel[] = result.map((el: any) => ({
+    //     id: el.id,
+    //     title: el.title,
+    //     shortDescription: el.shortDescription,
+    //     content: el.content,
+    //     blogId: el.blogId,
+    //     blogName: el.blogName,
+    //     createdAt: el.createdAt
+    //     }))
 
         const totalCount: number = await postsCollection.countDocuments()
         const pageCount: number = Math.ceil(totalCount / (+pageSize))
@@ -74,7 +74,7 @@ export const blogsQueryRepository = {
         page: +pageNumber,
         pageSize: +pageSize,
         totalCount: totalCount,
-        items: itemsPost
+        items: result
         }
         return response
 
