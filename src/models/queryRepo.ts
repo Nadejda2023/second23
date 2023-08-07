@@ -5,6 +5,7 @@ import { PaginatedPost, PostViewDBModel, PostViewModel } from "./postsModel"
 import { title } from "process"
 import { randomUUID } from "crypto"
 import e from "express"
+import { blogsRepository } from "../repositories/blogs_db__repository"
 
 function skip2(pageNumber: number, pageSize: number): number {
     return (+pageNumber - 1) * (+pageSize)
@@ -90,32 +91,20 @@ export const blogsQueryRepository = {
 async createPostForBlog(title: string, shortDescription: string, content: string,  blogId: string):
  Promise <PostViewModel | null> {
     
-    const  createPostForBlogResult : WithId<WithId<BlogsViewModel>> | null = await blogsCollection.findOne({_id:new ObjectId(blogId)})
-if (!createPostForBlogResult) {
-    return null
-}
+    const  blog = await blogsRepository.findBlogById(blogId)
+    if(!blog) return null
+    const createPostForBlog: PostViewModel= {
+        id: randomUUID(),
+        title: title,
+        shortDescription: shortDescription,
+        content: content,
+        blogId: blog.id,
+        blogName: blog.name,
+        createdAt: new Date().toISOString()
+        }
 
-
-const createPostForBlog: PostViewModel= {
-    id: randomUUID(),
-    title: title,
-    shortDescription: shortDescription,
-    content: content,
-    blogId: blogId,
-    blogName: createPostForBlogResult.name,
-    createdAt: new Date().toISOString()
-    }
-
-    const result : InsertOneResult<WithId<PostViewModel>> = await postsCollection.insertOne(createPostForBlog)
-    return {
-        id: result.insertedId.toString(),
-        title: createPostForBlog.title,
-        shortDescription: createPostForBlog.shortDescription,
-        content: createPostForBlog.content,
-        blogId: blogId,
-        blogName: createPostForBlog.blogName,
-        createdAt: createPostForBlog.createdAt,
-    }
+     await postsCollection.insertOne({...createPostForBlog})
+    return createPostForBlog
 
 
 },
