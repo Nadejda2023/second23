@@ -11,7 +11,7 @@ import { blogsQueryRepository } from "../models/queryRepo";
 export const postsRouter = Router({})
 
 //1
-postsRouter.get('/posts', async (req: Request, res: Response<PaginatedPost<PostViewModel>>) => {
+postsRouter.get('/', async (req: Request, res: Response<PaginatedPost<PostViewModel>>) => {
   const foundPost: PaginatedPost<PostViewModel> = await blogsQueryRepository.findAllPosts(req.query.pageSize + '' || "10", req.query.pageNumber + '' || "1", req.query.sortDirection + '' || 'desc', req.query.sortBy + '' || 'createdAt')
   res.status(sendStatus.OK_200).send(foundPost)
   })
