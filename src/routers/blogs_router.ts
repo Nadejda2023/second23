@@ -34,10 +34,10 @@ blogsRouter.post('/',
 })
   
 //2
-blogsRouter.get('/:blogId/posts', createPostValidationForBlogRouter ,async (req: Request, res: Response): Promise<void> => { /// jn async and for end function create new middleware
-const blogPost:BlogsViewModel | null = await blogsRepository.findBlogById(req.params.id)
+blogsRouter.get('/:blogId/posts', async (req: Request, res: Response): Promise<void> => { /// jn async and for end function create new middleware
+const blogPost:BlogsViewModel | null = await blogsRepository.findBlogById(req.params.blogId)
 if(!blogPost) {
-  res.status(404)
+  res.sendStatus(404)
   return
  }
 
@@ -49,16 +49,16 @@ if(!blogPost) {
 })
 
 //3
-blogsRouter.post('/:id/posts',authorizationValidation, createPostValidation, async (req: Request, res: Response): Promise<void> => { /// jn async and for end function create new middleware
-  const blogWithId: BlogsViewModel| null = await blogsRepository.findBlogById(req.params.id)
+blogsRouter.post('/:blogId/posts',authorizationValidation, createPostValidationForBlogRouter, async (req: Request, res: Response): Promise<void> => { /// jn async and for end function create new middleware
+  const blogWithId: BlogsViewModel| null = await blogsRepository.findBlogById(req.params.blogId)
   if(!blogWithId) {
-    res.status(404)
+    res.sendStatus(404)
     return
    }
   
     const blogsCreatePost: PostViewModel | null = await blogsQueryRepository.createPostForBlog(req.body.title, req.body.shortDescription, req.body.content, req.params.id)
     if(blogsCreatePost) {
-      res.status(200).send(blogsCreatePost)
+      res.status(201).send(blogsCreatePost)
       return
      }
   })
