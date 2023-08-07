@@ -11,12 +11,14 @@ import { blogsQueryRepository } from "../models/queryRepo";
 import { blogsRepository } from "../repositories/blogs_db__repository";
 import { PaginatedPost, PostViewModel } from "../models/postsModel";
 import { createPostValidation, createPostValidationForBlogRouter } from "../middlewares/postsvalidation";
+import { getPaginationFromQuery } from "../repositories/hellpers/pagination";
 
 
 export const blogsRouter = Router({})
 //1
 blogsRouter.get('/', async (req: Request, res: Response) : Promise<void> => {
-    const foundBlogs:PaginatedBlog<BlogsViewModel> = await blogsQueryRepository.findBlogs(req.query.pageSize + '' || "10", req.query.pageNumber + '' || "1", req.query.sortDirection + '' || 'desc', req.query.sortBy + '' || 'createdAt')
+  const pagination = getPaginationFromQuery(req.query)
+    const foundBlogs:PaginatedBlog<BlogsViewModel> = await blogsQueryRepository.findBlogs(pagination)
     
     res.status(sendStatus.OK_200).send(foundBlogs)
   })

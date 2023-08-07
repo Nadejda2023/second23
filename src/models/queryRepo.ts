@@ -6,6 +6,7 @@ import { title } from "process"
 import { randomUUID } from "crypto"
 import e from "express"
 import { blogsRepository } from "../repositories/blogs_db__repository"
+import { TPagination } from "../repositories/hellpers/pagination"
 
 function skip2(pageNumber: number, pageSize: number): number {
     return (+pageNumber - 1) * (+pageSize)
@@ -13,12 +14,12 @@ function skip2(pageNumber: number, pageSize: number): number {
 
 export const blogsQueryRepository = {
     //1
-    async findBlogs(pageNumber: string, pageSize: string, sortDirection: string,  sortBy: string):
+    async findBlogs(pagination: TPagination):
      Promise<PaginatedBlog<BlogsViewModel>> {
         const result : WithId<WithId<BlogsViewModel>>[] = await blogsCollection.find({}, {projection: {_id: 0}})
-    .sort({[sortBy]: sortDirection === "desc" ? 1: -1})
-    .skip(skip2 (+pageNumber, +pageSize))
-    .limit(+pageSize)
+    .sort({[pagination.sortBy]: pagination.sortDirection})
+    .skip(pagination.skip)
+    .limit(pagination.pageSize)
     .toArray()
 
 
@@ -32,13 +33,13 @@ export const blogsQueryRepository = {
     // }))
 
         const totalCount: number = await postsCollection.countDocuments()
-        const pageCount: number = Math.ceil(totalCount / +pageSize)
+        const pageCount: number = Math.ceil(totalCount / pagination.pageSize)
 
 
     const res: PaginatedBlog<BlogsViewModel> = {
         pagesCount: pageCount,
-        page: +pageNumber,
-        pageSize: +pageSize,
+        page: pagination.pageNumber,
+        pageSize: pagination.pageSize,
         totalCount: totalCount,
         items: result
         }
