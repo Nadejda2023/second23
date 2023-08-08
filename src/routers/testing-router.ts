@@ -7,5 +7,5 @@ export const testingRouter = Router()
   testingRouter.delete('/all-data', async (req: Request, res: Response) => {
   await Promise.all([blogsRepository.deleteAllBlogs(),
     postsRepository.deleteAllPosts()]);
-    res.status(204).send('All data is deleted')
+    res.sendStatus(204).send('All data is deleted')
 })
