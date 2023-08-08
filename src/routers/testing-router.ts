@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express"
 import { blogsRepository } from "../repositories/blogs_db__repository"
-import { postsRepository } from "../repositories/posts_in_memory__repository"
+import { postsRepository } from "../repositories/posts_db__repository"
 
 export const testingRouter = Router()
 

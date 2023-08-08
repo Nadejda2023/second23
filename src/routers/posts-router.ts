@@ -8,7 +8,7 @@ import { updatePostValidation } from "../middlewares/postsvalidation";
 import { PaginatedPost, PostViewDBModel, PostViewInputModel, PostViewModel } from "../models/postsModel";
 import { blogsRepository } from "../repositories/blogs_db__repository";
 import { blogsQueryRepository } from "../models/queryRepo";
-import { getPaginationFromQuery } from "../repositories/hellpers/pagination";
+import { getPaginationFromQuery } from "../hellpers/pagination";
 export const postsRouter = Router({})
 
 //1

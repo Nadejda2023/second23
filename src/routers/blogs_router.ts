@@ -11,7 +11,7 @@ import { blogsQueryRepository } from "../models/queryRepo";
 import { blogsRepository } from "../repositories/blogs_db__repository";
 import { PaginatedPost, PostViewModel } from "../models/postsModel";
 import { createPostValidation, createPostValidationForBlogRouter } from "../middlewares/postsvalidation";
-import { getPaginationFromQuery } from "../repositories/hellpers/pagination";
+import { getPaginationFromQuery } from "../hellpers/pagination";
 
 
 export const blogsRouter = Router({})

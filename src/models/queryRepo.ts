@@ -6,7 +6,7 @@ import { title } from "process"
 import { randomUUID } from "crypto"
 import e from "express"
 import { blogsRepository } from "../repositories/blogs_db__repository"
-import { TPagination } from "../repositories/hellpers/pagination"
+import { TPagination } from "../hellpers/pagination"
 
 function skip2(pageNumber: number, pageSize: number): number {
     return (+pageNumber - 1) * (+pageSize)
