@@ -18,7 +18,17 @@ export const getPaginationFromQuery =(query: any): TPagination => {
         skip: 0
     }
 
-    if(query.sortDirection &&query.sortDirection === 'asc') defaultValues.sortDirection = query.sortDirection
+    if(query.sortDirection && query.sortDirection === 'asc') { 
+        defaultValues.sortDirection = query.sortDirection
+    }
+    if(query.pageNumber === 0 || query.pageNumber <= 0 || query.pageSize === 'string') {
+        defaultValues.pageNumber = query.pageNumber
+    }
+    if(query.pageSize === 0 ||  query.pageSize <= 0 || query.pageSize === 'string') {
+        defaultValues.pageSize = query.pageSize
+    } 
+    
+
 
 
 

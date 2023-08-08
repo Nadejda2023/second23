@@ -48,12 +48,12 @@ export const blogsQueryRepository = {
 
 
 
-    async findPostForBlog(pageNumber: string, pageSize: string, sortDirection: string,  sortBy: string):
+    async findPostForBlog(pagination: TPagination):
      Promise<PaginatedPost<PostViewModel>> {
         const result: WithId<WithId<PostViewModel>>[] = await postsCollection.find({}, {projection: {_id: 0}})
-    .sort({[sortBy]: sortDirection === 'desc' ? 1: -1})
-    .skip(skip2 (+pageNumber, +pageSize))
-    .limit(+pageSize)
+    .sort({[pagination.sortBy]: pagination.sortDirection})
+    .skip(pagination.skip)
+    .limit(pagination.pageSize)
     .toArray() 
 
 
@@ -68,21 +68,21 @@ export const blogsQueryRepository = {
     //     }))
 
         const totalCount: number = await postsCollection.countDocuments()
-        const pageCount: number = Math.ceil(totalCount / (+pageSize))
+        const pageCount: number = Math.ceil(totalCount / (pagination.pageSize))
 
 
     const response: PaginatedPost<PostViewModel> = {
         pagesCount: pageCount,
-        page: +pageNumber,
-        pageSize: +pageSize,
+        page: pagination.pageNumber,
+        pageSize: pagination.pageSize,
         totalCount: totalCount,
         items: result
         }
-        return response
+        
 
 
 
-        //return blogsCollection.findOne({id:id}, {projection:{_id:0}}) 
+        return  response//postsCollection.findOne({}, {projection:{_id:0}}) 
 
     },
     
@@ -113,12 +113,12 @@ async createPostForBlog(title: string, shortDescription: string, content: string
 
 
     //1
-    async findAllPosts(pageNumber: string, pageSize: string, sortDirection: string,  sortBy: string):
+    async findAllPosts(pagination: TPagination):
      Promise<PaginatedPost<PostViewModel>> {
-        const result : WithId<WithId<PostViewModel>>[] = await postsCollection.find({})
-    .sort({[sortBy]: sortDirection === "desc" ? 1: -1})
-    .skip(skip2 (+pageNumber, +pageSize))
-    .limit(+pageSize)
+        const result : WithId<WithId<PostViewModel>>[] = await postsCollection.find({}, {projection: {_id: 0}})
+    .sort({[pagination.sortBy]: pagination.sortDirection })
+    .skip(pagination.skip)
+    .limit(pagination.pageSize)
     .toArray()
 
 
@@ -134,13 +134,13 @@ async createPostForBlog(title: string, shortDescription: string, content: string
     }))
 
         const totalCount: number = await postsCollection.countDocuments()
-        const pageCount: number = Math.ceil(totalCount / +pageSize)
+        const pageCount: number = Math.ceil(totalCount / pagination.pageSize)
 
 
     const res: PaginatedPost<PostViewModel> = {
         pagesCount: pageCount,
-        page: +pageNumber,
-        pageSize: +pageSize,
+        page: pagination.pageNumber,
+        pageSize: pagination.pageSize,
         totalCount: totalCount,
         items: itemsPost
         }

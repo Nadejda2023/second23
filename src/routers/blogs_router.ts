@@ -42,8 +42,8 @@ if(!blogPost) {
   res.sendStatus(404)
   return
  }
-
-  const BlogsFindPosts: PaginatedPost<PostViewModel> = await blogsQueryRepository.findPostForBlog(req.query.pageNumber + '' || "1", req.query.pageSize + '' || "10", req.query.sortDirection + '' || 'desc', req.query.sortBy + '' || 'createdAt')
+ const pagination = getPaginationFromQuery(req.query)
+  const BlogsFindPosts: PaginatedPost<PostViewModel> = await blogsQueryRepository.findPostForBlog(pagination)
   if(BlogsFindPosts) {
     res.status(200).send(BlogsFindPosts)
     return
