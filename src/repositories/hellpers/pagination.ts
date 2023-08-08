@@ -21,10 +21,10 @@ export const getPaginationFromQuery =(query: any): TPagination => {
     if(query.sortDirection && query.sortDirection === 'asc') { 
         defaultValues.sortDirection = query.sortDirection
     }
-    if(query.pageNumber === 0 || query.pageNumber <= 0 || query.pageSize === 'string') {
+    if(query.pageNumber === 0 || query.pageNumber <= 0) {
         defaultValues.pageNumber = query.pageNumber
     }
-    if(query.pageSize === 0 ||  query.pageSize <= 0 || query.pageSize === 'string') {
+    if(query.pageSize === 0 ||  query.pageSize <= 0) {
         defaultValues.pageSize = query.pageSize
     } 
     
