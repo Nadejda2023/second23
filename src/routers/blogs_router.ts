@@ -33,7 +33,7 @@ blogsRouter.post('/',
   console.log(newBlog);
   
   res.status(sendStatus.CREATED_201).send(newBlog)
-  return
+  
 })
   
 //2
