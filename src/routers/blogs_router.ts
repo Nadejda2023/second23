@@ -32,7 +32,7 @@ blogsRouter.post('/',
   const newBlog : BlogsViewDBModel| null  = await blogsService.createBlog(name, description, websiteUrl)
   console.log(newBlog);
   
-  res.status(sendStatus.CREATED_201).send(newBlog)
+  res.sendStatus(201).send(newBlog)
 })
   
 //2
@@ -58,7 +58,7 @@ blogsRouter.post('/:blogId/posts',authorizationValidation, createPostValidationF
     return
    }
   
-    const blogsCreatePost: PostViewModel | null = await blogsQueryRepository.createPostForBlog(req.body.title, req.body.shortDescription, req.body.content, req.params.id)
+    const blogsCreatePost: PostViewModel | null = await blogsQueryRepository.createPostForBlog(req.body.title, req.body.shortDescription, req.body.content, req.params.blogId)
     if(blogsCreatePost) {
       res.status(201).send(blogsCreatePost)
       return

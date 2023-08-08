@@ -23,7 +23,7 @@ postsRouter.get('/:id', async (req: Request, res: Response<PostViewDBModel| unde
     if (!foundPost) {
       return res.sendStatus(sendStatus.NOT_FOUND_404)
     } else {
-      return res.status(sendStatus.OK_200).send(foundPost)
+      return res.sendStatus(sendStatus.OK_200).send(foundPost)
   }
   })
   
