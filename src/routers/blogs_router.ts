@@ -32,22 +32,22 @@ blogsRouter.post('/',
   const newBlog : BlogsViewDBModel| null  = await blogsService.createBlog(name, description, websiteUrl)
   console.log(newBlog);
   
-  res.status(sendStatus.CREATED_201).send(newBlog)
+  return res.status(sendStatus.CREATED_201).send(newBlog)
   
 })
   
 //2
-blogsRouter.get('/:blogId/posts', async (req: Request, res: Response): Promise<void> => { /// jn async and for end function create new middleware
+blogsRouter.get('/:blogId/posts', async (req: Request, res: Response) => { /// jn async and for end function create new middleware
 const blogPost:BlogsViewModel | null = await blogsRepository.findBlogById(req.params.blogId)
 if(!blogPost) {
-  res.sendStatus(404)
-  return
+  return res.sendStatus(404)
+  
  }
  const pagination = getPaginationFromQuery(req.query)
   const BlogsFindPosts: PaginatedPost<PostViewModel> = await blogsQueryRepository.findPostForBlog(pagination)
   if(BlogsFindPosts) {
-    res.status(200).send(BlogsFindPosts)
-    return
+    return res.status(200).send(BlogsFindPosts)
+    
    }
 })
 
