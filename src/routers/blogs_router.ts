@@ -27,7 +27,7 @@ blogsRouter.get('/', async (req: Request, res: Response) : Promise<void> => {
 blogsRouter.post('/',
   authorizationValidation,
   ...CreateBlogValidation,
-  async (req: Request , res: Response<BlogsViewDBModel | null >) => {
+  async (req: Request , res: Response<BlogsViewDBModel | null >)  => {
     const { name, description, websiteUrl} = req.body
   const newBlog : BlogsViewDBModel| null  = await blogsService.createBlog(name, description, websiteUrl)
   console.log(newBlog);
