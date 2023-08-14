@@ -36,8 +36,6 @@ async (req: Request, res: Response<PostViewDBModel| undefined | null>) => {
   if (findBlogById) {
     const { title ,shortDescription, content, blogId} = req.body
   const newPost : PostViewDBModel | null= await postsService.createPost(title,shortDescription, content, blogId)
-
-  
     return res.status(sendStatus.CREATED_201).send(newPost)
   } else {
     return res.sendStatus(sendStatus.BAD_REQUEST_400 )
