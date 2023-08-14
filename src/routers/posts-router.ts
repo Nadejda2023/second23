@@ -41,12 +41,16 @@ async (req: Request, res: Response<PostViewDBModel| undefined | null>) => {
   if (findBlogById) {
     const { title ,shortDescription, content, blogId} = req.body
   const newPost : PostViewDBModel | null= await postsService.createPost(title,shortDescription, content, blogId)
-    return res.status(sendStatus.CREATED_201).send(newPost)
+    if(!newPost) {
+      
+      return res.sendStatus(sendStatus.BAD_REQUEST_400 )
   } else {
-    return res.sendStatus(sendStatus.BAD_REQUEST_400 )
+    
+    return res.status(sendStatus.CREATED_201).send(newPost)
   }
+}
 
-}) 
+})
   
 
 postsRouter.put('/:id', 
@@ -72,6 +76,7 @@ async (req: Request, res: Response) => {
 const foundPost = await postsService.deletePost(req.params.id)
 if (!foundPost) {
   return res.sendStatus(sendStatus.NOT_FOUND_404);
-  }
+  } else {
   return res.sendStatus(sendStatus.NO_CONTENT_204)
+}
 })
