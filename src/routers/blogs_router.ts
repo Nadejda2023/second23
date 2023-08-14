@@ -53,7 +53,7 @@ if(!blogPost) {
 
 //3
 blogsRouter.post('/:blogId/posts',authorizationValidation, createPostValidationForBlogRouter, async (req: Request, res: Response) => { /// jn async and for end function create new middleware
-  const blogWithId: BlogsViewModel| null = await blogsRepository.findBlogById(req.params.id) ///!
+  const blogWithId: BlogsViewModel| null = await blogsRepository.findBlogById(req.params.blogId) 
   if(!blogWithId) {
     return res.sendStatus(404)
    
@@ -93,7 +93,7 @@ blogsRouter.put('/:id',
   
 blogsRouter.delete('/:id', 
   authorizationValidation,
-  //inputValidationErrors, 
+  inputValidationErrors, 
   async (req: Request, res: Response) => {
   const foundBlog = await blogsService.deleteBlog(req.params.id);
   if (foundBlog) {
