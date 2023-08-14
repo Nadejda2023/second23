@@ -38,7 +38,7 @@ export const getPaginationFromQuery =(query: any): TPagination => {
     }; 
 
     
-    if (query.pageSize) {
+    if (query.pageSize && query.pageSize <= 0) {
          defaultValues.pageSize = query.pageSize 
     } ;
     if (query.searchNameTerm) {
