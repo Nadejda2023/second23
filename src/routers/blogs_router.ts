@@ -69,7 +69,7 @@ blogsRouter.post('/:blogId/posts',authorizationValidation, createPostValidationF
 
   blogsRouter.get('/:id', async (req: Request, res: Response<BlogsViewModel| null>) => {
     const foundBlog: BlogsViewModel | null = await blogsService.findBlogById(req.params.id)
-    if (!foundBlog) {
+    if (foundBlog) {
       return res.status(sendStatus.OK_200).send(foundBlog)
     } else {
       return res.sendStatus(sendStatus.NOT_FOUND_404)
@@ -97,7 +97,7 @@ blogsRouter.delete('/:id',
   inputValidationErrors, 
   async (req: Request, res: Response) => {
   const foundBlog = await blogsService.deleteBlog(req.params.id);
-  if (foundBlog) {
+  if (!foundBlog) {
     return  res.sendStatus(sendStatus.NOT_FOUND_404)
   } else {
   return res.sendStatus(sendStatus.NO_CONTENT_204)
