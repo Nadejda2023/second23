@@ -77,7 +77,7 @@ async (req: Request, res: Response) => {
 const foundPost = await postsService.deletePost(req.params.id)
 if (!foundPost) {
   return res.sendStatus(sendStatus.NOT_FOUND_404);
-  } else {
-  return res.sendStatus(sendStatus.NO_CONTENT_204)
+  } 
+ res.sendStatus(sendStatus.NO_CONTENT_204)
 }
-})
+)
