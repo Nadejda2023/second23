@@ -137,14 +137,14 @@ async createPostForBlog(title: string, shortDescription: string, content: string
         const pageCount: number = Math.ceil(totalCount / pagination.pageSize)
 
 
-    const res: PaginatedPost<PostViewModel> = {
+    const response: PaginatedPost<PostViewModel> = {
         pagesCount: pageCount,
         page: pagination.pageNumber,
         pageSize: pagination.pageSize,
         totalCount: totalCount,
         items: result
         }
-        return res
+        return response
     }
     
 
