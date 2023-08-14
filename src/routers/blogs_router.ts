@@ -38,7 +38,8 @@ blogsRouter.post('/',
   
 //2
 blogsRouter.get('/:blogId/posts', async (req: Request, res: Response) => { /// jn async and for end function create new middleware
-const blogPost:BlogsViewModel | null = await blogsRepository.findBlogById(req.params.blogId)
+
+  const blogPost:BlogsViewModel | null = await blogsRepository.findBlogById(req.params.blogId)
 if(!blogPost) {
   return res.sendStatus(404)
   
