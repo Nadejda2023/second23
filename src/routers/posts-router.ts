@@ -24,7 +24,7 @@ postsRouter.get('/', async (req: Request, res: Response<PaginatedPost<PostViewMo
   })
 
 postsRouter.get('/:id', async (req: Request, res: Response<PostViewDBModel| undefined | null>) => {
-  const foundPost = await postsService.findPostById(req.params.id)    //req.params.id ////blogId
+  const foundPost = await postsService.findPostById(req.body.id)    //req.params.id ////blogId
     if (!foundPost) {
       return res.sendStatus(sendStatus.NOT_FOUND_404)
     } else {
