@@ -67,7 +67,7 @@ blogsRouter.post('/:blogId/posts',authorizationValidation, createPostValidationF
   })
 
   blogsRouter.get('/:id', async (req: Request, res: Response<BlogsViewModel| null>) => {
-    const foundBlog: BlogsViewModel | null = await blogsService.findBlogById(req.body.id)
+    const foundBlog: BlogsViewModel | null = await blogsService.findBlogById(req.params.id)
     if (foundBlog) {
       return res.status(sendStatus.OK_200).send(foundBlog)
     } else {
