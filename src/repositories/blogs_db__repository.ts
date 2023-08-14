@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import { blogsCollection, db } from "../db/db";
 import {  BlogsViewDBModel, BlogsViewModel, PaginatedBlog, } from "../models/blogsModel";
 import { randomUUID } from "crypto";
+import { body } from "express-validator/src/middlewares/validation-chain-builders";
 
 
 
@@ -22,7 +23,7 @@ export const blogsRepository = {
     },
 
    async findBlogById(id: string): Promise<BlogsViewModel | null> {
-        return blogsCollection.findOne({id:id}, {projection:{_id:0}}) ////что делать с айдишкой
+        return blogsCollection.findOne({id: id}, {projection:{_id:0}}) ////что делать с айдишкой
 
     },
     
