@@ -15,7 +15,12 @@ export const postsRouter = Router({})
 postsRouter.get('/', async (req: Request, res: Response<PaginatedPost<PostViewModel>>) => {
   const pagination = getPaginationFromQuery(req.query)
   const foundPost: PaginatedPost<PostViewModel> = await blogsQueryRepository.findAllPosts(pagination)
-  return res.status(sendStatus.OK_200).send(foundPost)
+  if(!foundPost){
+    return res.sendStatus(sendStatus.NOT_FOUND_404)
+  } else {
+    return res.status(sendStatus.OK_200).send(foundPost)
+  }
+  
   })
 
 postsRouter.get('/:id', async (req: Request, res: Response<PostViewDBModel| undefined | null>) => {
