@@ -93,7 +93,7 @@ blogsRouter.put('/:id',
   
 blogsRouter.delete('/:id', 
   authorizationValidation,
-  inputValidationErrors, 
+  //inputValidationErrors, 
   async (req: Request, res: Response) => {
   const foundBlog = await blogsService.deleteBlog(req.params.id);
   if (!foundBlog) {
