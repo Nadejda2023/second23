@@ -67,7 +67,7 @@ export const blogsQueryRepository = {
     //     createdAt: el.createdAt
     //     }))
 
-        const totalCount: number = await postsCollection.countDocuments()
+        const totalCount: number = await blogsCollection.countDocuments()
         const pageCount: number = Math.ceil(totalCount / (pagination.pageSize))
 
 
