@@ -45,7 +45,8 @@ if(!blogPost) {
   
  }
  const pagination = getPaginationFromQuery(req.query)
-  const BlogsFindPosts: PaginatedPost<PostViewModel> = await blogsQueryRepository.findPostForBlog(pagination)
+ const blogId = req.params.blogId
+  const BlogsFindPosts: PaginatedPost<PostViewModel> = await blogsQueryRepository.findPostForBlog(pagination, blogId)
   if(BlogsFindPosts) {
     return res.status(200).send(BlogsFindPosts)
     
