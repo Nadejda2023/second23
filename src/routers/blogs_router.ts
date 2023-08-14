@@ -96,7 +96,7 @@ blogsRouter.delete('/:id',
   //inputValidationErrors, 
   async (req: Request, res: Response) => {
   const foundBlog = await blogsService.deleteBlog(req.params.id);
-  if (!foundBlog) {
+  if (foundBlog) {
     return  res.sendStatus(sendStatus.NOT_FOUND_404)
   } else {
   return res.sendStatus(sendStatus.NO_CONTENT_204)
