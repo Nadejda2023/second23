@@ -75,7 +75,7 @@ authorizationValidation,
 //inputValidationErrors,
 async (req: Request, res: Response) => {
 const foundPost = await postsService.deletePost(req.params.id)
-if (foundPost) {
+if (!foundPost) {
   return res.sendStatus(sendStatus.NOT_FOUND_404);
   } 
  res.sendStatus(sendStatus.NO_CONTENT_204)
