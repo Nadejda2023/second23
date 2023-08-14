@@ -46,7 +46,7 @@ export const blogsQueryRepository = {
 
 
 
-    async findPostForBlog(pagination: TPagination, blogId:string):
+    async findPostForBlog(pagination: TPagination):
      Promise<PaginatedPost<PostViewModel>> {
         const result: WithId<WithId<PostViewModel>>[] = await postsCollection.find({}, {projection: {_id: 0}})
     .sort({[pagination.sortBy]: pagination.sortDirection})
@@ -64,8 +64,8 @@ export const blogsQueryRepository = {
     //     blogName: el.blogName,
     //     createdAt: el.createdAt
     //     }))
-        const filter = {blogId:blogId}
-        const totalCount: number = await blogsCollection.countDocuments(filter)
+        
+        const totalCount: number = await blogsCollection.countDocuments()
         const pageCount: number = Math.ceil(totalCount / pagination.pageSize)
 
 
