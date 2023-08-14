@@ -5,11 +5,12 @@ export type TPagination = {
     sortDirection: 'asc' | 'desc'
     pageNumber: number,
     pageSize: number
-    skip: number
+    skip: number,
+    searchNameTerm: any
 
     
 }
-const defaultSearchNameTerm = {}
+
 
 export const getPaginationFromQuery =(query: any): TPagination => {
     
@@ -20,9 +21,9 @@ export const getPaginationFromQuery =(query: any): TPagination => {
         pageNumber: 1,
         pageSize: 10,
         skip: 0,
-        
+        searchNameTerm: null
     }
-    let searchNameTerm: any = query.SearchNameTerm
+    
 
 
     if(query.sortDirection && query.sortDirection === 'asc') { 
@@ -47,10 +48,10 @@ export const getPaginationFromQuery =(query: any): TPagination => {
             query.pageSize = defaultValues.pageSize
         }
     }
-    if (!searchNameTerm) {
-        searchNameTerm = defaultSearchNameTerm
+    if (!query.searchNameTerm) {
+        query.searchNameTerm = defaultValues.searchNameTerm
     } else {
-        searchNameTerm = {name: {$regex: searchNameTerm}}
+        query.searchNameTerm = {name: {$regex: defaultValues.searchNameTerm}}
     }
 
     
