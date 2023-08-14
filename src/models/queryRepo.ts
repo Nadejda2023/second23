@@ -8,9 +8,7 @@ import e from "express"
 import { blogsRepository } from "../repositories/blogs_db__repository"
 import { TPagination } from "../hellpers/pagination"
 
-function skip2(pageNumber: number, pageSize: number): number {
-    return (+pageNumber - 1) * (+pageSize)
- }
+
 
 export const blogsQueryRepository = {
     //1
@@ -32,7 +30,7 @@ export const blogsQueryRepository = {
     //     isMembership: el.isMembership
     // }))
 
-        const totalCount: number = await blogsCollection.countDocuments()
+        const totalCount: number = await postsCollection.countDocuments()
         const pageCount: number = Math.ceil(totalCount / pagination.pageSize)
 
 
@@ -67,7 +65,7 @@ export const blogsQueryRepository = {
     //     createdAt: el.createdAt
     //     }))
 
-        const totalCount: number = await blogsCollection.countDocuments()
+        const totalCount: number = await postsCollection.countDocuments()
         const pageCount: number = Math.ceil(totalCount / (pagination.pageSize))
 
 
