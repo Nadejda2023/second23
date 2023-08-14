@@ -50,8 +50,10 @@ if(!blogPost) {
   if(BlogsFindPosts) {
     return res.status(200).send(BlogsFindPosts)
     
+   } else {
+    return res.sendStatus(404)
    }
-   return res.sendStatus(404)
+   
 })
 
 //3
