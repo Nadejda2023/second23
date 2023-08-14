@@ -32,7 +32,7 @@ export const blogsQueryRepository = {
     //     isMembership: el.isMembership
     // }))
 
-        const totalCount: number = await postsCollection.countDocuments()
+        const totalCount: number = await blogsCollection.countDocuments()
         const pageCount: number = Math.ceil(totalCount / pagination.pageSize)
 
 
