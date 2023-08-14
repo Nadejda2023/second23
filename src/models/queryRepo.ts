@@ -35,7 +35,7 @@ export const blogsQueryRepository = {
 
 
     const res: PaginatedBlog<BlogsViewModel> = {
-        pagesCount: pageCount,
+        pagesCount: Math.ceil(totalCount / pagination.pageSize),
         page: pagination.pageNumber,
         pageSize: pagination.pageSize,
         totalCount: totalCount,
@@ -70,7 +70,7 @@ export const blogsQueryRepository = {
 
 
     const response: PaginatedPost<PostViewModel> = {
-        pagesCount: pageCount,
+        pagesCount: Math.ceil(totalCount / pagination.pageSize),
         page: pagination.pageNumber,
         pageSize: pagination.pageSize,
         totalCount: totalCount,
@@ -136,7 +136,7 @@ async createPostForBlog(title: string, shortDescription: string, content: string
 
 
     const response: PaginatedPost<PostViewModel> = {
-        pagesCount: pageCount,
+        pagesCount: Math.ceil(totalCount / pagination.pageSize),
         page: pagination.pageNumber,
         pageSize: pagination.pageSize,
         totalCount: totalCount,
