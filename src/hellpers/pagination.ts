@@ -17,43 +17,33 @@ export const getPaginationFromQuery =(query: any): TPagination => {
 
     const defaultValues: TPagination = {
         sortBy: 'createdAt',
-        sortDirection:  'desc',
-        pageNumber: 1,
-        pageSize: 10,
-        skip: 0,
-        searchNameTerm: null
+        sortDirection:  'desc',//
+        pageNumber: 1, //
+        pageSize: 10, //
+        skip: 0,//
+        searchNameTerm: '' //
     }
     
-
+ if(query.sortBy){
+    defaultValues.sortBy = query.sortBy
+ };
 
     if(query.sortDirection && query.sortDirection === 'asc') { 
-        query.sortDirection = defaultValues.sortDirection 
-    } 
+         defaultValues.sortDirection = query.sortDirection 
+    } ;
 
     
-    if(!query.pageNumber  || query.pageNumber <= 0) {
-        query.pageNumber =  defaultValues.pageNumber 
-    } else {
-        query.pageNumber = +query.pageNumber 
-       if (query.pageNumber <= 0) {
-        query.pageNumber = defaultValues.pageNumber
-       }
+    if(query.pageNumber  || query.pageNumber <= 0) {
+         defaultValues.pageNumber = +query.pageNumber 
+    }; 
 
-    }
-    if (!query.pageSize) {
-        query.pageSize = defaultValues.pageSize
-    } else {
-        query.pageSize = +query.pageSize
-        if (query.pageSize <= 0) {
-            query.pageSize = defaultValues.pageSize
-        }
-    }
-    if (!query.searchNameTerm) {
-        query.searchNameTerm = defaultValues.searchNameTerm
-    } else {
-        query.searchNameTerm = {name: {$regex: defaultValues.searchNameTerm}}
-    }
-
+    
+    if (query.pageSize) {
+         defaultValues.pageSize = +query.pageSize 
+    } ;
+    if (query.searchNameTerm) {
+        query.searchNameTerm = defaultValues.searchNameTerm = query.searchNameTerm 
+    } ;
     
 
 
