@@ -75,7 +75,7 @@ updatePostValidation,
   
 postsRouter.delete('/:id', 
 authorizationValidation,
-inputValidationErrors,
+//inputValidationErrors,
 async (req: Request, res: Response) => {
 const foundPost = await postsService.deletePost(req.params.id)
 if (!foundPost) {
