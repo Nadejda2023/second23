@@ -30,7 +30,7 @@ export const blogsQueryRepository = {
     //     isMembership: el.isMembership
     // }))
 
-        const totalCount: number = await postsCollection.countDocuments({})
+        const totalCount: number = await blogsCollection.countDocuments({})
         const pageCount: number = Math.ceil(totalCount / pagination.pageSize)
 
 
@@ -65,7 +65,7 @@ export const blogsQueryRepository = {
     //     createdAt: el.createdAt
     //     }))
         
-        const totalCount: number = await blogsCollection.countDocuments({})
+        const totalCount: number = await postsCollection.countDocuments({})
         const pageCount: number = Math.ceil(totalCount / pagination.pageSize)
 
 
@@ -131,7 +131,7 @@ async createPostForBlog(title: string, shortDescription: string, content: string
        
     // }))
 
-        const totalCount: number = await blogsCollection.countDocuments({})
+        const totalCount: number = await postsCollection.countDocuments({})
         const pageCount: number = Math.ceil(totalCount / pagination.pageSize)
 
 
