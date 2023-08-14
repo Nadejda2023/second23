@@ -19,7 +19,7 @@ import { blogsRepository } from "./blogs_db__repository"
         return postsCollection.find((filter), {projection:{_id:0}}).toArray()
          
         },
-        async findPostById(id: string): Promise<PostViewDBModel | null> {
+        async findPostById(id: string): Promise<PostViewModel | null> {
             return postsCollection.findOne({id:id}, {projection: {_id:0}})
             
         

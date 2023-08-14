@@ -23,7 +23,7 @@ import { blogsRepository } from "../repositories/blogs_db__repository"
         return postsRepository.findAllPosts()
          
         },
-        async findPostById(id: string): Promise<PostViewDBModel | null> {
+        async findPostById(id: string): Promise<PostViewModel | null> {
             return postsRepository.findPostById(id)
             
         
