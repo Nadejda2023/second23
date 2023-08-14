@@ -45,10 +45,6 @@ export const getPaginationFromQuery =(query: any): TPagination => {
         query.searchNameTerm = defaultValues.searchNameTerm = query.searchNameTerm 
     } ;
     
-
-
-
-
 defaultValues.skip = (defaultValues.pageNumber - 1) * defaultValues.pageSize
     return defaultValues
 }

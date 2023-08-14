@@ -52,7 +52,7 @@ import { blogsRepository } from "../repositories/blogs_db__repository"
     },
     async updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string) : Promise<boolean | undefined> {
         let foundPost = await postsRepository.findPostById(id)
-        let foundBlogName = await blogsRepository.findBlogById(id)
+        let foundBlogName = await blogsRepository.findBlogById(blogId)
         return await postsRepository.updatePost(id, title, shortDescription, content, blogId)
           
 
