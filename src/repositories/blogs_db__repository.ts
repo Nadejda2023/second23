@@ -1,7 +1,7 @@
 
 import { ObjectId } from "mongodb";
 import { blogsCollection, db } from "../db/db";
-import {  BlogsViewDBModel, BlogsViewModel, } from "../models/blogsModel";
+import {  BlogsViewDBModel, BlogsViewModel, PaginatedBlog, } from "../models/blogsModel";
 import { randomUUID } from "crypto";
 
 
@@ -21,7 +21,7 @@ export const blogsRepository = {
      
     },
 
-   async findBlogById(id: string): Promise<BlogsViewModel| null> {
+   async findBlogById(id: string): Promise<BlogsViewModel | null> {
         return blogsCollection.findOne({id:id}, {projection:{_id:0}}) ////что делать с айдишкой
 
     },

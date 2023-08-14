@@ -1,6 +1,6 @@
 
 import { blogsCollection, db } from "../db/db";
-import {  BlogsViewDBModel, BlogsViewModel, } from "../models/blogsModel";
+import {  BlogsViewDBModel, BlogsViewModel, PaginatedBlog, } from "../models/blogsModel";
 import { randomUUID } from "crypto";
 import { blogsRepository } from "../repositories/blogs_db__repository";
 
@@ -14,7 +14,7 @@ export const blogsService = {
      
     },
 
-   async findBlogById(id: string): Promise<BlogsViewModel| null> {
+   async findBlogById(id: string): Promise<BlogsViewModel | null> {
         return blogsRepository.findBlogById(id) ////что делать с айдишкой
 
     },
