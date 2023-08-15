@@ -29,7 +29,7 @@ export const blogsService = {
             isMembership: false,
             
         }
-        await blogsRepository.createBlog({...newBlog})
+        //await blogsRepository.createBlog({...newBlog})
         const newBlogId = await blogsRepository.createBlog(newBlog)
         return newBlogId
     }, 

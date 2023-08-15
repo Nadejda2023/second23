@@ -46,7 +46,7 @@ import { blogsRepository } from "../repositories/blogs_db__repository"
         //return await postsCollection.findOne({newObjectId: newPost.id},{projection:{_id:0}})
         
        
-        const result = await postsRepository.createPost({...newPost})
+        //const result = await postsRepository.createPost({...newPost})
         const newPostWithId =  await postsRepository.createPost(newPost)
         return newPostWithId 
     },

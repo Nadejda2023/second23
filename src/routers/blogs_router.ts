@@ -38,21 +38,18 @@ blogsRouter.post('/',
   
 //2
 blogsRouter.get('/:blogId/posts', async (req: Request, res: Response) => { /// jn async and for end function create new middleware
-
-  const blogPost:BlogsViewModel | null = await blogsRepository.findBlogById(req.params.id)
+  //const pagination = getPaginationFromQuery(req.query)
+  const blogPost:BlogsViewModel | null = await blogsRepository.findBlogById(req.params.blogId)
 if(!blogPost) {
   return res.sendStatus(404)
   
  }
  
  const pagination = getPaginationFromQuery(req.query)
-  const BlogsFindPosts: PaginatedPost<PostViewModel> = await blogsQueryRepository.findPostForBlog(pagination)
-  if(BlogsFindPosts) {
+  const BlogsFindPosts: PaginatedPost<PostViewModel> = await blogsQueryRepository.findPostForBlog(req.params.blogId,pagination)
+  
     return res.status(200).send(BlogsFindPosts)
     
-   } else {
-    return res.sendStatus(404)
-   }
    
 })
 

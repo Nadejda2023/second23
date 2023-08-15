@@ -35,7 +35,7 @@ export const blogsQueryRepository = {
 
 
     const res: PaginatedBlog<BlogsViewModel> = {
-        pagesCount: Math.ceil(totalCount / pagination.pageSize),
+        pagesCount: pageCount,
         page: pagination.pageNumber,
         pageSize: pagination.pageSize,
         totalCount: totalCount,
@@ -46,9 +46,9 @@ export const blogsQueryRepository = {
 
 
 
-    async findPostForBlog(pagination: TPagination):
+    async findPostForBlog(blogId: string,pagination: TPagination):
      Promise<PaginatedPost<PostViewModel>> {
-        const result: WithId<WithId<PostViewModel>>[] = await postsCollection.find({}, {projection: {_id: 0}})
+        const result: WithId<WithId<PostViewModel>>[] = await postsCollection.find({blogId}, {projection: {_id: 0}})
     .sort({[pagination.sortBy]: pagination.sortDirection})
     .skip(pagination.skip)
     .limit(pagination.pageSize)
@@ -65,12 +65,12 @@ export const blogsQueryRepository = {
     //     createdAt: el.createdAt
     //     }))
         
-        const totalCount: number = await postsCollection.countDocuments({})
+        const totalCount: number = await postsCollection.countDocuments({blogId})
         const pageCount: number = Math.ceil(totalCount / pagination.pageSize)
 
 
     const response: PaginatedPost<PostViewModel> = {
-        pagesCount: Math.ceil(totalCount / pagination.pageSize),
+        pagesCount: pageCount,
         page: pagination.pageNumber,
         pageSize: pagination.pageSize,
         totalCount: totalCount,
@@ -136,7 +136,7 @@ async createPostForBlog(title: string, shortDescription: string, content: string
 
 
     const response: PaginatedPost<PostViewModel> = {
-        pagesCount: Math.ceil(totalCount / pagination.pageSize),
+        pagesCount: pageCount,
         page: pagination.pageNumber,
         pageSize: pagination.pageSize,
         totalCount: totalCount,
