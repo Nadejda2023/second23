@@ -11,14 +11,15 @@ import { blogsQueryRepository } from "../models/queryRepo";
 import { blogsRepository } from "../repositories/blogs_db__repository";
 import { PaginatedPost, PostViewModel } from "../models/postsModel";
 import { createPostValidation, createPostValidationForBlogRouter } from "../middlewares/postsvalidation";
-import { getPaginationFromQuery} from "../hellpers/pagination";
+import { getPaginationFromQuery, getSearchNameTermFromQuery} from "../hellpers/pagination";
 
 
 export const blogsRouter = Router({})
 //1
 blogsRouter.get('/', async (req: Request, res: Response) : Promise<void> => {
   const pagination = getPaginationFromQuery(req.query)
-    const foundBlogs:PaginatedBlog<BlogsViewModel> = await blogsQueryRepository.findBlogs(pagination)
+  const name = getSearchNameTermFromQuery(req.query.searchNameTerm as string)
+    const foundBlogs:PaginatedBlog<BlogsViewModel> = await blogsQueryRepository.findBlogs({...pagination, ...name})
     
     res.status(sendStatus.OK_200).send(foundBlogs)
   })
@@ -46,6 +47,7 @@ if(!blogPost) {
  }
  
  const pagination = getPaginationFromQuery(req.query)
+ 
   const BlogsFindPosts: PaginatedPost<PostViewModel> = await blogsQueryRepository.findPostForBlog(req.params.blogId,pagination)
   
     return res.status(200).send(BlogsFindPosts)

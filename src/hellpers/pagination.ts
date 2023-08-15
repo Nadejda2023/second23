@@ -6,7 +6,7 @@ export type TPagination = {
     pageNumber: number,
     pageSize: number
     skip: number,
-    searchNameTerm: any
+   searchNameTerm?: string
 
     
 }
@@ -21,7 +21,7 @@ export const getPaginationFromQuery =(query: any): TPagination => {
         pageNumber: 1, //
         pageSize: 10, //
         skip: 0,//
-        searchNameTerm: '' //
+       
     }
     
  if(query.sortBy){
@@ -33,18 +33,28 @@ export const getPaginationFromQuery =(query: any): TPagination => {
     } ;
 
     
-    if(query.pageNumber  || query.pageNumber <= 0) {
+    if(query.pageNumber  && query.pageNumber > 0) {
          defaultValues.pageNumber = +query.pageNumber 
     }; 
 
     
-    if (query.pageSize && query.pageSize <= 0) {
+    if (query.pageSize && query.pageSize > 0) {
          defaultValues.pageSize = query.pageSize 
     } ;
-    if (query.searchNameTerm) {
-        query.searchNameTerm = defaultValues.searchNameTerm = query.searchNameTerm 
-    } ;
+   // if (query.searchNameTerm) {
+    //    defaultValues.searchNameTerm = query.searchNameTerm 
+  //  } ;
     
 defaultValues.skip = (defaultValues.pageNumber - 1) * defaultValues.pageSize
     return defaultValues
+}
+
+export function getSearchNameTermFromQuery(searchNameTerm:  string | undefined): {searchNameTerm: string}{
+    const defaultNameTerm = {searchNameTerm: ''};
+    if(searchNameTerm) {
+        defaultNameTerm.searchNameTerm = searchNameTerm;
+        return defaultNameTerm;
+    }
+    
+    return defaultNameTerm;
 }
