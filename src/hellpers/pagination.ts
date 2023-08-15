@@ -6,7 +6,7 @@ export type TPagination = {
     pageNumber: number,
     pageSize: number
     skip: number,
-   searchNameTerm?: string
+  searchNameTerm?: string
 
     
 }
