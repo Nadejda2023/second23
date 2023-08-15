@@ -14,7 +14,7 @@ export const blogsQueryRepository = {
     //1
     async findBlogs(pagination: TPagination):
      Promise<PaginatedBlog<BlogsViewModel>> {
-        const filter = {name: { $regex :pagination.searchNameTerm, $options: 'i'}}
+        const filter = {name: { $regex :pagination.searchNameTerm, $options: 'i', team : { $regex : pagination.searchNameTerm }}}
         const result : WithId<WithId<BlogsViewModel>>[] = await blogsCollection.find({filter}, {projection: {_id: 0}})
     .sort({[pagination.sortBy]: pagination.sortDirection})
     .skip(pagination.skip)
