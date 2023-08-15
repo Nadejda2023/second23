@@ -16,12 +16,13 @@ export const blogsQueryRepository = {
      Promise<PaginatedBlog<BlogsViewModel>> {
         const filter = {name: { $regex :pagination.searchNameTerm, $options: 'i'}}
         const result : WithId<WithId<BlogsViewModel>>[] = await blogsCollection.find(filter, {projection: {_id: 0}})
+    
     .sort({[pagination.sortBy]: pagination.sortDirection})
     .skip(pagination.skip)
     .limit(pagination.pageSize)
     .toArray()
 
-
+console.log(result)
     // const itemsBlog: BlogsViewModel[] = result.map((el: any)=> ({
     //     id: el.id,
     //     name: el.name,
@@ -42,6 +43,7 @@ export const blogsQueryRepository = {
         totalCount: totalCount,
         items: result
         }
+        console.log(res)
         return res
     },
 
