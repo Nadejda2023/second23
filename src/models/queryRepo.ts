@@ -21,30 +21,17 @@ export const blogsQueryRepository = {
     .skip(pagination.skip)
     .limit(pagination.pageSize)
     .toArray()
-
-console.log(result)
-    // const itemsBlog: BlogsViewModel[] = result.map((el: any)=> ({
-    //     id: el.id,
-    //     name: el.name,
-    //     description: el.description,
-    //     websiteUrl: el.websiteUrl,
-    //     createdAt: el.createdAt,
-    //     isMembership: el.isMembership
-    // }))
-
         const totalCount: number = await blogsCollection.countDocuments(filter)
         const pageCount: number = Math.ceil(totalCount / pagination.pageSize)
 
 
-    const res: PaginatedBlog<BlogsViewModel> = {
+    return {
         pagesCount: pageCount,
         page: pagination.pageNumber,
         pageSize: pagination.pageSize,
         totalCount: totalCount,
         items: result
         }
-        console.log(res)
-        return res
     },
 
 

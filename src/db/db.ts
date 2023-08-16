@@ -44,6 +44,7 @@ export const client = new MongoClient(url);
 
 export const blogsCollection = client.db("project").collection<BlogsViewModel>("blogs")
 export const postsCollection = client.db("project").collection<PostViewModel>("posts")
+
 export async function runDB() {
   try{
     await client.connect();
