@@ -7,7 +7,7 @@ import { usersQueryRepository } from "../repositories/usersQuery_Repository"
 
 export const usersService = {
     
-    async createUser(login: string, email: string, password: string): Promise<UsersModel> { 
+    async createUser(login: string, email: string, password: string): Promise<any> { 
         
          const passwordSalt = await bcrypt.genSalt(10) // получаем соль чем больше индекс тем она навороченнее
          const passwordHash = await this._generateHash(password, passwordSalt) //отправляем пароль и соль в метод где создаем хэш и записываем его в переменную
@@ -21,7 +21,12 @@ export const usersService = {
             createdAt: new Date().toISOString()
          }
          await usersQueryRepository.createUser(newUser)
-         return newUser 
+         return {
+            id: newUser.id,
+            login: newUser.login,
+            email: newUser.email,
+            createdAt: newUser.createdAt,
+         } 
         },
 
         //async findUserById(id:ObjectId): Promise<UsersModel | null> {
