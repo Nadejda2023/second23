@@ -2,7 +2,7 @@ import { body } from "express-validator";
 import { inputValidationErrors } from "./inputvalidationmiddleware";
 
 
-const loginValidation = body('loginOrEmail')
+const loginValidation = body('login')
                                             .isString()
                                             .withMessage('Must be string')
                                             .trim()
@@ -18,13 +18,13 @@ const passwordValidation = body('password')
                                             .isLength({min: 6, max: 20})
                                             .withMessage('Length must be from 6 to 20 simbols')
 
-/*const emailValidation = body('email')
+const emailValidation = body('email')
                                             .isString()
                                             .withMessage('Must be string')
                                             .isEmail()
-                                            .withMessage('Must be  Email')*/
+                                            .withMessage('Must be  Email')
                                             
 
 
 
-export const UsersInputValidation = [loginValidation, passwordValidation , inputValidationErrors]
+export const UsersInputValidation = [loginValidation, passwordValidation ,emailValidation, inputValidationErrors]
