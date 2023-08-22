@@ -5,7 +5,7 @@ const loginOrEmail = body('loginOrEmail')
                                     .isString()
                                     .withMessage('Must be string')
                                     
-const password = body('shortDescription')
+const password = body('password')
                                         .isString()
                                         .withMessage('Must be string')
                                        
