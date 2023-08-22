@@ -1,12 +1,13 @@
 import {Request, Response, Router} from 'express'
 import { usersService } from '../domain/users-service'
 import { authorizationValidation } from '../middlewares/inputvalidationmiddleware'
+import { UsersInputValidation } from '../middlewares/usersvalidation'
 
 
 export const authRouter = Router({})
 
 authRouter.post('/login',
-authorizationValidation,//validation
+UsersInputValidation,//validation
 async ( req: Request, res: Response) => {
     const checkResult = await usersService.checkCredentials(req.body.loginOrEmail, req.body.password)
     if (!checkResult) {
