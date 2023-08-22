@@ -1,6 +1,6 @@
 import { ObjectId, WithId } from "mongodb"
 import { UsersInputModel, UsersModel } from "../models/usersModel"
-import bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt'
 import { randomUUID } from "crypto"
 import { usersRepository, usersTwoRepository } from "../repositories/usersRepository"
 import { usersQueryRepository } from "../repositories/usersQuery_Repository"
