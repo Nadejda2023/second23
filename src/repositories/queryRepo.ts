@@ -1,11 +1,11 @@
 import { Collection, FindCursor, InsertOneResult, ObjectId, WithId } from "mongodb"
-import { BlogsViewDBModel, BlogsViewModel, PaginatedBlog } from "./blogsModel"
+import { BlogsViewDBModel, BlogsViewModel, PaginatedBlog } from "../models/blogsModel"
 import { blogsCollection, postsCollection } from "../db/db"
-import { PaginatedPost, PostViewDBModel, PostViewModel } from "./postsModel"
+import { PaginatedPost, PostViewDBModel, PostViewModel } from "../models/postsModel"
 import { title } from "process"
 import { randomUUID } from "crypto"
 import e from "express"
-import { blogsRepository } from "../repositories/blogs_db__repository"
+import { blogsRepository } from "./blogs_db__repository"
 import { TPagination } from "../hellpers/pagination"
 
 

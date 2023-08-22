@@ -7,7 +7,7 @@ import { BlogsViewDBModel, BlogsViewModel, PaginatedBlog } from "../models/blogs
 import { blogsService } from "../domain/blogs_service";
 import { sendStatus } from "./sendStatus";
 import { authorizationValidation, inputValidationErrors } from "../middlewares/inputvalidationmiddleware";
-import { blogsQueryRepository } from "../models/queryRepo";
+import { blogsQueryRepository } from "../repositories/queryRepo";
 import { blogsRepository } from "../repositories/blogs_db__repository";
 import { PaginatedPost, PostViewModel } from "../models/postsModel";
 import { createPostValidation, createPostValidationForBlogRouter } from "../middlewares/postsvalidation";
