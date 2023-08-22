@@ -28,13 +28,7 @@ export const usersQueryRepository = {
        }
    },
 
-/*async getAllUsers(): Promise<PaginatedUser<UsersModel[]>> {
-    return usersCollection
-    .find()
-    .sort('createdAt', -1)
-    .toArray()
-},*/
-// for post users
+
 async createUser(users: UsersModel): Promise<UsersModel> {
     const result = await usersCollection.insertOne(users)
     return users
