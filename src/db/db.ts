@@ -10,7 +10,6 @@ import { BlogsViewDBModel, BlogsViewModel } from '../models/blogsModel';
 import { UsersModel } from '../models/usersModel';
 
 
-dotenv.config()
 
 
 
@@ -70,6 +69,7 @@ export const db : DB = { //нужно ли это вообще если есть
   isMembership: false
     
   },
+  //
   {
     id: "string",
     name: "string",
