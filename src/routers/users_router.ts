@@ -32,6 +32,7 @@ async (req: Request, res: Response) => {
 
 usersRouter.delete('/:id',
 authorizationValidation,
+inputValidationErrors,
 //to do errorsvalidation
 async ( req: Request, res: Response) => {
     const isDeleted = await usersService.deleteUserById(req.params.id)
