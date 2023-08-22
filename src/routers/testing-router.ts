@@ -5,7 +5,7 @@ import { usersTwoRepository } from "../repositories/usersRepository";
 
 export const testingRouter = Router()
 
-/*testingRouter.delete('/all-data', (req: Request, res: Response) => {
+testingRouter.delete('/all-data', (req: Request, res: Response) => {
     blogsRepository.deleteAllBlogs()
     postsRepository.deleteAllPosts()
     usersTwoRepository.deleteAllUsers()
