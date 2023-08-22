@@ -32,14 +32,13 @@ async (req: Request, res: Response) => {
 
 usersRouter.delete('/:id',
 authorizationValidation,
-inputValidationErrors,
 //to do errorsvalidation
 async ( req: Request, res: Response) => {
     const isDeleted = await usersService.deleteUserById(req.params.id)
     if (isDeleted) {
         res.sendStatus(204);
     }else {
-        res.sendStatus(204);
+        res.sendStatus(404);
     }
     }
 

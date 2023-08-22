@@ -17,9 +17,9 @@ async deleteAllUsers(): Promise<boolean> {
 
 async deleteUsers(id: string) {
     
-     const result = usersCollection.deleteOne({id:id})
+     const result = await usersCollection.deleteOne({id:id})
 
-     return (await result).deletedCount === 1
+     return  result.deletedCount === 1
     
 },
 

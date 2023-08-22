@@ -10,7 +10,7 @@ export const usersQueryRepository = {
     async findUsers(pagination: TUsersPagination):
     Promise<PaginatedUser<UsersModel>> {
        const filter = {$or: [{email: { $regex: pagination.searchEmailTerm, $options: 'i'}}, {login: { $regex: pagination.searchLoginTerm, $options: 'i'}}]} 
-       const result = await usersCollection.find(filter, {projection: {_id: 0}})
+       const result = await usersCollection.find(filter, {projection: {_id: 0, passwordSalt: 0, passwordHash: 0}})
    
    .sort({[pagination.sortBy]: pagination.sortDirection})
    .skip(pagination.skip)
