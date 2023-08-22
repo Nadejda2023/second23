@@ -7,8 +7,7 @@ import { UsersInputValidation } from '../middlewares/usersvalidation'
 export const authRouter = Router({})
 
 authRouter.post('/login',
-authorizationValidation,
-inputValidationErrors,//validation
+UsersInputValidation,//validation
 async ( req: Request, res: Response) => {
     const checkResult = await usersService.checkCredentials(req.body.loginOrEmail, req.body.password)
     if (!checkResult) {
