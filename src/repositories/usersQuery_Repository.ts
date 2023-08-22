@@ -1,14 +1,14 @@
 import { WithId } from "mongodb"
 import { usersCollection } from "../db/db"
-import { TPagination } from "../hellpers/pagination"
+import { TPagination, TUsersPagination } from "../hellpers/pagination"
 import { PaginatedUser, UsersInputModel, UsersModel } from "../models/usersModel"
 
 
 // for get 1
 export const usersQueryRepository = {
-    async findUsers(pagination: TPagination):
+    async findUsers(pagination: TUsersPagination):
     Promise<PaginatedUser<UsersModel>> {
-       const filter = {name: { $regex :pagination.searchNameTerm, $options: 'i'}}
+       const filter = {$or: [{email: { $regex: pagination.searchEmailTerm, $options: 'i'}}, {login: { $regex: pagination.searchLoginTerm, $options: 'i'}}]} 
        const result : WithId<WithId<UsersModel>>[] = await usersCollection.find(filter, {projection: {_id: 0}})
    
    .sort({[pagination.sortBy]: pagination.sortDirection})
@@ -30,7 +30,7 @@ export const usersQueryRepository = {
 
 
 async createUser(users: UsersModel): Promise<UsersModel> {
-    const result = await usersCollection.insertOne(users)
+    await usersCollection.insertOne(users)
     return users
 },
 async findUserById(id: string): Promise<UsersModel | null> {

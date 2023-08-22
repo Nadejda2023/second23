@@ -20,8 +20,8 @@ export const usersService = {
             passwordSalt,
             createdAt: new Date().toISOString()
          }
-         const newUserWithId = await usersQueryRepository.createUser(newUser)
-         return newUserWithId 
+         await usersQueryRepository.createUser(newUser)
+         return newUser 
         },
 
         //async findUserById(id:ObjectId): Promise<UsersModel | null> {

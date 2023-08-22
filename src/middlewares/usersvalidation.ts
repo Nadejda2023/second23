@@ -10,7 +10,7 @@ const loginValidation = body('login')
                                             .isLength({min: 3, max: 10})
                                             .withMessage('Length must be from 3 to 10 simbols')
 
-const passwordValidation = body('description')
+const passwordValidation = body('password')
                                             .isString()
                                             .withMessage('Must be string')
                                             .trim()
