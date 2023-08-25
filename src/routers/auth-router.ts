@@ -2,7 +2,7 @@ import {Request, Response, Router} from 'express'
 import { usersService } from '../domain/users-service'
 import { authorizationValidation, inputValidationErrors } from '../middlewares/inputvalidationmiddleware'
 import { UsersInputValidation } from '../middlewares/usersvalidation'
-import { loginPasswordValidation } from '../middlewares/loginPasswordValidation'
+
 import { jwtService } from '../_application/jwt-service'
 import { UsersModel, UsersModelSw } from '../models/usersModel'
 import { authQueryRepository } from '../repositories/auth_repository'
@@ -28,7 +28,7 @@ async ( req: Request, res: Response) => {
 */
 
 authRouter.post('/login',
-loginPasswordValidation,
+UsersInputValidation,
 //validation
 async ( req: Request, res: Response) => {
     const user = await usersService.checkCredentials(req.body.loginOrEmail, req.body.password)
