@@ -1,7 +1,7 @@
 import { WithId } from "mongodb"
-import { authCollection, usersCollection } from "../db/db"
+import { authCollection } from "../db/db"
 import { AuthViewModel } from "../models/authModels"
-import { userInfo } from "os"
+
 
 
 export const authQueryRepository = {

@@ -23,7 +23,7 @@ if(!user) {
     res.sendStatus(401)
     return
 }
-//@ts-ignore
+
  req.userId = user.id
     next()
     

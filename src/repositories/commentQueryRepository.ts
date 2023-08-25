@@ -2,8 +2,7 @@ import { WithId } from "mongodb"
 import { commentCollection, postsCollection } from "../db/db"
 import { TPagination } from "../hellpers/pagination"
 import { PaginatedCommentViewModel, commentViewModel } from "../models/commentModels"
-import { PaginatedPost } from "../models/postsModel"
-import { postsRepository } from "./posts_db__repository"
+
 
 
 

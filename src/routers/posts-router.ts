@@ -1,8 +1,7 @@
 import {Request, Response, Router } from "express";
 import { postsService } from "../domain/posts_service";
 import { sendStatus } from "./sendStatus";
-import { authorizationValidation, inputValidationErrors } from "../middlewares/inputvalidationmiddleware";
-import { db } from "../db/db";
+import { authorizationValidation} from "../middlewares/inputvalidationmiddleware";
 import { createPostValidation} from "../middlewares/postsvalidation";
 import { updatePostValidation } from "../middlewares/postsvalidation";
 import { PaginatedPost, PostViewDBModel, PostViewInputModel, PostViewModel } from "../models/postsModel";
