@@ -8,6 +8,17 @@ const loginOrEmail = body('loginOrEmail')
 const password = body('password')
                                         .isString()
                                         .withMessage('Must be string')
+
+const contentValidation = body('content')          
+                                        .isString()
+                                        .withMessage('Must be string')
+                                        .trim()
+                                        .isEmpty()
+                                        .isLength({min: 20, max: 300})
+                                        .withMessage('Length must be from 20 to 300 simbols')
+
+                                        
+                                                                               
                                        
- export const loginPasswordValidation = 
-                                        [loginOrEmail, password , inputValidationErrors]                                       
+ export const loginPasswordValidation = [loginOrEmail, password , inputValidationErrors] 
+ export const AuthInputUpdateValidation = [contentValidation , inputValidationErrors]                                        

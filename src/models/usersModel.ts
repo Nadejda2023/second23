@@ -7,6 +7,15 @@
         totalCount: number,
         items: T[],
       }
+
+      export type UsersModelSw =
+      {
+        id: string,
+        login: string,
+        email: string,
+        createdAt: string,
+       
+      }
       export type UsersModel =
       {
         id: string,
@@ -16,6 +25,7 @@
         passwordSalt: string,
         passwordHash: string
       }
+
 
       export type UsersInputModel =
       {

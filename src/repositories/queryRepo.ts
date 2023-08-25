@@ -44,16 +44,6 @@ export const blogsQueryRepository = {
     .limit(pagination.pageSize)
     .toArray() 
 
-
-    // const itemsPost: PostViewModel[] = result.map((el: any) => ({
-    //     id: el.id,
-    //     title: el.title,
-    //     shortDescription: el.shortDescription,
-    //     content: el.content,
-    //     blogId: el.blogId,
-    //     blogName: el.blogName,
-    //     createdAt: el.createdAt
-    //     }))
         
         const totalCount: number = await postsCollection.countDocuments({blogId})
         const pageCount: number = Math.ceil(totalCount / pagination.pageSize)
@@ -110,16 +100,7 @@ async createPostForBlog(title: string, shortDescription: string, content: string
     .toArray()
 
 
-    // const itemsPost: PostViewModel[] = result.map((el: any)=> ({
-    //     id: el._id.toString(),
-    // title: el.title,
-    // shortDescription: el.shortDescription,
-    // content: el.content,
-    // blogId: el.blogId,
-    // blogName: el.blogName,
-    // createdAt: el.createdAt.toISOString(),
-       
-    // }))
+    
 
         const totalCount: number = await postsCollection.countDocuments({})
         const pageCount: number = Math.ceil(totalCount / pagination.pageSize)

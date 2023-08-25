@@ -1,9 +1,10 @@
 import { ObjectId, WithId } from "mongodb"
-import { UsersInputModel, UsersModel } from "../models/usersModel"
+import { UsersInputModel, UsersModel, UsersModelSw } from "../models/usersModel"
 import * as bcrypt from 'bcrypt'
 import { randomUUID } from "crypto"
 import { usersRepository, usersTwoRepository } from "../repositories/usersRepository"
 import { usersQueryRepository } from "../repositories/usersQuery_Repository"
+import { usersCollection } from "../db/db"
 
 export const usersService = {
     
@@ -28,10 +29,20 @@ export const usersService = {
             createdAt: newUser.createdAt,
          } 
         },
-
-        //async findUserById(id:ObjectId): Promise<UsersModel | null> {
+// to do
+        async findUserById(id:string): Promise<UsersModelSw | null> {
+            const foundedUser = await usersCollection.findOne({id: id})
             
-        //},
+            if(!foundedUser){
+                return null
+            } return {
+                id: foundedUser.id,
+                login: foundedUser.login,
+                email: foundedUser.email,
+                createdAt: foundedUser.createdAt,
+
+            }
+        },
 
         async checkCredentials(loginOrEmail: string, password:string) {
             const user  = await usersQueryRepository.findByLoginOrEmail(loginOrEmail)
@@ -41,7 +52,7 @@ export const usersService = {
                 return false
             }
 
-            return true
+            return user
         }, 
         async _generateHash(password: string, salt: string){
             const hash = await bcrypt.hash(password,salt)

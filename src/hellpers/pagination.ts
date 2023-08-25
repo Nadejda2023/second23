@@ -117,8 +117,8 @@ export function getSearchNameTermFromQuery(searchNameTerm:  string | undefined):
     
     return defaultNameTerm;
 }
-
-export function getSearchLoginTermFromQuery(searchLoginTerm:  string | undefined): {searchLoginTerm: string}{
+//
+/*export function getSearchLoginTermFromQuery(searchLoginTerm:  string | undefined): {searchLoginTerm: string}{
     const defaultLoginTerm = {searchLoginTerm: ''};
     if(searchLoginTerm) {
         defaultLoginTerm.searchLoginTerm = searchLoginTerm;
@@ -136,4 +136,4 @@ export function getSearchEmailTermFromQuery(searchEmailTerm:  string | undefined
     }
     
     return defaultEmailTerm;
-}
+} */

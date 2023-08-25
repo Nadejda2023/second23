@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import { usersService } from "../domain/users-service";
-import { getPaginationFromQuery, getSearchEmailTermFromQuery, getSearchLoginTermFromQuery, getUsersPagination } from "../hellpers/pagination";
+import { getPaginationFromQuery , getUsersPagination } from "../hellpers/pagination";
 import { usersQueryRepository } from "../repositories/usersQuery_Repository";
 import { authorizationValidation, inputValidationErrors } from "../middlewares/inputvalidationmiddleware";
 import { PaginatedUser, UsersInputModel, UsersModel } from "../models/usersModel";

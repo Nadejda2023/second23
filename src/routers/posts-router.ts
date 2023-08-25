@@ -9,9 +9,44 @@ import { PaginatedPost, PostViewDBModel, PostViewInputModel, PostViewModel } fro
 import { blogsRepository } from "../repositories/blogs_db__repository";
 import { blogsQueryRepository } from "../repositories/queryRepo";
 import { getPaginationFromQuery } from "../hellpers/pagination";
+import { postsRepository } from "../repositories/posts_db__repository";
+import { PaginatedCommentViewModel, commentViewModel } from "../models/commentModels";
+import { commentQueryRepository } from "../repositories/commentQueryRepository";
+import { postsQueryRepository } from "../repositories/postsQueryRepository";
 export const postsRouter = Router({})
 
 //1
+postsRouter.get('/:postId/comments', async (req: Request, res: Response) => { 
+  //const pagination = getPaginationFromQuery(req.query)
+  const foundedPostId = await postsRepository.findPostById(req.params.postId)
+if(!foundedPostId) {
+  return res.sendStatus(404)
+  
+ }
+ 
+ const pagination = getPaginationFromQuery(req.query)
+ 
+  const allCommentsForPostId: PaginatedCommentViewModel<commentViewModel> = await commentQueryRepository.getAllCommentsForPost(req.params.postId,pagination)
+  
+    return res.status(200).send(allCommentsForPostId)
+    
+   
+})
+
+postsRouter.post('/:postId/comment',authorizationValidation, createPostValidation, async (req: Request, res: Response) => { /// jn async and for end function create new middleware
+  const postWithId: PostViewModel| null = await postsRepository.findPostById(req.params.postId) 
+  if(!postWithId) {
+    return res.sendStatus(404)
+   
+  }
+  
+    const postCreateComment: commentViewModel | null = await postsQueryRepository.createPostComment(req.body.id, req.body.content, req.body.comentatorInfo, req.body.createdAt,req.params.postId)
+    if(postCreateComment) {
+      return res.status(201).send(postCreateComment)
+      
+     }
+  })
+
 postsRouter.get('/', async (req: Request, res: Response<PaginatedPost<PostViewModel>>) => {
   const pagination = getPaginationFromQuery(req.query)
   const foundPost: PaginatedPost<PostViewModel> = await blogsQueryRepository.findAllPosts(pagination)

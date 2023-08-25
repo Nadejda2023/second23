@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb"
 
 export type BlogsInputViewModel ={
-    id: string,
+
     name: string,
     description: string,
     websiteUrl: string,

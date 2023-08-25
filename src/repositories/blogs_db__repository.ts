@@ -23,7 +23,7 @@ export const blogsRepository = {
     },
 
    async findBlogById(id: string): Promise<BlogsViewModel | null> {
-        return blogsCollection.findOne({id: id}, {projection:{_id:0}}) ////что делать с айдишкой
+        return blogsCollection.findOne({id: id}, {projection:{_id:0}}) 
 
     },
     
