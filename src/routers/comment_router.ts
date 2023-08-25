@@ -22,6 +22,7 @@ commentRouter.put('/:commentId',
     } else {
       return res.sendStatus(404)
     }
+    
 })
 commentRouter.delete('/:commentId', 
   authorizationValidation,
