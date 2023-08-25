@@ -33,7 +33,7 @@ if(!foundedPostId) {
    
 })
 
-postsRouter.post('/:postId/comment', authMiddleware, createPostValidation, async (req: Request, res: Response) => { /// jn async and for end function create new middleware
+postsRouter.post('/:postId/comment', createPostValidation, async (req: Request, res: Response) => { /// jn async and for end function create new middleware
     const postWithId: PostViewModel| null = await postsRepository.findPostById(req.params.postId) 
     if(!postWithId) {
       return res.sendStatus(404)
