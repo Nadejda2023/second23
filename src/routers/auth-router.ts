@@ -29,6 +29,7 @@ async ( req: Request, res: Response) => {
 
 authRouter.post('/login',
 UsersInputValidation,
+authMiddleware,
 //validation
 async ( req: Request, res: Response) => {
     const user = await usersService.checkCredentials(req.body.loginOrEmail, req.body.password)
