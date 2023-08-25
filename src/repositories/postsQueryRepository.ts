@@ -32,21 +32,22 @@ export const postsQueryRepository = {
    async createPostComment(postId: string, content: string, commentatorInfo: {userId:string, userLogin: string}):
    Promise <any> {
       
-      const  post = await postsRepository.findPostById(postId)
-      if(!post) return null
+
       const createCommentForPost = {
             id: randomUUID(),
             content,
             postId,
             commentatorInfo,
-            // userId: commentatorInfo.userId,
-            // userLogin: commentatorInfo.userLogin,
-            createdAt: new Date().toDateString()
+            createdAt: new Date().toISOString()
 }
   
        await commentCollection.insertOne({...createCommentForPost})
-      return createCommentForPost
-  
+      return  {
+        id: createCommentForPost.id,
+        content: createCommentForPost.content,
+        commentatorInfo: createCommentForPost.commentatorInfo,
+        createdAt: createCommentForPost.createdAt
+}
   
   },
 }

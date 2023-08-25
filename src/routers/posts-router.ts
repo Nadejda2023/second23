@@ -41,7 +41,7 @@ postsRouter.post('/:postId/comment', authMiddleware, createPostValidation, async
     }
   
   const comment: commentViewModel | null = await postsQueryRepository.createPostComment(postWithId.id, req.body.content, {userId: req.user!.id, userLogin: req.user!.login})
-    
+  
       return res.status(201).send(comment)
       
      
