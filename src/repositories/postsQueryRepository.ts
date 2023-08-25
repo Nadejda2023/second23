@@ -29,20 +29,19 @@ export const postsQueryRepository = {
        items: result
        }
    },
-   async createPostComment(id: string, content: string, commentatorInfo: {userId:string, userLogin: string}, createdAt: string, postId: string):
-   Promise <commentViewModel | null> {
+   async createPostComment(postId: string, content: string, commentatorInfo: {userId:string, userLogin: string}):
+   Promise <any> {
       
       const  post = await postsRepository.findPostById(postId)
       if(!post) return null
-      const createCommentForPost: commentViewModel= {
-          id: randomUUID(),
-          content: content,
-          postId: postId,
-    commentatorInfo: {
-        userId: commentatorInfo.userId,
-        userLogin: commentatorInfo.userLogin,
-    },
-    createdAt: createdAt
+      const createCommentForPost = {
+            id: randomUUID(),
+            content,
+            postId,
+            commentatorInfo,
+            // userId: commentatorInfo.userId,
+            // userLogin: commentatorInfo.userLogin,
+            createdAt: new Date().toDateString()
 }
   
        await commentCollection.insertOne({...createCommentForPost})

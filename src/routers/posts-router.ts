@@ -12,6 +12,7 @@ import { postsRepository } from "../repositories/posts_db__repository";
 import { PaginatedCommentViewModel, commentViewModel } from "../models/commentModels";
 import { commentQueryRepository } from "../repositories/commentQueryRepository";
 import { postsQueryRepository } from "../repositories/postsQueryRepository";
+import { authMiddleware } from "../middlewares/auth-middleware";
 export const postsRouter = Router({})
 
 //1
@@ -32,18 +33,18 @@ if(!foundedPostId) {
    
 })
 
-postsRouter.post('/:postId/comment', createPostValidation, async (req: Request, res: Response) => { /// jn async and for end function create new middleware
-  const postWithId: PostViewModel| null = await postsRepository.findPostById(req.params.postId) 
-  if(!postWithId) {
-    return res.sendStatus(404)
-   
-  }
+postsRouter.post('/:postId/comment', authMiddleware, createPostValidation, async (req: Request, res: Response) => { /// jn async and for end function create new middleware
+    const postWithId: PostViewModel| null = await postsRepository.findPostById(req.params.postId) 
+    if(!postWithId) {
+      return res.sendStatus(404)
+    
+    }
   
-    const postCreateComment: commentViewModel | null = await postsQueryRepository.createPostComment(req.body.id, req.body.content, req.body.comentatorInfo, req.body.createdAt,req.params.postId)
-    if(postCreateComment) {
-      return res.status(201).send(postCreateComment)
+  const comment: commentViewModel | null = await postsQueryRepository.createPostComment(postWithId.id, req.body.content, {userId: req.user!.id, userLogin: req.user!.login})
+    
+      return res.status(201).send(comment)
       
-     }
+     
   })
 
 postsRouter.get('/', async (req: Request, res: Response<PaginatedPost<PostViewModel>>) => {

@@ -2,6 +2,7 @@ import {Response, Request, NextFunction } from "express";
 import { usersService } from "../domain/users-service";
 import { jwtService } from "../_application/jwt-service";
 import { UsersModel } from "../models/usersModel";
+import { usersCollection } from "../db/db";
 
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
@@ -11,20 +12,20 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     }
 
 
-const token = req.headers.authorization.split(' ')[1]
+    const token = req.headers.authorization.split(' ')[1]
 
-const userId = await jwtService.getUserIdByToken(token)
-if (!userId) {
-    res.sendStatus(401)
-    return  
-}
-const user = await usersService.findUserById(userId.toString())
-if(!user) {
-    res.sendStatus(401)
-    return
-}
+    const userId = await jwtService.getUserIdByToken(token)
+    if (!userId) {
+        res.sendStatus(401)
+        return  
+    }
+    const user = await usersCollection.findOne({id: userId.toString()})
+    if(!user) {
+        res.sendStatus(401)
+        return
+    }
 
- req.userId = user.id
+    req.user = user
     next()
     
 
