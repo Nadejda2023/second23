@@ -1,4 +1,4 @@
-
+import { UsersModel } from "../models/usersModel"
 //index.d.ts
 declare global {
    declare namespace Express {
