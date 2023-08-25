@@ -3,7 +3,7 @@ import { UsersModel } from "../models/usersModel"
 declare global {
    declare namespace Express {
         export interface Request {
-            userId: string | null
+            userId: UsersModel | string | null
         }
     }
 }

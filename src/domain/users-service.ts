@@ -5,6 +5,7 @@ import { randomUUID } from "crypto"
 import { usersRepository, usersTwoRepository } from "../repositories/usersRepository"
 import { usersQueryRepository } from "../repositories/usersQuery_Repository"
 import { usersCollection } from "../db/db"
+import { log } from "console"
 
 export const usersService = {
     
@@ -46,9 +47,13 @@ export const usersService = {
 
         async checkCredentials(loginOrEmail: string, password:string) {
             const user  = await usersQueryRepository.findByLoginOrEmail(loginOrEmail)
-            if (!user) return false // пара логин и пароль не то
+            if (!user) {
+                log('no user')
+                return false
+            } // пара логин и пароль не то
             const passwordHash = await this._generateHash(password,user.passwordSalt)
             if(user.passwordHash !== passwordHash) {
+                log('password !==')
                 return false
             }
 

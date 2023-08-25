@@ -34,7 +34,7 @@ async ( req: Request, res: Response) => {
     const user = await usersService.checkCredentials(req.body.loginOrEmail, req.body.password)
     if (user) {
         const token = await jwtService.createJWT(user) 
-        res.status(200).send(token)
+        res.status(200).send({accessToken: token})
         
     } else {
         res.sendStatus(401)
@@ -42,7 +42,7 @@ async ( req: Request, res: Response) => {
 
 })
 authRouter.get('/me', 
-authMiddleware,
+//authMiddleware,
 async (req: Request, res: Response) => {
     const foundMe: WithId<AuthViewModel> | null = await authQueryRepository.findMe()
   if(!foundMe){
