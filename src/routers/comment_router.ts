@@ -10,8 +10,8 @@ import { commentViewModel } from "../models/commentModels";
 export const commentRouter = Router({})
 
 commentRouter.put('/:commentId',
-authMiddleware,
-  ...createPostValidationC,
+//authMiddleware,
+  //...createPostValidationC,
   async (req: Request , res: Response <boolean | undefined>) => {
     // нужна проверка с статусом 403
     const commentId = req.params.commentId
@@ -26,7 +26,7 @@ authMiddleware,
       
 })
 commentRouter.delete('/:commentId', 
-authMiddleware, 
+//authMiddleware, 
   async (req: Request, res: Response) => {
   const foundComment= await commentQueryRepository.deleteComment(req.params.commentId);
   if (!foundComment) {
