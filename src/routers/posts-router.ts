@@ -42,7 +42,8 @@ postsRouter.post('/:postId/comments', createPostValidationC,  async (req: Reques
     
     }
   
-  const comment: commentDBViewModel | null = await postsQueryRepository.createPostComment(postWithId.id, req.body.content, {userId: req.user!.id, userLogin: req.user!.login})
+  const comment: commentDBViewModel | null = await postsQueryRepository
+  .createPostComment(postWithId.id, req.body.content, {userId: req.user!.id, userLogin: req.user!.login})
   
       return res.status(201).send(comment)
       
