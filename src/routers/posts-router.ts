@@ -35,7 +35,7 @@ if(!foundedPostId) {
    
 })
 
-/*postsRouter.post('/:postId/comments', async (req: Request, res: Response) => { /// jn async and for end function create new middleware
+postsRouter.post('/:postId/comments',createPostValidationC, authMiddleware,  async (req: Request, res: Response) => { /// jn async and for end function create new middleware
     const postWithId: PostViewModel| null = await postsRepository.findPostById(req.params.postId) 
     if(!postWithId) {
       return res.sendStatus(404)
@@ -48,7 +48,7 @@ if(!foundedPostId) {
       return res.status(201).send(comment)
       
      
-  })*/
+  })
 
 postsRouter.get('/', async (req: Request, res: Response<PaginatedPost<PostViewModel>>) => {
   const pagination = getPaginationFromQuery(req.query)
