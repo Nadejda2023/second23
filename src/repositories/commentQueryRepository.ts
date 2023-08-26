@@ -30,8 +30,8 @@ export const commentQueryRepository = {
         return response
     },
 
-    async findComentById(commentId: string): Promise<commentViewModel | null> {
-        return commentCollection.findOne({id: commentId}, {projection: {_id:0}})
+    async findComentById(id: string): Promise<commentViewModel | null> {
+        return commentCollection.findOne({id: id}, {projection: {_id:0}})
 
     },
 
