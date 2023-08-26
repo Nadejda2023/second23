@@ -41,12 +41,17 @@ async ( req: Request, res: Response) => {
 
 })
 authRouter.get('/me', 
-
+//to do
+authMiddleware,
 async (req: Request, res: Response) => {
-    const foundMe: WithId<AuthViewModel> | null = await authQueryRepository.findMe()
-  if(!foundMe){
-    return res.sendStatus(404)
+  if(!req.user){
+    return res.sendStatus(401)
   } else {
-    return res.status(200).send(foundMe)
+    return res.status(200).send({
+        email: req.user.email,
+        login: req.user.login,
+        userId: req.user.id
+    }
+        )
   }
  })
