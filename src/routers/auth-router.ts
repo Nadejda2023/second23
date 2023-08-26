@@ -27,7 +27,7 @@ async ( req: Request, res: Response) => {
 }), 
 */
 
-authRouter.post('/login',
+/*authRouter.post('/login',
 
 async ( req: Request, res: Response) => {
     const user = await usersService.checkCredentials(req.body.loginOrEmail, req.body.password)
@@ -39,7 +39,7 @@ async ( req: Request, res: Response) => {
         res.sendStatus(401)
     }
 
-})
+})*/
 authRouter.get('/me', 
 
 async (req: Request, res: Response) => {
