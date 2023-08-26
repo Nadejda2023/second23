@@ -2,7 +2,7 @@ import { WithId } from "mongodb"
 import { commentCollection, postsCollection } from "../db/db"
 import { TPagination } from "../hellpers/pagination"
 import { PaginatedPost, PostViewModel } from "../models/postsModel"
-import { commentViewModel } from "../models/commentModels"
+import { PaginatedCommentViewModel, commentViewModel } from "../models/commentModels"
 import { postsRepository } from "./posts_db__repository"
 import { randomUUID } from "crypto"
 import { userInfo } from "os"
@@ -50,4 +50,25 @@ export const postsQueryRepository = {
 }
   
   },
+  async getAllCommentsForPost(pagination: TPagination):
+    Promise<PaginatedCommentViewModel<commentViewModel>> {
+       const filter = {name: { $regex :pagination.searchNameTerm, $options: 'i'}}
+       const result : WithId<WithId<commentViewModel>>[] = await commentCollection.find(filter, {projection: {_id: 0}})
+   
+   .sort({[pagination.sortBy]: pagination.sortDirection})
+   .skip(pagination.skip)
+   .limit(pagination.pageSize)
+   .toArray()
+       const totalCount: number = await commentCollection.countDocuments(filter)
+       const pageCount: number = Math.ceil(totalCount / pagination.pageSize)
+
+
+   return {
+       pagesCount: pageCount,
+       page: pagination.pageNumber,
+       pageSize: pagination.pageSize,
+       totalCount: totalCount,
+       items: result
+       }
+   },
 }
