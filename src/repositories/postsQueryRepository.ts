@@ -2,7 +2,7 @@ import { WithId } from "mongodb"
 import { commentCollection, postsCollection } from "../db/db"
 import { TPagination } from "../hellpers/pagination"
 import { PaginatedPost, PostViewModel } from "../models/postsModel"
-import { PaginatedCommentViewModel, commentViewModel } from "../models/commentModels"
+import { PaginatedCommentViewModel, commentDBViewModel, commentViewModel } from "../models/commentModels"
 import { postsRepository } from "./posts_db__repository"
 import { randomUUID } from "crypto"
 import { userInfo } from "os"
@@ -30,7 +30,7 @@ export const postsQueryRepository = {
        }
    },
    async createPostComment(postId: string, content: string, commentatorInfo: {userId:string, userLogin: string}):
-   Promise <any> {
+   Promise <commentDBViewModel> {
       
 
       const createCommentForPost = {

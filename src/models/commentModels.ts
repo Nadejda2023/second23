@@ -12,6 +12,17 @@ export type commentViewModel =
   createdAt: string
   }
 
+  export type commentDBViewModel =
+{
+  id: string,
+  content: string,
+  commentatorInfo: {
+    userId: string
+  userLogin: string
+  }
+  createdAt: string
+  }
+
 
 
   export type PaginatedCommentViewModel<T> = {

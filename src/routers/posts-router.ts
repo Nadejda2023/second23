@@ -9,7 +9,7 @@ import { blogsRepository } from "../repositories/blogs_db__repository";
 import { blogsQueryRepository } from "../repositories/queryRepo";
 import { getPaginationFromQuery } from "../hellpers/pagination";
 import { postsRepository } from "../repositories/posts_db__repository";
-import { PaginatedCommentViewModel, commentViewModel } from "../models/commentModels";
+import { PaginatedCommentViewModel, commentDBViewModel, commentViewModel } from "../models/commentModels";
 import { commentQueryRepository } from "../repositories/commentQueryRepository";
 import { postsQueryRepository } from "../repositories/postsQueryRepository";
 import { authMiddleware } from "../middlewares/auth-middleware";
@@ -42,7 +42,7 @@ postsRouter.post('/:postId/comment',  async (req: Request, res: Response) => { /
     
     }
   
-  const comment: commentViewModel | null = await postsQueryRepository.createPostComment(postWithId.id, req.body.content, {userId: req.user!.id, userLogin: req.user!.login})
+  const comment: commentDBViewModel | null = await postsQueryRepository.createPostComment(postWithId.id, req.body.content, {userId: req.user!.id, userLogin: req.user!.login})
   
       return res.status(201).send(comment)
       
