@@ -1,7 +1,7 @@
 import { WithId } from "mongodb"
 import { commentCollection, postsCollection } from "../db/db"
 import { TPagination } from "../hellpers/pagination"
-import { PaginatedCommentViewModel, commentViewModel } from "../models/commentModels"
+import { PaginatedCommentViewModel, commentDBViewModel, commentViewModel } from "../models/commentModels"
 
 
 
@@ -29,8 +29,9 @@ export const commentQueryRepository = {
         }
         return response
     },
-
-    async findComentById(id: string): Promise<commentViewModel | null> {
+   
+    
+    async findCommentById(id: string): Promise<commentDBViewModel | null> {
         return commentCollection.findOne({id: id}, {projection: {_id:0}})
 
     },
