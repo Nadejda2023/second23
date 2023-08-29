@@ -115,7 +115,7 @@
   "exclude": [
     "node_modules"
   ],
-  //"files": ["./src/types/index.d.ts"] 
+  "files": ["./src/types/index.d.ts"] 
 }
 
                                /* Skip type checking all .d.ts files. */
