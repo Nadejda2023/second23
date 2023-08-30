@@ -7,10 +7,10 @@ import { PaginatedCommentViewModel, commentDBViewModel, commentViewModel } from 
 
 
 export const commentQueryRepository = {
-    async getAllCommentsForPost(pagination:TPagination): // postId:string
+    async getAllCommentsForPost(postId:string, pagination:TPagination): // postId:string
     Promise<PaginatedCommentViewModel<commentDBViewModel>> {
         const filter = {name: { $regex :pagination.searchNameTerm, $options: 'i'}}
-        const result : WithId<WithId<commentDBViewModel>>[] = await commentCollection.find({}, {projection: {_id: 0}}) //filter
+        const result : WithId<WithId<commentDBViewModel>>[] = await commentCollection.find({postId: postId}, {projection: {_id: 0}}) //filter
     
     .sort({[pagination.sortBy]: pagination.sortDirection})
     .skip(pagination.skip)
