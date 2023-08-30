@@ -26,13 +26,7 @@ authMiddleware,
       return res.sendStatus(403); // Forbidden
   }
     
-  const updateComment = await commentQueryRepository.updateComment(
-    commentId,
-    req.body.content,
-    req.body.comentatorInfo,
-    req.body.userId,
-    req.body.userLogin
-);
+  const updateComment = await commentQueryRepository.updateComment(commentId, req.body.content, req.body.comentatorInfo);
 
 if (updateComment) {
     return res.sendStatus(204); 
@@ -48,7 +42,7 @@ authMiddleware,
     if (!comment) {
       return res.sendStatus(404)
   } else {
-      const commentUserId = comment.id //
+      const commentUserId = comment.id
       if (commentUserId !== user.id) {
           return res.sendStatus(403)
       }
