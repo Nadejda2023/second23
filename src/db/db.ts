@@ -8,7 +8,7 @@ dotenv.config()
 import { PostViewModel } from '../models/postsModel';
 import { BlogsViewDBModel, BlogsViewModel } from '../models/blogsModel';
 import { UsersModel } from '../models/usersModel';
-import { commentViewModel } from '../models/commentModels';
+import { commentDBViewModel, commentViewModel } from '../models/commentModels';
 import { AuthViewModel } from '../models/authModels';
 
 

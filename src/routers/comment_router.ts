@@ -2,7 +2,7 @@ import { Router, Request, Response} from "express";
 import {  createPostValidationC } from "../middlewares/commentInputValidation";
 import { commentQueryRepository } from "../repositories/commentQueryRepository";
 import { authMiddleware } from "../middlewares/auth-middleware";
-import { commentViewModel } from "../models/commentModels";
+import { commentDBViewModel, commentViewModel } from "../models/commentModels";
 
 
 
@@ -12,17 +12,30 @@ export const commentRouter = Router({})
 commentRouter.put('/:commentId',
 authMiddleware,
   createPostValidationC,
-  async (req: Request , res: Response <boolean | undefined>) => {
+  async (req: Request , res: Response) => {
     // нужна проверка с статусом 403
     const user = req.user!
     const commentId = req.params.commentId
+
+    const existingComment = await commentQueryRepository.findCommentById(commentId);
+    if (!existingComment) {
+        return res.sendStatus(404); 
+    }
+
+    if (existingComment.id !== user.id) {
+      return res.sendStatus(403); // Forbidden
+  }
     
-    const updateComment = await commentQueryRepository.updateComment(commentId, req.body.content, req.body.comentatorInfo, req.body.userId, req.body.userLogin  )
-    if (updateComment) {
-      return res.sendStatus(204)
-      
-    } else {
-      return res.sendStatus(404)
+  const updateComment = await commentQueryRepository.updateComment(
+    commentId,
+    req.body.content,
+    req.body.comentatorInfo,
+    req.body.userId,
+    req.body.userLogin
+);
+
+if (updateComment) {
+    return res.sendStatus(204); 
     } 
       
 })
@@ -35,7 +48,7 @@ authMiddleware,
     if (!comment) {
       return res.sendStatus(404)
   } else {
-      const commentUserId = comment.userId
+      const commentUserId = comment.id //
       if (commentUserId !== user.id) {
           return res.sendStatus(403)
       }
@@ -49,7 +62,7 @@ authMiddleware,
   }
 }) 
 
-commentRouter.get('/:commentId', async (req: Request, res: Response<commentViewModel| undefined | null>) => {
+commentRouter.get('/:id', async (req: Request, res: Response<commentDBViewModel| undefined | null>) => {
   
     const foundComment = await commentQueryRepository.findCommentById(req.params.commentId)    
       if (foundComment) {

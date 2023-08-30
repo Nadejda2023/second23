@@ -31,7 +31,7 @@ export const commentQueryRepository = {
     },
    
     
-    async findCommentById(id: string): Promise<commentViewModel | null> {
+    async findCommentById(id: string): Promise<commentDBViewModel | null> {
         return commentCollection.findOne({id: id}, {projection: {_id:0}})
 
     },
@@ -45,7 +45,7 @@ export const commentQueryRepository = {
         
     },
 
-    async updateComment(commentId: string, content: string, comentatorInfo: string, userId: string, userLogin: string) : Promise<boolean | undefined> {
+    async updateComment(commentId: string, content: string, comentatorInfo: string, userId: string, userLogin: string) : Promise<commentDBViewModel | undefined | boolean> {
         let foundComment = await commentCollection.findOne({id: commentId})
         if(foundComment){
         const result = await commentCollection.updateOne({id: commentId},{ $set:{content: content, comentatorInfo: comentatorInfo, userId: userId, userLogin: userLogin }})

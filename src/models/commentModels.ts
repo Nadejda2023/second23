@@ -2,7 +2,7 @@
 
 export type commentViewModel =
 {
-  [x: string]: any
+  
   
   id: string,
   content: string,
@@ -16,7 +16,7 @@ export type commentViewModel =
 
   export type commentDBViewModel =
 {
-  //[x: string]: any
+  
   id: string,
   content: string,
   commentatorInfo: {
