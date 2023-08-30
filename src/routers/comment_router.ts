@@ -22,7 +22,7 @@ authMiddleware,
         return res.sendStatus(404); 
     }
 
-    if (existingComment.id !== user.id) {
+    if (existingComment.commentatorInfo.userId !== user.id) {
       return res.sendStatus(403); // Forbidden
   }
     
