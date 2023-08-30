@@ -18,7 +18,7 @@ import { createPostValidationC } from "../middlewares/commentInputValidation";
 export const postsRouter = Router({})
 
 //1
-postsRouter.get('/:postId/comments', async (req: Request, res: Response) => { 
+/*postsRouter.get('/:postId/comments', async (req: Request, res: Response) => { 
   //const pagination = getPaginationFromQuery(req.query)
   const foundedPostId = await postsRepository.findPostById(req.params.postId)
 if(!foundedPostId) {
@@ -33,7 +33,7 @@ if(!foundedPostId) {
     return res.status(200).send(allCommentsForPostId)
     
    
-})
+})*/
 
 postsRouter.post('/:postId/comments', authMiddleware, createPostValidationC, async (req: Request, res: Response) => { /// jn async and for end function create new middleware
     const postWithId: PostViewModel| null = await postsRepository.findPostById(req.params.postId);

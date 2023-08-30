@@ -36,7 +36,7 @@ export const postsQueryRepository = {
       const createCommentForPost = {
             id: randomUUID(),
             content,
-            postId,
+            postId, // tyt
             commentatorInfo,
             createdAt: new Date().toISOString()
 }
