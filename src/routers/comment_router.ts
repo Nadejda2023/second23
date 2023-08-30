@@ -26,7 +26,7 @@ authMiddleware,
       return res.sendStatus(403); // Forbidden
   }
     
-  const updateComment = await commentQueryRepository.updateComment(commentId, req.body.content, req.body.comentatorInfo);
+  const updateComment = await commentQueryRepository.updateComment(commentId, req.body.content);
 
 if (updateComment) {
     return res.sendStatus(204); 

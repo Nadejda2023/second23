@@ -45,10 +45,10 @@ export const commentQueryRepository = {
         
     },
 
-    async updateComment(commentId: string, content: string, comentatorInfo:  string, ) : Promise<commentDBViewModel | undefined | boolean> {
+    async updateComment(commentId: string, content: string ) : Promise<commentDBViewModel | undefined | boolean> {
         let foundComment = await commentCollection.findOne({id: commentId})
         if(foundComment){
-        const result = await commentCollection.updateOne({id: commentId},{ $set:{content: content, comentatorInfo: comentatorInfo}})
+        const result = await commentCollection.updateOne({id: commentId},{ $set:{content: content}}) //comentatorInfo: comentatorInfo
         return result.matchedCount === 1
         }
     },
