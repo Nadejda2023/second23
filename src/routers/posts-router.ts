@@ -27,8 +27,7 @@ if(!foundedPostId) {
  }
  
  const pagination = getPaginationFromQuery(req.query)
- 
-  const allCommentsForPostId: PaginatedCommentViewModel<commentDBViewModel> = await commentQueryRepository.getAllCommentsForPost(req.params.postId,pagination)
+const allCommentsForPostId: PaginatedCommentViewModel<commentDBViewModel> = await commentQueryRepository.getAllCommentsForPost(pagination) //req.params.postId,
   
     return res.status(200).send(allCommentsForPostId)
     

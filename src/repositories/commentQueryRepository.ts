@@ -1,13 +1,13 @@
 import { WithId } from "mongodb"
 import { commentCollection, postsCollection } from "../db/db"
 import { TPagination } from "../hellpers/pagination"
-import { PaginatedCommentViewModel, commentDBViewModel, commentViewModel } from "../models/commentModels"
+import { PaginatedCommentViewModel, commentDBViewModel } from "../models/commentModels"
 
 
 
 
 export const commentQueryRepository = {
-    async getAllCommentsForPost(postId: string,pagination:TPagination): 
+    async getAllCommentsForPost(pagination:TPagination): // postId:string
     Promise<PaginatedCommentViewModel<commentDBViewModel>> {
         const filter = {name: { $regex :pagination.searchNameTerm, $options: 'i'}}
         const result : WithId<WithId<commentDBViewModel>>[] = await commentCollection.find(filter, {projection: {_id: 0}}) //filter
