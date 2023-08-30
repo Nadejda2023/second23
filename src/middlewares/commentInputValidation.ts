@@ -1,7 +1,7 @@
 import { body } from "express-validator";
 import { inputValidationErrors } from "./inputvalidationmiddleware";
 
-const contentValidation = body('content')
+export const contentValidation = body('content')
                                         .isString()
                                         .withMessage('Must be string')
                                         .trim()
