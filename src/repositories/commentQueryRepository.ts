@@ -20,7 +20,7 @@ export const commentQueryRepository = {
         const pageCount: number = Math.ceil(totalCount / pagination.pageSize)
 
 
-        const response: PaginatedCommentViewModel<commentViewModel> = {
+        const response: PaginatedCommentViewModel<commentDBViewModel> = {
         pagesCount: pageCount,
         page: pagination.pageNumber,
         pageSize: pagination.pageSize,
