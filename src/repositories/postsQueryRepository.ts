@@ -33,10 +33,9 @@ export const postsQueryRepository = {
    Promise <commentDBViewModel> {
       
 
-      const createCommentForPost = {
+      const createCommentForPost: commentDBViewModel= {
             id: randomUUID(),
-            content,
-            postId, // tyt
+            content, // tyt
             commentatorInfo,
             createdAt: new Date().toISOString()
 }
@@ -51,9 +50,9 @@ export const postsQueryRepository = {
   
   },
   async getAllCommentsForPost(pagination: TPagination):
-    Promise<PaginatedCommentViewModel<commentViewModel>> {
+    Promise<PaginatedCommentViewModel<commentDBViewModel>> {
        const filter = {name: { $regex :pagination.searchNameTerm, $options: 'i'}}
-       const result : WithId<WithId<commentViewModel>>[] = await commentCollection.find(filter, {projection: {_id: 0}})
+       const result : WithId<WithId<commentDBViewModel>>[] = await commentCollection.find(filter, {projection: {_id: 0}})
    
    .sort({[pagination.sortBy]: pagination.sortDirection})
    .skip(pagination.skip)
