@@ -58,7 +58,7 @@ authMiddleware,
 
 commentRouter.get('/:id', async (req: Request, res: Response<commentDBViewModel| undefined | null>) => {
   
-    const foundComment = await commentQueryRepository.findCommentById(req.params.commentId)    
+    const foundComment = await commentQueryRepository.findCommentById(req.params.id)    
       if (foundComment) {
         return res.status(200).send(foundComment)
         
