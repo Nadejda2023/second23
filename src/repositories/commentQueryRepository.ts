@@ -1,22 +1,22 @@
 import { WithId } from "mongodb"
 import { commentCollection, postsCollection } from "../db/db"
 import { TPagination } from "../hellpers/pagination"
-import { PaginatedCommentViewModel, commentDBViewModel } from "../models/commentModels"
+import { PaginatedCommentViewModel, commentDBViewModel, commentViewModel } from "../models/commentModels"
 
 
 
 
 export const commentQueryRepository = {
-    async getAllCommentsForPost(postId:string, pagination:TPagination): // postId:string
+    async getAllCommentsForPost(pagination:TPagination): // postId:string
     Promise<PaginatedCommentViewModel<commentDBViewModel>> {
         const filter = {name: { $regex :pagination.searchNameTerm, $options: 'i'}}
-        const result : WithId<WithId<commentDBViewModel>>[] = await commentCollection.find({postId: postId}, {projection: {_id: 0}}) //filter
+        const result : WithId<WithId<commentDBViewModel>>[] = await commentCollection.find({}, {projection: {_id: 0}}) //filter
     
     .sort({[pagination.sortBy]: pagination.sortDirection})
     .skip(pagination.skip)
     .limit(pagination.pageSize)
     .toArray()
-        const totalCount: number = await commentCollection.countDocuments({postId: postId})
+        const totalCount: number = await commentCollection.countDocuments({})
         const pageCount: number = Math.ceil(totalCount / pagination.pageSize)
 
 
