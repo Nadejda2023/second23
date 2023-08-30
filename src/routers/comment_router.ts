@@ -42,7 +42,7 @@ authMiddleware,
     if (!comment) {
       return res.sendStatus(404)
   } else {
-      const commentUserId = comment.id
+      const commentUserId = comment.commentatorInfo.userId
       if (commentUserId !== user.id) {
           return res.sendStatus(403)
       }
