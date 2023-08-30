@@ -2,7 +2,7 @@ import { Router, Request, Response} from "express";
 import {  createPostValidationC } from "../middlewares/commentInputValidation";
 import { commentQueryRepository } from "../repositories/commentQueryRepository";
 import { authMiddleware } from "../middlewares/auth-middleware";
-import { commentDBViewModel, commentViewModel } from "../models/commentModels";
+import { commentViewModel } from "../models/commentModels";
 
 
 
@@ -10,12 +10,13 @@ import { commentDBViewModel, commentViewModel } from "../models/commentModels";
 export const commentRouter = Router({})
 
 commentRouter.put('/:commentId',
+authMiddleware,
   createPostValidationC,
   async (req: Request , res: Response <boolean | undefined>) => {
     // нужна проверка с статусом 403
     const user = req.user!
     const commentId = req.params.commentId
-    const { content, comentatorInfo, userId, userLogin} = req.body
+    
     const updateComment = await commentQueryRepository.updateComment(commentId, req.body.content, req.body.comentatorInfo, req.body.userId, req.body.userLogin  )
     if (updateComment) {
       return res.sendStatus(204)
@@ -26,11 +27,11 @@ commentRouter.put('/:commentId',
       
 })
 commentRouter.delete('/:commentId', 
-//authMiddleware, 
+authMiddleware, 
   async (req: Request, res: Response) => {
     const user = req.user!
     const commentId = req.params.commentId
-    const comment = await commentQueryRepository.findCommentById(req.params.commentId)
+    const comment = await commentQueryRepository.findCommentById(commentId)
     if (!comment) {
       return res.sendStatus(404)
   } else {
@@ -48,7 +49,7 @@ commentRouter.delete('/:commentId',
   }
 }) 
 
-commentRouter.get('/:commentId', async (req: Request, res: Response<commentDBViewModel| undefined | null>) => {
+commentRouter.get('/:commentId', async (req: Request, res: Response<commentViewModel| undefined | null>) => {
   
     const foundComment = await commentQueryRepository.findCommentById(req.params.commentId)    
       if (foundComment) {

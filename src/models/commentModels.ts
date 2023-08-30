@@ -2,6 +2,8 @@
 
 export type commentViewModel =
 {
+  [x: string]: any
+  
   id: string,
   content: string,
   postId: string,
