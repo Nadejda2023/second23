@@ -33,11 +33,12 @@ export const postsQueryRepository = {
    Promise <commentDBViewModel> {
       
 
-      const createCommentForPost: commentDBViewModel= {
+      const createCommentForPost = {
             id: randomUUID(),
             content, // tyt
             commentatorInfo,
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
+            postId
 }
   
        await commentCollection.insertOne({...createCommentForPost})

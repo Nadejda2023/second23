@@ -9,14 +9,14 @@ import { PaginatedCommentViewModel, commentDBViewModel, commentViewModel } from 
 export const commentQueryRepository = {
     async getAllCommentsForPost(postId:string, pagination:TPagination): // postId:string
     Promise<PaginatedCommentViewModel<commentDBViewModel>> {
-        const filter = {name: { $regex :pagination.searchNameTerm, $options: 'i'}}
+        //const filter = {name: { $regex :pagination.searchNameTerm, $options: 'i'}}
         const result : WithId<WithId<commentDBViewModel>>[] = await commentCollection.find({postId: postId}, {projection: {_id: 0}}) //filter
     
     .sort({[pagination.sortBy]: pagination.sortDirection})
     .skip(pagination.skip)
     .limit(pagination.pageSize)
     .toArray()
-        const totalCount: number = await commentCollection.countDocuments({})
+        const totalCount: number = await commentCollection.countDocuments({postId})
         const pageCount: number = Math.ceil(totalCount / pagination.pageSize)
 
 
