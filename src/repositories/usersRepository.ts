@@ -1,5 +1,4 @@
 import {  usersCollection } from "../db/db"
-import { UserAccountDBType, UserAccountType } from "../models/mailModels"
 import { UsersModel, UsersModelSw } from "../models/usersModel"
 
 export const usersRepository = [
