@@ -50,6 +50,6 @@ const emailValidation = body('email')
                                             .withMessage('Must be  Email')                                            
                                             
 
-export const registrationComfiValidation = [emailValidation, inputValidationErrors]
+export const registrationComfiValidation = [emailValidation,loginValidation, inputValidationErrors]
 
 export const UsersInputValidation = [loginValidation, passwordValidation ,emailValidation, inputValidationErrors]
