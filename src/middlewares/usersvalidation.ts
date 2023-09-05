@@ -31,7 +31,7 @@ const passwordValidation = body('password')
                                             .isLength({min: 6, max: 20})
                                             .withMessage('Length must be from 6 to 20 simbols')
 
-const emailValidation = body('email')
+export const emailValidation = body('email')
                                             .isString()
                                             .withMessage('Must be string')
                                             .isEmail()
