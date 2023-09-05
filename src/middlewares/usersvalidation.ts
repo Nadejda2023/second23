@@ -13,7 +13,7 @@ const loginValidation = body('login')
 
                                                 const user = await usersTwoRepository.findByLoginU(login);
 
-                                                if(!user){
+                                                if(user){
                                                     throw new Error("User with this login uzhe founded ")
                                                     }
                                                     return true
@@ -36,7 +36,7 @@ const emailValidation = body('email')
                                             .withMessage('Must be  Email')
                                             .custom(async (email) => {
                                                 const user = await usersTwoRepository.findUserByEmail(email);
-                                                if(!user){
+                                                if(user){
                                                     throw new Error("User with this mail uzhe founded")
                                                 }
                                                 return true
