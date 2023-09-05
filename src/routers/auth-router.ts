@@ -54,6 +54,7 @@ authMiddleware,
  // from 07
  authRouter.post('/registration',
  UsersInputValidation,
+ registrationComfiValidation,
  async (req: Request, res: Response) => {
     const user = await usersService.createUser(req.body.login, req.body.email, req.body.password)
     if(user) {
@@ -79,7 +80,7 @@ authMiddleware,
 
  authRouter.post('/registration-email-resending',
  //val
- //
+ registrationComfiValidation,
  async (req: Request, res: Response) => {
     const result = await authService.confirmEmail(req.body.email)
     if (result) {
