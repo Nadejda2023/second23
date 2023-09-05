@@ -9,6 +9,7 @@ import { UsersModel } from "./models/usersModel";
 import { usersRouter } from "./routers/users_router";
 import { authRouter } from "./routers/auth-router";
 import { commentRouter } from "./routers/comment_router";
+import { emailRouter } from "./routers/email-router";
 
 export const app =  express()
 export const settings = {
@@ -16,13 +17,14 @@ export const settings = {
   JWT_SECRET: process.env.JWT_SECRET || "123"
 }
 
-export const RouterPaths:{blogs:string, posts: string, testing: string, users:string, auth: string, comments: string} ={
+export const RouterPaths:{blogs:string, posts: string, testing: string, users:string, auth: string, comments: string, email:string} ={
     blogs: '/blogs',
     posts: '/posts',
     testing: '/testing',
     users: '/users',
     auth: '/auth',
-    comments: '/comments'
+    comments: '/comments',
+    email: '/email'
   }
   
   export type DB = {
@@ -49,5 +51,5 @@ app.use(RouterPaths.testing, testingRouter)
 app.use(RouterPaths.users, usersRouter)
 app.use(RouterPaths.auth, authRouter)
 app.use(RouterPaths.comments, commentRouter)
-
+app.use(RouterPaths.email, emailRouter)
 

@@ -9,6 +9,7 @@ import { authQueryRepository } from '../repositories/auth_repository'
 import { AuthViewModel } from '../models/authModels'
 import { authMiddleware } from '../middlewares/auth-middleware'
 import { WithId } from 'mongodb'
+import { authService } from '../domain/auth-service'
 
 
 export const authRouter = Router({})
@@ -55,3 +56,36 @@ async (req: Request, res: Response) => {
         )
   }
  })
+
+ // from 07
+ authRouter.post('/registration',
+ async (req: Request, res: Response) => {
+    const user = await authService.createUser(req.body.login, req.body.email, req.body.password)
+    if(user) {
+    res.status(201).send()
+    } else {
+        res.status(400).send({})   
+    }
+ })
+
+ 
+
+ authRouter.post('/registration-confirmation',
+ async (req: Request, res: Response) => {
+     const result = await authService.confirmEmail(req.body.code)
+     if(result) {
+        res.status(201).send()
+     } else {
+        res.sendStatus(400)
+     }
+ })
+
+ authRouter.post('/registration-email-resending',
+ async (req: Request, res: Response) => {
+    //const result = await authService.confirmEmail(req.body.email)
+    //if (result) {
+       // res.status(204).send()
+        //}else{
+    //res.sendStatus(400)
+    //}
+    })
