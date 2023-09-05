@@ -9,5 +9,12 @@ export const authQueryRepository = {
         const result : WithId<AuthViewModel> | null = await authCollection.findOne({}, {projection: {_id: 0}})
 
             return result
-    }
+    },
+    async deleteAllAuth(): Promise<boolean> {
+        const result = await authCollection.deleteMany({})
+      
+        return result.acknowledged  === true
+    
+        
+    },
 }
