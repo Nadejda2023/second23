@@ -1,5 +1,6 @@
 import { body } from "express-validator";
 import { inputValidationErrors } from "./inputvalidationmiddleware";
+import { usersTwoRepository } from "../repositories/usersRepository";
 
 
 const loginValidation = body('login')
@@ -23,8 +24,23 @@ const emailValidation = body('email')
                                             .withMessage('Must be string')
                                             .isEmail()
                                             .withMessage('Must be  Email')
+
+ /*const emailValidationCustom = body('email').custom(async (email) => {
+    const user = await usersTwoRepository.findUserByEmail(email);
+    if(user){
+        throw new Error("User with this mail not founded")
+    }
+    return true
+ }) 
+ */   
+
+ const codeValidation = body('code')
+                                            .isString()
+                                            .withMessage('Must be string')
+                                            .isEmail()
+                                            .withMessage('Must be  Email')                                            
                                             
 
-
+export const registrationComfiValidation = [emailValidation, inputValidationErrors]
 
 export const UsersInputValidation = [loginValidation, passwordValidation ,emailValidation, inputValidationErrors]
