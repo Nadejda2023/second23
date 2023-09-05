@@ -15,7 +15,7 @@ export const authService = {
             userName: login,
             email,
             passwordHash,
-            createdAt: new Date(),
+            createdAt: new Date(), 
             
         },
         emailConfirmation: {
