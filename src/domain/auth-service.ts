@@ -1,5 +1,4 @@
 import {  usersTwoRepository } from "../repositories/usersRepository";
-import {v4 as uuidv4} from 'uuid'
 import add from 'date-fns/add'
 import { emailManager } from "../managers/email-managers";
 import { UserAccountDBType, UserAccountType } from "../models/mailModels";
@@ -20,7 +19,7 @@ export const authService = {
             
         },
         emailConfirmation: {
-            confirmationCode: uuidv4(),
+            confirmationCode: randomUUID(),
             expirationDate: add(new Date(), {
                 hours: 1,
                 minutes: 3
