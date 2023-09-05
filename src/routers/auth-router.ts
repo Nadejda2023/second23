@@ -1,14 +1,7 @@
 import {Request, Response, Router} from 'express'
 import { usersService } from '../domain/users-service'
-import { authorizationValidation, inputValidationErrors } from '../middlewares/inputvalidationmiddleware'
-import { UsersInputValidation } from '../middlewares/usersvalidation'
-
 import { jwtService } from '../_application/jwt-service'
-import { UsersModel, UsersModelSw } from '../models/usersModel'
-import { authQueryRepository } from '../repositories/auth_repository'
-import { AuthViewModel } from '../models/authModels'
 import { authMiddleware } from '../middlewares/auth-middleware'
-import { WithId } from 'mongodb'
 import { authService } from '../domain/auth-service'
 
 
@@ -44,25 +37,26 @@ async ( req: Request, res: Response) => {
 authRouter.get('/me', 
 //to do
 authMiddleware,
-async (req: Request, res: Response) => {
-  if(!req.user){
-    return res.sendStatus(401)
-  } else {
+    async (req: Request, res: Response) => {
+    if(!req.user){
+        return res.sendStatus(401)
+    } else {
     return res.status(200).send({
         email: req.user.email,
         login: req.user.login,
         userId: req.user.id
     }
-        )
+    )
   }
  })
 
  // from 07
  authRouter.post('/registration',
+ //val
  async (req: Request, res: Response) => {
-    const user = await authService.createUser(req.body.login, req.body.email, req.body.password)
+    const user = await usersService.createUser(req.body.login, req.body.email, req.body.password)
     if(user) {
-    res.status(201).send()
+    res.sendStatus(204)
     } else {
         res.status(400).send({})   
     }
@@ -80,12 +74,16 @@ async (req: Request, res: Response) => {
      }
  })
 
+ 
  authRouter.post('/registration-email-resending',
+ //val
+ //
  async (req: Request, res: Response) => {
-    //const result = await authService.confirmEmail(req.body.email)
-    //if (result) {
-       // res.status(204).send()
-        //}else{
-    //res.sendStatus(400)
-    //}
+    const result = await authService.confirmEmail(req.body.email)
+    if (result) {
+        res.sendStatus(204)
+        }else{
+    res.sendStatus(400)
+        }
+    
     })

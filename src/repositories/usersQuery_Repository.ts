@@ -37,7 +37,7 @@ async createUser(users: UsersModel): Promise<UsersModel> {
     return users
 },
 async findUserById(id: string): Promise<UsersModel | null> {
-    let foundedUser = await usersCollection.findOne({id: id})
+    let foundedUser = await usersCollection.findOne({id: id},{projection: {_id: 0, passwordSalt: 0, passwordHash: 0, emailConfirmation: 0}})
     if (!foundedUser) {
         return null
     } return {
@@ -46,7 +46,8 @@ async findUserById(id: string): Promise<UsersModel | null> {
         email: foundedUser.email,
         createdAt: foundedUser.createdAt,
         passwordSalt: foundedUser.passwordSalt,
-        passwordHash: foundedUser.passwordHash
+        passwordHash: foundedUser.passwordHash,
+        emailConfirmation: foundedUser.emailConfirmation
 
     }
 },

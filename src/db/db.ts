@@ -50,7 +50,6 @@ export const postsCollection = client.db("project").collection<PostViewModel>("p
 export const usersCollection = client.db("project").collection<UsersModel>("users")
 export const commentCollection = client.db("project").collection<commentDBViewModel>("comments")
 export const authCollection = client.db("project").collection<AuthViewModel>("auth")
-export const usersAccountCollection = client.db("project").collection<UserAccountDBType>("auth")
 
 export async function runDB() {
   try{

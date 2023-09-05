@@ -1,5 +1,5 @@
 import { WithId } from "mongodb"
-import { authCollection, usersAccountCollection } from "../db/db"
+import { authCollection} from "../db/db"
 import { AuthViewModel } from "../models/authModels"
 
 
@@ -18,11 +18,7 @@ export const authQueryRepository = {
         
     },
 
-    async deleteAllAccount(): Promise<boolean> {
-        const result = await usersAccountCollection.deleteMany({})
-      
-        return result.acknowledged  === true
+    
     
         
-    },
-}
+    }

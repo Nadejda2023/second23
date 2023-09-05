@@ -1,14 +1,14 @@
-import { ObjectId, WithId } from "mongodb"
-import { UsersInputModel, UsersModel, UsersModelSw } from "../models/usersModel"
+import { UsersModel } from "../models/usersModel"
 import * as bcrypt from 'bcrypt'
 import { randomUUID } from "crypto"
-import { usersRepository, usersTwoRepository } from "../repositories/usersRepository"
+import {  usersTwoRepository } from "../repositories/usersRepository"
 import { usersQueryRepository } from "../repositories/usersQuery_Repository"
 import { usersCollection } from "../db/db"
 import { log } from "console"
+import add from "date-fns/add"
+import { emailAdapter } from "../adapters/email-adapter"
 
 export const usersService = {
-    
     async createUser(login: string, email: string, password: string): Promise<any> { 
         
          const passwordSalt = await bcrypt.genSalt(10) // получаем соль чем больше индекс тем она навороченнее
@@ -20,19 +20,33 @@ export const usersService = {
             email,
             passwordHash,
             passwordSalt,
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
+            emailConfirmation: {
+                confirmationCode: randomUUID(),
+                expirationDate: add(new Date(), {
+                    hours: 1,
+                    minutes: 3
+                }),
+                isConfirmed: false,
+                
+            }
          }
-         await usersQueryRepository.createUser(newUser)
-         return {
-            id: newUser.id,
-            login: newUser.login,
-            email: newUser.email,
-            createdAt: newUser.createdAt,
-         } 
+         const result = await usersQueryRepository.createUser(newUser)
+         try {
+            await emailAdapter.sendEmail
+            (newUser.email, 'code', newUser.emailConfirmation.confirmationCode) //сделаиь метод для отправки письма
+            } catch(error){
+                console.error(error)
+                //await usersTwoRepository.deleteUsers(user.id)
+                return null;
+            }
+         return result
         },
+    
+
 // to do
-        async findUserById(id:string): Promise<UsersModelSw | null> {
-            const foundedUser = await usersCollection.findOne({id: id})
+        async findUserById(id:string): Promise<UsersModel | null> {
+            const foundedUser = await usersCollection.findOne({id: id},{projection: {_id: 0, passwordSalt: 0, passwordHash: 0, emailConfirmation: 0}})
             
             if(!foundedUser){
                 return null
@@ -41,7 +55,9 @@ export const usersService = {
                 login: foundedUser.login,
                 email: foundedUser.email,
                 createdAt: foundedUser.createdAt,
-
+                passwordSalt: foundedUser.passwordSalt,
+                passwordHash: foundedUser.passwordHash,
+                emailConfirmation: foundedUser.emailConfirmation
             }
         },
 

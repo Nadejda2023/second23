@@ -15,7 +15,6 @@ async (req: Request, res: Response) => {
     await usersTwoRepository.deleteAllUsers()
     await commentQueryRepository.deleteAllComment()
     await authQueryRepository.deleteAllAuth()
-    await authQueryRepository.deleteAllAccount()
     res.status(204).send('All data is deleted')
 })
 /*export const testingRouter = Router()

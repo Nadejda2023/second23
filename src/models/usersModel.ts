@@ -23,8 +23,14 @@
         email: string,
         createdAt: string,
         passwordSalt: string,
-        passwordHash: string
+        passwordHash: string,
+        emailConfirmation : EmailConfirmationType 
       }
+      export type EmailConfirmationType = { // usera 
+        isConfirmed: boolean,
+        confirmationCode: string,
+        expirationDate: Date
+    }
 
 
       export type UsersInputModel =

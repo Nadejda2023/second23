@@ -1,6 +1,6 @@
-import { usersAccountCollection, usersCollection } from "../db/db"
+import {  usersCollection } from "../db/db"
 import { UserAccountDBType, UserAccountType } from "../models/mailModels"
-import { UsersModelSw } from "../models/usersModel"
+import { UsersModel, UsersModelSw } from "../models/usersModel"
 
 export const usersRepository = [
     {
@@ -32,13 +32,13 @@ async deleteUsers(id: string) {
     .toArray()
 }, */
 
-async saveUser ( user: UserAccountDBType): Promise<UserAccountDBType> {
-    const result = await usersAccountCollection.insertOne(user)
+async saveUser ( user: UsersModel): Promise<UsersModel> {
+    const result = await usersCollection.insertOne(user)
     return user
 },
 
-async findUserById(id: string): Promise<UserAccountDBType | null> {
-    let result = await usersAccountCollection.findOne({id:id})
+async findUserById(id: string): Promise<UsersModel | null> {
+    let result = await usersCollection.findOne({id:id})
     if(result) {
         return result
     } else {
@@ -46,11 +46,11 @@ async findUserById(id: string): Promise<UserAccountDBType | null> {
     }
     }, 
     async findUserByConfirmationCode(emailConfirmationCode: string) {
-        const user = await usersAccountCollection.findOne({"emailConfirmation.confirmationCode": emailConfirmationCode})
+        const user = await usersCollection.findOne({"emailConfirmation.confirmationCode": emailConfirmationCode})
         return user
     },
     async findByLoginOrEmail(loginOrEmail: string) {
-        const user = await usersAccountCollection.findOne({$or: [{"accountData.email": loginOrEmail}, {"accountData.userName": loginOrEmail}]})
+        const user = await usersCollection.findOne({$or: [{"accountData.email": loginOrEmail}, {"accountData.userName": loginOrEmail}]})
         return user
     },
     async updateConfirmation(id:string) {
