@@ -24,12 +24,16 @@ async deleteUsers(id: string) {
     
 },
 
-/*async findUserByEmail(email: string): Promise<UsersModel> {
-    return usersCollection
-    .find()
-    .sort('createdAt', -1)
-    .toArray()
-}, */ 
+
+async findUserByEmail(email: string) {
+    const user = await usersCollection.findOne({$or: [{"accountData.email": email}]})
+        return user
+}, 
+
+async findByLoginU(login: string) {
+    const user = await usersCollection.findOne({$or: [{"accountData.login": login}]})
+    return user
+},
 
 async saveUser ( user: UsersModel): Promise<UsersModel> {
     const result = await usersCollection.insertOne(user)

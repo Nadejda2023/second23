@@ -9,7 +9,17 @@ const loginValidation = body('login')
                                             .trim()
                                             .notEmpty()
                                             .isLength({min: 3, max: 10})
-                                            .withMessage('Length must be from 3 to 10 simbols')
+                                            .withMessage('Length must be from 3 to 10 simbols').custom(async (login) => {
+
+                                                const user = await usersTwoRepository.findByLoginU(login);
+
+                                                if(!user){
+                                                    throw new Error("User with this login uzhe founded ")
+                                                    }
+                                                    return true
+                                                
+                                                
+                                            })
 
 const passwordValidation = body('password')
                                             .isString()
@@ -24,15 +34,14 @@ const emailValidation = body('email')
                                             .withMessage('Must be string')
                                             .isEmail()
                                             .withMessage('Must be  Email')
+                                            .custom(async (email) => {
+                                                const user = await usersTwoRepository.findUserByEmail(email);
+                                                if(!user){
+                                                    throw new Error("User with this mail uzhe founded")
+                                                }
+                                                return true
+                                             }) 
 
- /*const emailValidationCustom = body('email').custom(async (email) => {
-    const user = await usersTwoRepository.findUserByEmail(email);
-    if(user){
-        throw new Error("User with this mail not founded")
-    }
-    return true
- }) 
- */   
 
  const codeValidation = body('code')
                                             .isString()
