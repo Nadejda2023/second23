@@ -26,12 +26,12 @@ async deleteUsers(id: string) {
 
 
 async findUserByEmail(email: string) {
-    const user = await usersCollection.findOne({$or: [{"accountData.email": email}]})
+    const user = await usersCollection.findOne({email: email})
         return user
 }, 
 
 async findByLoginU(login: string) {
-    const user = await usersCollection.findOne({$or: [{"accountData.login": login}]})
+    const user = await usersCollection.findOne({login: login})
     return user
 },
 

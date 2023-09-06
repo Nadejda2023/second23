@@ -37,10 +37,9 @@ export const usersService = {
             (newUser.email, 'code', newUser.emailConfirmation.confirmationCode) //сделаиь метод для отправки письма
             } catch(error){
                 console.error(error)
-                //await usersTwoRepository.deleteUsers(user.id)
-                return null;
+                //await usersTwoRepository.deleteUsers(user.id)                
             }
-         return result
+         return result;
         },
     
 

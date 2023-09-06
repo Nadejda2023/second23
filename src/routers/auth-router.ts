@@ -54,14 +54,16 @@ authMiddleware,
 
  // from 07
  authRouter.post('/registration',
- UsersInputValidation,
+ ...UsersInputValidation,
  //registrationComfiValidation,
  async (req: Request, res: Response) => {
+    
     const user = await usersService.createUser(req.body.login, req.body.email, req.body.password)
+    //console.log('router:', user)
     if(user) {
-    res.sendStatus(204)
+    return res.sendStatus(204)
     } else {
-        res.sendStatus(400)   
+        return res.sendStatus(500)   
     }
  })
 
