@@ -86,10 +86,10 @@ authMiddleware,
  emailConfiResValidation,
  async (req: Request, res: Response) => {
     const result = await authService.confirmEmail(req.body.email)
-    if (result) {
-        res.sendStatus(204)
-        }else{
-    res.sendStatus(400)
+    if(result) {
+        return res.sendStatus(204)
+        } else {
+            return res.sendStatus(500)   
         }
     
     })
