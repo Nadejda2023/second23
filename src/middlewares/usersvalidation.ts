@@ -48,7 +48,7 @@ export const emailValidation = body('email')
                                                 return true
                                              }) 
 
-export const emailConfiResValidation = body('email')
+export const emailValidation2 = body('email')
                                              .isString()
                                              .withMessage('Must be string')
                                              .trim()
@@ -74,5 +74,5 @@ export const emailConfiResValidation = body('email')
 export const regEmailValidationPost = [emailValidation, inputValidationErrors ]                                            
 export const registrationComfiValidation = [emailValidation,loginValidation, inputValidationErrors]
 
-
+export const emailConfiResValidation = [emailValidation2, inputValidationErrors] 
 export const UsersInputValidation = [loginValidation, passwordValidation ,emailValidation, inputValidationErrors]
