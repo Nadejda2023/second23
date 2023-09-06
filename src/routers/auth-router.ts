@@ -3,7 +3,7 @@ import { usersService } from '../domain/users-service'
 import { jwtService } from '../_application/jwt-service'
 import { authMiddleware } from '../middlewares/auth-middleware'
 import { authService } from '../domain/auth-service'
-import { UsersInputValidation, emailValidation, registrationComfiValidation } from '../middlewares/usersvalidation'
+import { UsersInputValidation, emailConfiResValidation, emailValidation, registrationComfiValidation } from '../middlewares/usersvalidation'
 import { inputValidationErrors } from '../middlewares/inputvalidationmiddleware'
 
 
@@ -83,8 +83,7 @@ authMiddleware,
 
  authRouter.post('/registration-email-resending',
  //val
- emailValidation,
- inputValidationErrors,
+ emailConfiResValidation,
  async (req: Request, res: Response) => {
     const result = await authService.confirmEmail(req.body.email)
     if (result) {

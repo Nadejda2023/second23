@@ -48,6 +48,20 @@ export const emailValidation = body('email')
                                                 return true
                                              }) 
 
+export const emailConfiResValidation = body('email')
+                                             .isString()
+                                             .withMessage('Must be string')
+                                             .trim()
+                                             .isEmail()
+                                             .withMessage('Must be  Email')
+                                             .custom(async (email) => {
+                                                 const user = await usersTwoRepository.findUserByEmail(email);
+                                                 if(!user){
+                                                     throw new Error("User with this mail uzhe founded")
+                                                 }
+                                                 return true
+                                              })                                             
+
 
  const codeValidation = body('code')
                                             .isString()
