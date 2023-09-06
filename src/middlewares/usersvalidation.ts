@@ -58,7 +58,7 @@ export const emailValidation2 = body('email')
                                                  if(!user){
                                                      throw new Error("User with this mail uzhe founded")
                                                  }
-                                                 return true
+                                                 return false
                                               })                                             
 
 
