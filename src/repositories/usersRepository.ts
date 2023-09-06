@@ -1,3 +1,4 @@
+import { Code } from "mongodb"
 import {  usersCollection } from "../db/db"
 import { UsersModel, UsersModelSw } from "../models/usersModel"
 
@@ -48,17 +49,22 @@ async findUserById(id: string): Promise<UsersModel | null> {
         return null
     }
     }, 
-    async findUserByConfirmationCode(emailConfirmationCode: string) {
-        const user = await usersCollection.findOne({"emailConfirmation.confirmationCode": emailConfirmationCode})
+    async findUserByConfirmationCode(code: string) {
+        try {
+        const user = await usersCollection.findOne({"code": Code})
         return user
+    } catch (error) {
+        console.error("Error finding user by confirmation code:", error);
+        throw error;
+    }
     },
-    async findByLoginOrEmail(loginOrEmail: string) {
+    async findByLoginOrEmail(loginOrEmail: string) { 
         const user = await usersCollection.findOne({$or: [{"email": loginOrEmail}, {"userName": loginOrEmail}]})
         return user
     },
     async updateConfirmation(id:string) {
         let result = await usersCollection
-        .updateOne({id}, {$set:{'emailConfirmation.isConfirmed': true}})
+        .updateOne({id: id}, {$set:{'emailConfirmation.isConfirmed': true}})
         return result.modifiedCount === 1
     }
 }

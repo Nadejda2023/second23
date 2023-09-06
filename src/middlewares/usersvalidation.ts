@@ -56,9 +56,9 @@ export const emailValidation2 = body('email')
                                              .custom(async (email) => {
                                                  const user = await usersTwoRepository.findUserByEmail(email);
                                                  if(!user){
-                                                     throw new Error("User with this mail uzhe founded")
+                                                     throw new Error("User with this mail not founded")
                                                  }
-                                                 return false
+                                                 return true
                                               })                                             
 
 

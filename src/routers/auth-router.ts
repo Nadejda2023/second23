@@ -74,7 +74,7 @@ authMiddleware,
  async (req: Request, res: Response) => {
      const result = await authService.confirmEmail(req.body.code)
      if(result) {
-        res.status(201).send()
+        res.sendStatus(201)
      } else {
         res.sendStatus(400)
      }
