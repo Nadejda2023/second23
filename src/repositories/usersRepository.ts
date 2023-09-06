@@ -65,6 +65,7 @@ async findUserById(id: string): Promise<UsersModel | null> {
     async updateConfirmation(id:string) {
         let result = await usersCollection
         .updateOne({id: id}, {$set:{'emailConfirmation.isConfirmed': true}})
+        console.log(result)
         return result.modifiedCount === 1
     }
 }
