@@ -53,7 +53,7 @@ async findUserById(id: string): Promise<UsersModel | null> {
         return user
     },
     async findByLoginOrEmail(loginOrEmail: string) {
-        const user = await usersCollection.findOne({$or: [{"accountData.email": loginOrEmail}, {"accountData.userName": loginOrEmail}]})
+        const user = await usersCollection.findOne({$or: [{"email": loginOrEmail}, {"userName": loginOrEmail}]})
         return user
     },
     async updateConfirmation(id:string) {
