@@ -76,7 +76,7 @@ authMiddleware,
      if(result) {
         res.sendStatus(201)
      } else {
-        res.sendStatus(400)
+        res.sendStatus(500)
      }
  })
 
