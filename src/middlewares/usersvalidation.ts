@@ -23,14 +23,17 @@ const loginValidation = body('login')
                                                 
                                                 
                                             })
+const loginOrEmailV = body('loginOrEmail')
+                                                .isString().trim().isLength({min:3, max: 30})                                          
 
-const passwordValidation = body('password')
+const passwordVal= body('password')
                                             .isString()
                                             .withMessage('Must be string')
                                             .trim()
                                             .notEmpty()
                                             .isLength({min: 6, max: 20})
                                             .withMessage('Length must be from 6 to 20 simbols')
+
 
 export const emailValidation = body('email')
                                             .isString()
@@ -51,8 +54,9 @@ export const emailValidation2 = body('email')
                                              .isString()
                                              .withMessage('Must be string')
                                              .trim()
-                                             .isEmail()
-                                             .withMessage('Must be  Email')
+                                             .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
+                                             //.isEmail()
+                                             //.withMessage('Must be  Email')
                                              .custom(async (email) => {
                                                  const user = await usersTwoRepository.findUserByEmail(email);
                                                  if(!user){
@@ -74,4 +78,5 @@ export const regEmailValidationPost = [emailValidation, inputValidationErrors ]
 export const registrationComfiValidation = [codeValidation, inputValidationErrors]
 
 export const emailConfiResValidation = [emailValidation2, inputValidationErrors] 
-export const UsersInputValidation = [loginValidation, passwordValidation ,emailValidation, inputValidationErrors]
+export const UsersInputValidation = [loginValidation, passwordVal ,emailValidation, inputValidationErrors]
+export const loginOrEmailValidation = [loginOrEmailV, passwordVal, inputValidationErrors]

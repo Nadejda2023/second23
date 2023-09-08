@@ -3,7 +3,7 @@ import { usersService } from '../domain/users-service'
 import { jwtService } from '../_application/jwt-service'
 import { authMiddleware } from '../middlewares/auth-middleware'
 import { authService } from '../domain/auth-service'
-import { UsersInputValidation, emailConfiResValidation, emailValidation, registrationComfiValidation } from '../middlewares/usersvalidation'
+import { UsersInputValidation, emailConfiResValidation, emailValidation, loginOrEmailValidation, registrationComfiValidation } from '../middlewares/usersvalidation'
 import { inputValidationErrors } from '../middlewares/inputvalidationmiddleware'
 
 
@@ -24,7 +24,7 @@ async ( req: Request, res: Response) => {
 */
 
 authRouter.post('/login',
-
+loginOrEmailValidation,
 async ( req: Request, res: Response) => {
     const user = await usersService.checkCredentials(req.body.loginOrEmail, req.body.password)
     if (user) {
