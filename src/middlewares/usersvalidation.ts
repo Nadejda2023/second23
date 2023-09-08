@@ -71,7 +71,7 @@ export const emailValidation2 = body('email')
 
                                             
 export const regEmailValidationPost = [emailValidation, inputValidationErrors ]                                            
-export const registrationComfiValidation = [emailValidation,loginValidation, inputValidationErrors]
+export const registrationComfiValidation = [codeValidation, inputValidationErrors]
 
 export const emailConfiResValidation = [emailValidation2, inputValidationErrors] 
 export const UsersInputValidation = [loginValidation, passwordValidation ,emailValidation, inputValidationErrors]
