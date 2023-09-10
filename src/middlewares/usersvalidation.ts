@@ -33,7 +33,7 @@ const passwordVal= body('password')
                                             .withMessage('Length must be from 6 to 20 simbols')
 
 
-export const emailValidation = body('email')
+export const emailValidationCustom = body('email')
                                             .isString()
                                             .withMessage('Must be string')
                                             .trim()
@@ -72,9 +72,9 @@ export const emailValidation2 = body('email')
                                             
 
                                             
-export const regEmailValidationPost = [emailValidation, inputValidationErrors ]                                            
+export const regEmailValidationPost = [emailValidationCustom, inputValidationErrors ]                                            
 export const registrationComfiValidation = [codeValidation, inputValidationErrors]
 
 export const emailConfiResValidation = [emailValidation2, inputValidationErrors] 
-export const UsersInputValidation = [loginValidation, passwordVal ,emailValidation, inputValidationErrors]
+export const UsersInputValidation = [loginValidation, passwordVal ,emailValidationCustom, inputValidationErrors]
 export const loginOrEmailValidation = [loginOrEmailV, passwordVal, inputValidationErrors]

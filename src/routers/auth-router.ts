@@ -3,7 +3,7 @@ import { usersService } from '../domain/users-service'
 import { jwtService } from '../_application/jwt-service'
 import { authMiddleware } from '../middlewares/auth-middleware'
 import { authService } from '../domain/auth-service'
-import { UsersInputValidation, emailConfiResValidation, emailValidation, loginOrEmailValidation, registrationComfiValidation } from '../middlewares/usersvalidation'
+import { UsersInputValidation, emailConfiResValidation, loginOrEmailValidation, registrationComfiValidation } from '../middlewares/usersvalidation'
 import { inputValidationErrors } from '../middlewares/inputvalidationmiddleware'
 
 
@@ -54,8 +54,7 @@ authMiddleware,
 
  // from 07
  authRouter.post('/registration',
- ...UsersInputValidation,
- //registrationComfiValidation,
+ UsersInputValidation, // ...
  async (req: Request, res: Response) => {
     
     const user = await usersService.createUser(req.body.login, req.body.email, req.body.password)
@@ -70,7 +69,7 @@ authMiddleware,
  
 
  authRouter.post('/registration-confirmation',
- registrationComfiValidation,
+ //registrationComfiValidation,
  async (req: Request, res: Response) => {
      const result = await authService.confirmEmail(req.body.code)
      if(result) {
