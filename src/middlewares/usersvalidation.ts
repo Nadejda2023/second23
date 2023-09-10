@@ -52,7 +52,7 @@ export const emailValidation2 = body('email')
                                              .isString()
                                              .withMessage('Must be string')
                                              .trim()
-                                             .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
+                                             //.matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
                                              .custom(async (email) => {
                                                  const user = await usersTwoRepository.findUserByEmail(email);
                                                  if(!user){

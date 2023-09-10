@@ -25,7 +25,7 @@ export const usersService = {
                 confirmationCode: randomUUID(),
                 expirationDate: add(new Date(), {
                     hours: 1,
-                    minutes: 3
+                    minutes: 2
                 }),
                 isConfirmed: false,
                 
