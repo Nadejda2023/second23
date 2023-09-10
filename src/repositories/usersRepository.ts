@@ -49,7 +49,7 @@ async findUserById(id: string): Promise<UsersModel | null> {
         return null
     }
     }, 
-    async findUserByConfirmationCode(code: string) {
+    async findUserByConfirmationCode(code: string): Promise<UsersModel | null>{
         try {
         const user = await usersCollection.findOne({"code": code})
         return user
@@ -58,11 +58,11 @@ async findUserById(id: string): Promise<UsersModel | null> {
         throw error;
     }
     },
-    async findByLoginOrEmail(loginOrEmail: string) { 
+    async findByLoginOrEmail(loginOrEmail: string): Promise<UsersModel | null> { 
         const user = await usersCollection.findOne({$or: [{"email": loginOrEmail}, {"userName": loginOrEmail}]})
         return user
     },
-    async updateConfirmation(id:string) {
+    async updateConfirmation(id:string): Promise<boolean> {
         let result = await usersCollection
         .updateOne({id: id}, {$set:{"emailConfirmation.isConfirmed": true}})
         return result.modifiedCount === 1
