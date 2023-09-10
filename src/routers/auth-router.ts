@@ -96,7 +96,7 @@ authMiddleware,
 
  authRouter.post('/registration-email-resending',
  //val
- emailConfiResValidation,
+ //emailConfiResValidation,
  async (req: Request, res: Response) => {
     const result = await authService.ressendingEmail(req.body.email)
     if(result) {
