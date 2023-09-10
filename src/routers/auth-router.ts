@@ -65,7 +65,7 @@ authMiddleware,
         return res.status(400).send({
             errorsMessages: [
                 {
-                    message: "email confirmed",
+                    message: "email already confirmed",
                     field: "email"
                 }
             ]
@@ -82,8 +82,15 @@ authMiddleware,
      if(result) {
         res.sendStatus(201)
      } else {
-        res.sendStatus(500)
-     }
+        return res.status(400).send({
+            errorsMessages: [
+                {
+                    message: "email already confirmed",
+                    field: "email"
+                }
+            ]
+        })   
+    }
  })
 
 
@@ -96,7 +103,14 @@ authMiddleware,
         return res.sendStatus(204).send(`	
         Input data is accepted. Email with confirmation code will be send to passed email address. Confirmation code should be inside link as query param, for example: https://some-front.com/confirm-registration?code=youtcodehere`)
         } else {
-            return res.sendStatus(500)   
+            return res.status(400).send({
+                errorsMessages: [
+                    {
+                        message: "email already confirmed",
+                        field: "email"
+                    }
+                ]
+            })   
         }
     
     })
