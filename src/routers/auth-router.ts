@@ -62,7 +62,14 @@ authMiddleware,
     if(user) {
     return res.sendStatus(204)
     } else {
-        return res.sendStatus(500)   
+        return res.status(400).send({
+            errorsMessages: [
+                {
+                    message: "email confirmed",
+                    field: "email"
+                }
+            ]
+        })   
     }
  })
 
