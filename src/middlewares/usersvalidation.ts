@@ -22,7 +22,7 @@ const loginValidation = body('login')
                                                 
                                             })
 const loginOrEmailV = body('loginOrEmail')
-                                                .isString().trim().isLength({min:3, max: 30})                                          
+                                                .isString().trim().isLength({min:3, max: 30}).withMessage('Length must be from 3 to 10 simbols')                                         
 
 const passwordVal= body('password')
                                             .isString()
