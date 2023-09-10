@@ -69,7 +69,7 @@ authMiddleware,
  
 
  authRouter.post('/registration-confirmation',
- //registrationComfiValidation,
+ registrationComfiValidation,
  async (req: Request, res: Response) => {
      const result = await authService.confirmEmail(req.body.code)
      if(result) {
