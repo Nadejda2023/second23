@@ -85,9 +85,10 @@ authMiddleware,
  //val
  emailConfiResValidation,
  async (req: Request, res: Response) => {
-    const result = await authService.ressendingEmail(req.body.email)
+    const result = await authService.ressendingEmail(req.body.email, req.body.code)
     if(result) {
-        return res.sendStatus(204)
+        return res.sendStatus(204).send(`	
+        Input data is accepted. Email with confirmation code will be send to passed email address. Confirmation code should be inside link as query param, for example: https://some-front.com/confirm-registration?code=youtcodehere`)
         } else {
             return res.sendStatus(500)   
         }

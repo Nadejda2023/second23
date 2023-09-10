@@ -11,7 +11,7 @@ export const authService = {
         let user = await usersTwoRepository.findUserByConfirmationCode(code)
         if(!user) return false
         if (user.emailConfirmation.isConfirmed) return false;
-        if (user.emailConfirmation.confirmationCode !== code) return false;
+        //if (user.emailConfirmation.confirmationCode !== code) return false;
         if (user.emailConfirmation.expirationDate < new Date()) return false;
         
             let result = await usersTwoRepository.updateConfirmation(user.id)
@@ -19,10 +19,11 @@ export const authService = {
         
         
     },
-    async ressendingEmail(email: string): Promise<boolean | null> {
+    async ressendingEmail(email: string, code:string): Promise<boolean | null> {
         let user = await usersTwoRepository.findUserByEmail(email)
         if(user === null) return false
         if (user.emailConfirmation.isConfirmed) return false;
+        if (user.emailConfirmation.confirmationCode !== code) return false;
         if (user.emailConfirmation.expirationDate > new Date()) { 
             await emailAdapter.sendEmail(user.email, 'code', user.emailConfirmation.confirmationCode)
             return true
