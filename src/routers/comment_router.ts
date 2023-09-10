@@ -9,7 +9,7 @@ import { commentDBViewModel, commentViewModel } from "../models/commentModels";
 
 export const commentRouter = Router({})
 
-commentRouter.put('/:commentId',
+commentRouter.put('/commentId',
 authMiddleware,
   createPostValidationC,
   async (req: Request , res: Response) => {
@@ -33,7 +33,7 @@ if (updateComment) {
     } 
       
 })
-commentRouter.delete('/:commentId', 
+commentRouter.delete('commentId', 
 authMiddleware, 
   async (req: Request, res: Response) => {
     const user = req.user!
@@ -58,7 +58,7 @@ authMiddleware,
 
 commentRouter.get('/:commentId', async (req: Request, res: Response<commentDBViewModel| undefined >) => {
   
-    const foundComment = await commentQueryRepository.findCommentById(req.params.commentsId)    
+    const foundComment = await commentQueryRepository.findCommentById(req.params.commentId)    
       if (foundComment) {
         return res.status(200).send(foundComment)
         
