@@ -10,8 +10,8 @@ export const authService = {
     async confirmEmail(code: string): Promise<boolean> {
         let user = await usersTwoRepository.findUserByConfirmationCode(code)
         if(!user) return false
-        if (user.emailConfirmation.isConfirmed) return false;
-        //if (user.emailConfirmation.confirmationCode !== code) return false;
+        if (user.emailConfirmation.isConfirmed === true) return false;
+        if (user.emailConfirmation.confirmationCode !== code) return false;
         if (user.emailConfirmation.expirationDate < new Date()) return false;
         
             let result = await usersTwoRepository.updateConfirmation(user.id)
@@ -19,25 +19,20 @@ export const authService = {
         
         
     },
-    async ressendingEmail(email: string, code:string): Promise<boolean | null> {
+    async ressendingEmail(email: string): Promise<boolean | null> {
         let user = await usersTwoRepository.findUserByEmail(email)
         if(user === null) return false
-        if (user.emailConfirmation.isConfirmed) return false;
-        if (user.emailConfirmation.confirmationCode !== code) return false;
-        if (user.emailConfirmation.expirationDate > new Date()) { 
-            await emailAdapter.sendEmail(user.email, 'code', user.emailConfirmation.confirmationCode)
-            return true
-        } 
-        else {
-            const confirmationCode = randomUUID
+        if (user.emailConfirmation.isConfirmed === true) return false;
+       
+            const confirmationCode = randomUUID()
             const expiritionDate = add(new Date(), {
                 hours: 1,
                 minutes: 2
             })
-            await usersTwoRepository.updateConfirmation(user.id)
+            await usersTwoRepository.updateCode(user.id, confirmationCode ,expiritionDate)
             await emailAdapter.sendEmail(user.email, 'code', user.emailConfirmation.confirmationCode)
             return true
-        }
+        
           
     },
     // to do resend email

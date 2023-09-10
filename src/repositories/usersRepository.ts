@@ -64,9 +64,14 @@ async findUserById(id: string): Promise<UsersModel | null> {
     },
     async updateConfirmation(id:string) {
         let result = await usersCollection
-        .updateOne({id: id}, {$set:{'emailConfirmation.isConfirmed': true}})
-        console.log(result)
+        .updateOne({id: id}, {$set:{"emailConfirmation.isConfirmed": true}})
         return result.modifiedCount === 1
-    }
+    },
+    async updateCode(id:string, code: string, expirationDate: Date): Promise<boolean>{
+        let result = await usersCollection
+        .updateOne({id: id}, {$set:{"emailConfirmation.confirmationCode": code, "emailConfirmation.expiritionDate": expirationDate}})
+        return result.modifiedCount === 2
+    },
+
 }
 

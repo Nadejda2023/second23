@@ -8,8 +8,6 @@ const loginValidation = body('login')
                                             .withMessage('Must be string')
                                             .trim()
                                             .notEmpty()
-                                            //.matches(/^[a-zA-Z0-9_-]*$/)
-                                            //.withMessage('error login pattern')
                                             .isLength({min: 3, max: 10})
                                             .withMessage('Length must be from 3 to 10 simbols')
                                             .custom(async (login) => {
@@ -55,8 +53,6 @@ export const emailValidation2 = body('email')
                                              .withMessage('Must be string')
                                              .trim()
                                              .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
-                                             //.isEmail()
-                                             //.withMessage('Must be  Email')
                                              .custom(async (email) => {
                                                  const user = await usersTwoRepository.findUserByEmail(email);
                                                  if(!user){
