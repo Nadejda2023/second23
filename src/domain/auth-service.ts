@@ -22,7 +22,7 @@ export const authService = {
     async ressendingEmail(email: string): Promise<boolean | null> {
         let user = await usersTwoRepository.findUserByEmail(email)
         if(user === null) return false
-        if (user.emailConfirmation.isConfirmed === true) return false;
+        //if (user.emailConfirmation.isConfirmed === true) return false;
        
             const confirmationCode = randomUUID()
             const expiritionDate = add(new Date(), {
