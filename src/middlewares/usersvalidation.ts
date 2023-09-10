@@ -65,6 +65,8 @@ export const emailValidation2 = body('email')
  const codeValidation = body('code')
                                             .isString()
                                             .withMessage('Must be string')
+                                            .trim()
+                                            .notEmpty()
                                            
                                                                                      
                                             
