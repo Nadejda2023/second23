@@ -32,7 +32,7 @@ export const authService = {
             await usersTwoRepository.updateCode(user.id, confirmationCode, expiritionDate);
 
             try{
-                await emailAdapter.sendEmail(user.email, 'code', user.emailConfirmation.confirmationCode)
+                await emailAdapter.sendEmail(user.email, 'code', confirmationCode)
             } catch(error){
                 console.log(error);
             }
