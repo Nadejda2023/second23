@@ -33,7 +33,7 @@ if (updateComment) {
     } 
       
 })
-commentRouter.delete('commentId', 
+commentRouter.delete('/commentId', 
 authMiddleware, 
   async (req: Request, res: Response) => {
     const user = req.user!
