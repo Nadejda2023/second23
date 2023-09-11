@@ -51,7 +51,7 @@ async findUserById(id: string): Promise<UsersModel | null> {
     }, 
     async findUserByConfirmationCode(code: string): Promise<UsersModel | null>{
         try {
-        const user = await usersCollection.findOne({"code": code})
+        const user = await usersCollection.findOne({"emailConfirmation.confirmationCode": code})
         return user
     } catch (error) {
         console.error("Error finding user by confirmation code:", error);

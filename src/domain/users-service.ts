@@ -32,6 +32,7 @@ export const usersService = {
             }
          }
          const result = await usersQueryRepository.createUser(newUser)
+         console.log('user:', newUser)
          try {
             await emailAdapter.sendEmail
             (newUser.email, 'code', newUser.emailConfirmation.confirmationCode) //сделаиь метод для отправки письма

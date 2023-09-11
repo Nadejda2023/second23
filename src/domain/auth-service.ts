@@ -8,15 +8,14 @@ export const authService = {
     
 
     async confirmEmail(code: string): Promise<boolean> {
-        let user = await usersTwoRepository.findUserByConfirmationCode(code)
-        if(!user) return false
+        let user = await usersTwoRepository.findUserByConfirmationCode(code) 
+        if(!user) return false 
         if (user.emailConfirmation.isConfirmed) return false;
         if (user.emailConfirmation.confirmationCode !== code) return false;
         if (user.emailConfirmation.expirationDate < new Date()) return false;
-        console.log("user:", user)
-        console.log('confirmed:', user.emailConfirmation.isConfirmed )
-        console.log('code:', user.emailConfirmation.confirmationCode === code)
-        console.log('exparied:', user.emailConfirmation.expirationDate < new Date(), user.emailConfirmation.expirationDate)
+       
+       
+        
         
             let result = await usersTwoRepository.updateConfirmation(user.id)
             console.log(result, ' result')
