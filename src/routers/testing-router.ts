@@ -13,7 +13,7 @@ async (req: Request, res: Response) => {
     await blogsRepository.deleteAllBlogs()
     await postsRepository.deleteAllPosts()
     await usersTwoRepository.deleteAllUsers()
-    //await commentQueryRepository.deleteAllComment()
+    await commentQueryRepository.deleteAllComment()
    // await authQueryRepository.deleteAllAuth()
     res.status(204).send('All data is deleted')
 })
