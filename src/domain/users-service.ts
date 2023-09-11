@@ -38,7 +38,7 @@ export const usersService = {
             } catch(error){
                 console.error(error)
                 //await usersTwoRepository.deleteUsers(user.id) 
-                return null //!!               
+                            
             }
          return result;
         },
