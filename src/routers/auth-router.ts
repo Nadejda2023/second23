@@ -85,8 +85,8 @@ authMiddleware,
         return res.status(400).send({
             errorsMessages: [
                 {
-                    message: "email already confirmed",
-                    field: "email"
+                    message: "test code",
+                    field: "code"
                 }
             ]
         })   
