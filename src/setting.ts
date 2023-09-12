@@ -10,6 +10,7 @@ import { usersRouter } from "./routers/users_router";
 import { authRouter } from "./routers/auth-router";
 import { commentRouter } from "./routers/comment_router";
 import { emailRouter } from "./routers/email-router";
+import cookieParser from "cookie-parser";
 
 export const app =  express()
 export const settings = {
@@ -40,6 +41,7 @@ const corsMiddleware = cors();
 app.use(corsMiddleware)
 const jsonBodyMiddleware = express.json()
 app.use(jsonBodyMiddleware)
+app.use(cookieParser())
 
 
 

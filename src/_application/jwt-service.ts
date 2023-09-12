@@ -4,10 +4,16 @@ import jwt from 'jsonwebtoken'
 import { settings } from "../setting";
 
 
+
 export const jwtService = {
     async createJWT(user: UsersModelSw) {
         const token = jwt.sign({userId: user.id}, settings.JWT_SECRET, {expiresIn: '10000sec'})
         return token
+    },
+    
+    async createJWTRT(user: UsersModelSw) {
+        const rtoken = jwt.sign({ userId: user.id }, settings.JWT_SECRET, { expiresIn: '20s' });
+        return rtoken
     },
 
     async getUserIdByToken(token: string): Promise<string | null> {

@@ -24,12 +24,18 @@ async ( req: Request, res: Response) => {
 */
 
 authRouter.post('/login',
-//loginOrEmailValidation,
+//вернуть accessToken (10) in body and JWTrefreshToken cookie (only http) (20)
 async ( req: Request, res: Response) => {
     const user = await usersService.checkCredentials(req.body.loginOrEmail, req.body.password)
     if (user) {
-        const token = await jwtService.createJWT(user) 
-        res.status(200).send({accessToken: token})
+        const token = await jwtService.createJWT(user)
+        const refreshToken = await jwtService.createJWTRT(user) 
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            maxAge: 20000, 
+          });
+          console.log(refreshToken)
+        res.status(200).json({accessToken: token})
         
     } else {
         res.sendStatus(401)
