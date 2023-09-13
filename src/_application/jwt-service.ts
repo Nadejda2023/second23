@@ -2,6 +2,7 @@ import { ObjectId } from "mongodb";
 import { UsersModel, UsersModelSw } from "../models/usersModel";
 import jwt from 'jsonwebtoken'
 import { settings } from "../setting";
+import { usersCollection } from "../db/db";
 
 
 
@@ -25,5 +26,20 @@ export const jwtService = {
             return null
         
         }
-    }
+    },
+    async  isTokenInvalidated(token: string) {
+        const result = await usersCollection.findOne({ token });
+        return result;
+      },
+    async verifyRefreshToken(refreshToken: string, refreshTokenSecret: string) {
+        return new Promise((resolve, reject) => {
+          jwt.verify(refreshToken, refreshTokenSecret, (err, user) => {
+            if (err) {
+              reject('Invalid refresh token');
+            } else {
+              resolve(user);
+            }
+          });
+        })
+}
 }

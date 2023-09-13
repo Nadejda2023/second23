@@ -57,6 +57,11 @@ authMiddleware,
     )
   }
  })
+ authRouter.post('/refresh-token',
+ async (req: Request, res: Response) => {
+
+    
+    }) 
 
  // from 07
  authRouter.post('/registration',
@@ -120,3 +125,26 @@ authMiddleware,
         }
     
     }) 
+
+  
+
+    authRouter.post('/logout',
+    async (req: Request, res: Response) => {
+        try{
+        const refreshToken = req.cookies.refreshToken;
+        if (!refreshToken) {
+            return res.status(401).json({ message: 'JWT refreshToken inside cookie is missing or expired or incorrect' });
+          }
+          const isValid = await authService.invalidateRefreshToken(refreshToken);
+          if (!isValid) {
+            return res.status(401).json({ message: 'Invalid refresh token' });
+          }
+          const result = await authService.invalidateRefreshToken(refreshToken);
+          res.clearCookie('refreshToken', { httpOnly: true, secure: true });
+          res.sendStatus(204)
+        }catch(error){
+            console.error(error);
+            res.status(500).json({ message: 'Server error' });
+
+        }
+       }) 

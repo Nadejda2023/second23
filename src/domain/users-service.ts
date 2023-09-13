@@ -7,6 +7,7 @@ import { usersCollection } from "../db/db"
 import { log } from "console"
 import add from "date-fns/add"
 import { emailAdapter } from "../adapters/email-adapter"
+import { authService } from "./auth-service"
 
 export const usersService = {
     async createUser(login: string, email: string, password: string): Promise<any> { 
@@ -76,6 +77,7 @@ export const usersService = {
 
             return user
         }, 
+
         async _generateHash(password: string, salt: string){
             const hash = await bcrypt.hash(password,salt)
             //console.log('hash: ' + hash) 

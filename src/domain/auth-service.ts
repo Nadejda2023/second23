@@ -3,6 +3,8 @@ import { emailAdapter } from "../adapters/email-adapter";
 import {  usersTwoRepository } from "../repositories/usersRepository";
 import * as bcrypt from 'bcrypt'
 import add from "date-fns/add";
+import { usersCollection } from "../db/db";
+import jwt from 'jsonwebtoken'
 
 export const authService = {
     
@@ -46,14 +48,20 @@ export const authService = {
         
           
     },
+    async invalidateRefreshToken(refreshToken : string ): Promise<any>{
+
+    },
+
     // to do resend email
     async _generateHash(password: string): Promise<string>{ 
         const salt = await bcrypt.genSalt(10)
         const hash = await bcrypt.hash(password, salt)
         //console.log('hash: ' + hash) 
         return hash
+},
+
 }
-}
+
 
 
 
