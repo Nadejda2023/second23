@@ -59,7 +59,10 @@ authMiddleware,
  })
  authRouter.post('/refresh-token',
  async (req: Request, res: Response) => {
-
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) {
+        return res.status(401).json({ message: 'JWT refreshToken inside cookie is missing or expired or incorrect' });
+      }
     
     }) 
 
