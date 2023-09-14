@@ -20,7 +20,7 @@ async ( req: Request, res: Response) => {
         const refreshToken = await jwtService.createJWTRT(user) 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            maxAge: 20000, 
+            //maxAge: 20000, 
             secure: true
           });
           console.log(refreshToken)
@@ -73,7 +73,7 @@ await tokenCollection.updateOne({userId: user.id}, { $push : { refreshTokenBlack
         res.cookie('refreshToken', tokens.newRefreshToken, {
           httpOnly: true,
           secure: true, 
-          maxAge: 20000, 
+          //maxAge: 20000, 
         });
         res.status(200).json({ accessToken: tokens.accessToken });
       } catch (error) {
