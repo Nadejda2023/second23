@@ -34,6 +34,7 @@ async ( req: Request, res: Response) => {
 authRouter.get('/me', 
 //to do
 authMiddleware,
+
     async (req: Request, res: Response) => {
     if(!req.user){
         return res.sendStatus(401)

@@ -43,3 +43,9 @@
       }
 
       
+export type CreateUserModel = {
+  id: string
+  login: string
+  createdAt: string
+  email: string
+}

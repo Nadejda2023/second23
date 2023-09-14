@@ -1,4 +1,4 @@
-import { UsersModel } from "../models/usersModel"
+import { CreateUserModel, UsersModel } from "../models/usersModel"
 import * as bcrypt from 'bcrypt'
 import { randomUUID } from "crypto"
 import {  usersTwoRepository } from "../repositories/usersRepository"
@@ -10,12 +10,6 @@ import { emailAdapter } from "../adapters/email-adapter"
 import { authService } from "./auth-service"
 
 
-type CreateUserModel = {
-    id: string
-    login: string
-    createdAt: string
-    email: string
-}
 
 export const usersService = {
     async createUser(login: string, email: string, password: string): Promise<CreateUserModel> { 
