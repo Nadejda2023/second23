@@ -15,8 +15,13 @@ import cookieParser from "cookie-parser";
 export const app =  express()
 export const settings = {
   MONGO_URI: process.env.mongoURI || "mongodb+srv://fsklever:popova12345@cluster0.su82uvr.mongodb.net/blog-dev?retryWrites=true&w=majority",
-  JWT_SECRET: process.env.JWT_SECRET || "123"
+  JWT_SECRET: process.env.JWT_SECRET || "123",
+  
+  
 }
+
+export const accessTokenSecret1= process.env.ACCESS_TOKEN || "123"
+export const refreshTokenSecret2 = process.env.REFRESH_TOKEN || "789"
 
 export const RouterPaths:{blogs:string, posts: string, testing: string, users:string, auth: string, comments: string, email:string} ={
     blogs: '/blogs',

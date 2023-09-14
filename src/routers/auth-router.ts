@@ -5,23 +5,11 @@ import { authMiddleware } from '../middlewares/auth-middleware'
 import { authService } from '../domain/auth-service'
 import { UsersInputValidation, emailConfiResValidation, loginOrEmailValidation, registrationComfiValidation } from '../middlewares/usersvalidation'
 import { inputValidationErrors } from '../middlewares/inputvalidationmiddleware'
+import { authCollection, tokenCollection } from '../db/db'
+import { usersQueryRepository } from '../repositories/usersQuery_Repository'
 
 
 export const authRouter = Router({})
-
-/* 04 hw 
-authRouter.post('/login',
-loginPasswordValidation,//validation
-async ( req: Request, res: Response) => {
-    const checkResult = await usersService.checkCredentials(req.body.loginOrEmail, req.body.password)
-    if (!checkResult) {
-        res.sendStatus(401)
-        return
-    } else {
-        res.sendStatus(204)
-    }
-}), 
-*/
 
 authRouter.post('/login',
 //вернуть accessToken (10) in body and JWTrefreshToken cookie (only http) (20)
@@ -59,12 +47,38 @@ authMiddleware,
  })
  authRouter.post('/refresh-token',
  async (req: Request, res: Response) => {
-    const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken) {
-        return res.status(401).json({ message: 'JWT refreshToken inside cookie is missing or expired or incorrect' });
-      }
+    try {
+        const refreshToken = req.cookies.refreshToken;
     
-    }) 
+        if (!refreshToken) {
+          return res.status(401).json({ message: 'Refresh token not found' });
+        }
+    //check token and get payload
+        const isValid = await authService.validateRefreshToken(refreshToken);
+    
+        if (!isValid) {
+          return res.status(401).json({ message: 'Invalid refresh token' });
+        }
+        //check user
+    const user = await usersQueryRepository.findUserById(isValid.userId);
+    if(!user) return res.sendStatus(401);
+//create access and refreshTokens
+const tokens = await authService.refreshTokens(user.id);
+
+//add old refreshToken to black list
+await tokenCollection.updateOne({userId: user.id}, { $push : { refreshTokenBlackList: refreshToken } });
+    
+        res.cookie('refreshToken', tokens.newRefreshToken, {
+          httpOnly: true,
+          secure: true, 
+          maxAge: 20000, 
+        });
+        res.status(200).json({ accessToken: tokens.accessToken });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: '' });
+      }
+    });
 
  // from 07
  authRouter.post('/registration',
@@ -133,21 +147,31 @@ authMiddleware,
 
     authRouter.post('/logout',
     async (req: Request, res: Response) => {
-        try{
-        const refreshToken = req.cookies.refreshToken;
-        if (!refreshToken) {
-            return res.status(401).json({ message: 'JWT refreshToken inside cookie is missing or expired or incorrect' });
-          }
-          const isValid = await authService.invalidateRefreshToken(refreshToken);
-          if (!isValid) {
-            return res.status(401).json({ message: 'Invalid refresh token' });
-          }
-          const result = await authService.invalidateRefreshToken(refreshToken);
-          res.clearCookie('refreshToken', { httpOnly: true, secure: true });
-          res.sendStatus(204)
-        }catch(error){
+        try {
+            const refreshToken = req.cookies.refreshToken;
+        
+            if (!refreshToken) {
+              return res.status(401).json({ message: 'Refresh token not found' });
+            }
+        //check token and get payload
+            const isValid = await authService.validateRefreshToken(refreshToken);
+        
+            if (!isValid) {
+              return res.status(401).json({ message: 'Invalid refresh token' });
+            }
+            //check user
+        const user = await usersQueryRepository.findUserById(isValid.userId);
+        if(!user) return res.sendStatus(401);
+            // Добавляем refreshToken в черный список (в MongoDB)
+            
+            await tokenCollection.updateOne({userId: user.id}, { $push : { refreshTokenBlackList: refreshToken } }); // to do authRepo 
+        
+            // Удаляем refreshToken из куки клиента
+            res.clearCookie('refreshToken', { httpOnly: true, secure: true });
+        
+            res.sendStatus(204);
+          } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Server error' });
-
-        }
-       }) 
+          }
+        });

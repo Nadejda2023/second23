@@ -3,8 +3,10 @@ import { emailAdapter } from "../adapters/email-adapter";
 import {  usersTwoRepository } from "../repositories/usersRepository";
 import * as bcrypt from 'bcrypt'
 import add from "date-fns/add";
-import { usersCollection } from "../db/db";
+import { tokenCollection, usersCollection } from "../db/db";
 import jwt from 'jsonwebtoken'
+import { AnyAaaaRecord } from "dns";
+import { accessTokenSecret1, refreshTokenSecret2 } from "../setting";
 
 export const authService = {
     
@@ -48,9 +50,7 @@ export const authService = {
         
           
     },
-    async invalidateRefreshToken(refreshToken : string ): Promise<any>{
-
-    },
+    
 
     // to do resend email
     async _generateHash(password: string): Promise<string>{ 
@@ -60,6 +60,41 @@ export const authService = {
         return hash
 },
 
+
+async validateRefreshToken(refreshToken: string): Promise<any>{
+    try {
+        //ok: {userId}
+      const payload = jwt.verify(refreshToken, refreshTokenSecret2);
+  
+    
+      //const invalidatedToken = await tokenCollection.findOne({ token: refreshToken });
+  
+      //if (invalidatedToken) {
+       // return false;
+      //}
+      return payload;
+    } catch (error) {
+      return null; // if token invalid
+    }
+
+},
+
+async refreshTokens(userId: string): Promise<{ accessToken: string, newRefreshToken: string }> {
+    try {
+      // Декодируем старый refreshToken
+     // const decoded = jwt.verify(oldRefreshToken, refreshTokenSecret);
+  
+      // Генерируем новый accessToken с данными пользователя из старого refreshToken
+      const accessToken = jwt.sign({ userId }, accessTokenSecret1 , { expiresIn: '10s' });
+  
+      // Генерируем новый refreshToken
+      const newRefreshToken = jwt.sign({ userId }, refreshTokenSecret2, { expiresIn: '20s' });
+  
+      return { accessToken, newRefreshToken };
+    } catch (error) {
+      throw new Error('Failed to refresh tokens');
+    }
+  }
 }
 
 
