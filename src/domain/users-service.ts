@@ -31,7 +31,7 @@ export const usersService = {
                     minutes: 2
                 }),
                 isConfirmed: false,
-                
+                    
             }
          }
         await usersQueryRepository.createUser({...newUser})
