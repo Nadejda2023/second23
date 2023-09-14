@@ -21,6 +21,7 @@ async ( req: Request, res: Response) => {
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             maxAge: 20000, 
+            secure: true
           });
           console.log(refreshToken)
         res.status(200).json({accessToken: token})
