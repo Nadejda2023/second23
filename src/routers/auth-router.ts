@@ -13,6 +13,7 @@ export const authRouter = Router({})
 
 authRouter.post('/login',
 //вернуть accessToken (10) in body and JWTrefreshToken cookie (only http) (20)
+loginOrEmailValidation,
 async ( req: Request, res: Response) => {
     const user = await usersService.checkCredentials(req.body.loginOrEmail, req.body.password)
     if (user) {
