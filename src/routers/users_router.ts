@@ -22,6 +22,7 @@ UsersInputValidation,
 async (req: Request, res: Response) => {
     //const { login, email, password} = req.body
     const newUser = await usersService.createUser(req.body.login, req.body.email, req.body.password)
+    console.log(newUser)
     if(!newUser) {
         res.sendStatus(401)
     } else {

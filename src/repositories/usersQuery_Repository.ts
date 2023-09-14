@@ -32,10 +32,8 @@ export const usersQueryRepository = {
    },
 
 
-async createUser(users: UsersModel): Promise<UsersModel> {
+async createUser(users: UsersModel) {
     await usersCollection.insertOne(users)
-   console.log('repo:', users)
-    return users
 },
 async findUserById(id: string): Promise<UsersModel | null> {
     let foundedUser = await usersCollection.findOne({id: id},{projection: {_id: 0, passwordSalt: 0, passwordHash: 0, emailConfirmation: 0}})

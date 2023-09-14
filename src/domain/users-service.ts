@@ -9,8 +9,16 @@ import add from "date-fns/add"
 import { emailAdapter } from "../adapters/email-adapter"
 import { authService } from "./auth-service"
 
+
+type CreateUserModel = {
+    id: string
+    login: string
+    createdAt: string
+    email: string
+}
+
 export const usersService = {
-    async createUser(login: string, email: string, password: string): Promise<UsersModel> { 
+    async createUser(login: string, email: string, password: string): Promise<CreateUserModel> { 
         
          const passwordSalt = await bcrypt.genSalt(10) // получаем соль чем больше индекс тем она навороченнее
          const passwordHash = await this._generateHash(password, passwordSalt) //отправляем пароль и соль в метод где создаем хэш и записываем его в переменную
@@ -32,7 +40,7 @@ export const usersService = {
                 
             }
          }
-         const result = await usersQueryRepository.createUser(newUser)
+        await usersQueryRepository.createUser({...newUser})
          console.log('user:', newUser)
          try {
             await emailAdapter.sendEmail
@@ -42,7 +50,12 @@ export const usersService = {
                 //await usersTwoRepository.deleteUsers(user.id) 
                             
             }
-         return result;
+         return {
+            id: newUser.id,
+            login,
+            createdAt: newUser.createdAt,
+            email: newUser.email
+         };
         },
     
 
