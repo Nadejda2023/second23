@@ -10,7 +10,7 @@ import { emailAdapter } from "../adapters/email-adapter"
 import { authService } from "./auth-service"
 
 export const usersService = {
-    async createUser(login: string, email: string, password: string): Promise<any> { 
+    async createUser(login: string, email: string, password: string): Promise<UsersModel> { 
         
          const passwordSalt = await bcrypt.genSalt(10) // получаем соль чем больше индекс тем она навороченнее
          const passwordHash = await this._generateHash(password, passwordSalt) //отправляем пароль и соль в метод где создаем хэш и записываем его в переменную

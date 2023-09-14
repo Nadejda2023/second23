@@ -56,6 +56,7 @@ async findUserById(id: string): Promise<UsersModel | null> {
 async findByLoginOrEmail(loginOrEmail: string) {
     const user = await usersCollection.findOne({ $or: [{ email: loginOrEmail}, { login: loginOrEmail}]})
     return user
-}
+}, 
+
 
 }

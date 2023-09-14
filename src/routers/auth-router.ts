@@ -26,7 +26,7 @@ async ( req: Request, res: Response) => {
         res.status(200).json({accessToken: token})
         
     } else {
-        res.sendStatus(401)
+        res.sendStatus(401) 
     }
 
 })
