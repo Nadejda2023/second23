@@ -68,7 +68,7 @@ authMiddleware,
     if(!user) return res.sendStatus(401);
 
 //check is token in black list
-const vtoken = await tokenCollection.findOne({userId: user.id, refreshTokenBlackList:  { $nin: [refreshToken] }} ) //refreshTokenBlackList: [fhvbfhgfhghf, hjhrfehgjfhghfg, ....]
+const vtoken = await tokenCollection.findOne({userId: user.id,  refreshTokenBlackList: { $in: [refreshToken] }} ) //refreshTokenBlackList: [fhvbfhgfhghf, hjhrfehgjfhghfg, ....]
          if(vtoken)return res.sendStatus(401); 
 
 //create access and refreshTokens
@@ -173,7 +173,7 @@ await tokenCollection.updateOne({userId: user.id}, { $push : { refreshTokenBlack
         if(!user) return res.sendStatus(401);
 
         //check is token in black list
-    const vtoken = await tokenCollection.findOne({userId: user.id, refreshTokenBlackList:  { $nin: [refreshToken] }} ) //refreshTokenBlackList: [fhvbfhgfhghf, hjhrfehgjfhghfg, ....]
+    const vtoken = await tokenCollection.findOne({userId: user.id, refreshTokenBlackList: { $in: [refreshToken] }} ) //refreshTokenBlackList: [fhvbfhgfhghf, hjhrfehgjfhghfg, ....]
          if(vtoken)return res.sendStatus(401); 
 
     // Добавляем refreshToken в черный список (в MongoDB)
