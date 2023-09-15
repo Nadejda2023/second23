@@ -22,7 +22,7 @@ async ( req: Request, res: Response) => {
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             //maxAge: 20000, 
-            secure: true
+            //secure: true
           });
           console.log(refreshToken)
         res.status(200).json({accessToken: token})
@@ -34,7 +34,7 @@ async ( req: Request, res: Response) => {
 })
 authRouter.get('/me', 
 //to do
-//authMiddleware,
+authMiddleware,
 
     async (req: Request, res: Response) => {
     if(!req.user){
@@ -64,6 +64,7 @@ authRouter.get('/me',
         }
         //check user
     const user = await usersQueryRepository.findUserById(isValid.userId);
+    console.log(user)
     if(!user) return res.sendStatus(401);
 //create access and refreshTokens
 const tokens = await authService.refreshTokens(user.id);
@@ -73,7 +74,7 @@ await tokenCollection.updateOne({userId: user.id}, { $push : { refreshTokenBlack
     
         res.cookie('refreshToken', tokens.newRefreshToken, {
           httpOnly: true,
-          secure: true, 
+          //secure: true, 
           //maxAge: 20000, 
         });
         res.status(200).json({ accessToken: tokens.accessToken });
