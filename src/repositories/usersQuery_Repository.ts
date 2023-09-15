@@ -36,25 +36,19 @@ async createUser(users: UsersModel) {
     await usersCollection.insertOne(users)
 },
 async findUserById(id: string): Promise<UsersModel | null> {
-    let foundedUser = await usersCollection.findOne({id: id},{projection: {_id: 0, passwordSalt: 0, passwordHash: 0, emailConfirmation: 0}})
+    let foundedUser = await usersCollection.findOne({id: id},{projection: {_id: 0, passwordSalt: 0, passwordHash: 0, emailConfirmation: 0, refreshTokenBlackList: 0}})
     if (!foundedUser) {
         return null
-    } return {
-        id: foundedUser.id.toString(),
-        login: foundedUser.login,
-        email: foundedUser.email,
-        createdAt: foundedUser.createdAt,
-        passwordSalt: foundedUser.passwordSalt,
-        passwordHash: foundedUser.passwordHash,
-        emailConfirmation: foundedUser.emailConfirmation
-
-    }
+    } return foundedUser;
 },
 
 async findByLoginOrEmail(loginOrEmail: string) {
     const user = await usersCollection.findOne({ $or: [{ email: loginOrEmail}, { login: loginOrEmail}]})
     return user
 }, 
-
+async findTokenInBL(userId: string, token: string):Promise<boolean>{
+    const userByToken = await usersCollection.findOne({id: userId, refreshTokenBlackList: {$in: [token]}})
+    return !!userByToken;
+}
 
 }

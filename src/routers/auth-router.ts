@@ -5,7 +5,7 @@ import { authMiddleware } from '../middlewares/auth-middleware'
 import { authService } from '../domain/auth-service'
 import { UsersInputValidation, emailConfiResValidation, loginOrEmailValidation, registrationComfiValidation } from '../middlewares/usersvalidation'
 import { inputValidationErrors } from '../middlewares/inputvalidationmiddleware'
-import { authCollection, tokenCollection } from '../db/db'
+import { authCollection, tokenCollection, usersCollection } from '../db/db'
 import { usersQueryRepository } from '../repositories/usersQuery_Repository'
 
 
@@ -68,14 +68,15 @@ authMiddleware,
     if(!user) return res.sendStatus(401);
 
 //check is token in black list
-const vtoken = await tokenCollection.findOne({userId: user.id,  refreshTokenBlackList: { $in: [refreshToken] }} ) //refreshTokenBlackList: [fhvbfhgfhghf, hjhrfehgjfhghfg, ....]
-         if(vtoken)return res.sendStatus(401); 
+const vtoken = await  usersQueryRepository.findTokenInBL(user.id, refreshToken);
+         console.log(vtoken)
+if(vtoken)return res.sendStatus(401); 
 
 //create access and refreshTokens
 const tokens = await authService.refreshTokens(user.id);
 
 //add old refreshToken to black list
-await tokenCollection.updateOne({userId: user.id}, { $push : { refreshTokenBlackList: refreshToken } });
+await usersCollection.updateOne({id: user.id}, { $push : { refreshTokenBlackList: refreshToken } });
     
         res.cookie('refreshToken', tokens.newRefreshToken, {
           httpOnly: true,
@@ -171,13 +172,17 @@ await tokenCollection.updateOne({userId: user.id}, { $push : { refreshTokenBlack
             //check user
         const user = await usersQueryRepository.findUserById(isValid.userId);
         if(!user) return res.sendStatus(401);
+console.log('authRouter user:', user)
 
         //check is token in black list
-    const vtoken = await tokenCollection.findOne({userId: user.id, refreshTokenBlackList: { $in: [refreshToken] }} ) //refreshTokenBlackList: [fhvbfhgfhghf, hjhrfehgjfhghfg, ....]
-         if(vtoken)return res.sendStatus(401); 
+        const vtoken = await  usersQueryRepository.findTokenInBL(user.id, refreshToken);
+        console.log(vtoken)
+if(vtoken)return res.sendStatus(401); 
+    
+    
 
     // Добавляем refreshToken в черный список (в MongoDB)
-     await tokenCollection.updateOne({userId: user.id}, { $push : { refreshTokenBlackList: refreshToken } }); // to do authRepo 
+    await usersCollection.updateOne({id: user.id}, { $push : { refreshTokenBlackList: refreshToken } });
         
             // Удаляем refreshToken из куки клиента
             res.clearCookie('refreshToken', { httpOnly: true, secure: true });

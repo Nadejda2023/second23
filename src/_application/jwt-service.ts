@@ -8,9 +8,9 @@ import { usersCollection } from "../db/db";
 
 export const jwtService = {
     async createJWT(user: UsersModelSw) {
-        const token = jwt.sign({userId: user.id}, accessTokenSecret1, {expiresIn: '10000sec'})
+        const token = jwt.sign({userId: user.id}, accessTokenSecret1, {expiresIn: '10sec'})
         return token
-    },
+          },
     
     async createJWTRT(user: UsersModelSw) {
         const rtoken = jwt.sign({ userId: user.id }, refreshTokenSecret2, { expiresIn: '20s' });

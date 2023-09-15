@@ -31,8 +31,10 @@ export const usersService = {
                     minutes: 2
                 }),
                 isConfirmed: false,
+                
                     
-            }
+            },
+            refreshTokenBlackList:[]
          }
         await usersQueryRepository.createUser({...newUser})
          console.log('user:', newUser)
@@ -55,19 +57,12 @@ export const usersService = {
 
 // to do
         async findUserById(id:string): Promise<UsersModel | null> {
-            const foundedUser = await usersCollection.findOne({id: id},{projection: {_id: 0, passwordSalt: 0, passwordHash: 0, emailConfirmation: 0}})
+            const foundedUser = await usersCollection.findOne({id: id},{projection: {_id: 0, passwordSalt: 0, passwordHash: 0, emailConfirmation: 0, refreshTokenBlackList: 0}})
             
             if(!foundedUser){
                 return null
-            } return {
-                id: foundedUser.id,
-                login: foundedUser.login,
-                email: foundedUser.email,
-                createdAt: foundedUser.createdAt,
-                passwordSalt: foundedUser.passwordSalt,
-                passwordHash: foundedUser.passwordHash,
-                emailConfirmation: foundedUser.emailConfirmation
-            }
+            } return foundedUser
+            
         },
 
         async checkCredentials(loginOrEmail: string, password:string) {

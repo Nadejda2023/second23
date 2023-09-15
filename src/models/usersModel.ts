@@ -24,7 +24,9 @@
         createdAt: string,
         passwordSalt: string,
         passwordHash: string,
-        emailConfirmation : EmailConfirmationType 
+        emailConfirmation : EmailConfirmationType,
+        refreshTokenBlackList: string[]
+
       }
       export type EmailConfirmationType = { // usera 
         isConfirmed: boolean,
