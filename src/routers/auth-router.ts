@@ -22,7 +22,7 @@ async ( req: Request, res: Response) => {
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             //maxAge: 20000, 
-            //secure: true
+            secure: true
           });
           console.log(refreshToken)
         res.status(200).json({accessToken: token})
@@ -79,7 +79,7 @@ await tokenCollection.updateOne({userId: user.id}, { $push : { refreshTokenBlack
     
         res.cookie('refreshToken', tokens.newRefreshToken, {
           httpOnly: true,
-          //secure: true, 
+          secure: true, 
           //maxAge: 20000, 
         });
         res.status(200).json({ accessToken: tokens.accessToken });
